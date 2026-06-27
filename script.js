@@ -224,6 +224,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const h2 = document.querySelector('.hero-content h2');
     const p = document.querySelector('.hero-content p');
     const heroActions = document.querySelector('.hero-actions');
+    const heroProfile = document.querySelector('.hero-profile');
     const restOfSite = [
         document.querySelector('#companies'),
         document.querySelector('#contact')
@@ -236,7 +237,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Hide elements initially
     if (navEl) { navEl.classList.add('reveal-fade'); }
-    [h2, p, heroActions, ...restOfSite].filter(Boolean).forEach(el => {
+    [h2, p, heroActions, heroProfile, ...restOfSite].filter(Boolean).forEach(el => {
         el.classList.add('reveal-fade');
     });
 
@@ -271,7 +272,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
 
                 // Stagger the reveals for a snappy cascade
-                const allReveal = [h2, p, heroActions, ...restOfSite].filter(Boolean);
+                const allReveal = [h2, p, heroActions, heroProfile, ...restOfSite].filter(Boolean);
                 allReveal.forEach((el, i) => {
                     setTimeout(() => el.classList.add('revealed'), i * 120);
                 });
