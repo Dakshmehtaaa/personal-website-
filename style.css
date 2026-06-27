@@ -320,7 +320,7 @@ PROFESSIONAL JOURNEY
 
 .journey-card{
     position:relative;
-    height:374px;
+    height:315px;
     min-width:0;
     display:flex;
     flex-direction:column;
@@ -436,8 +436,8 @@ PROFESSIONAL JOURNEY
     align-items:center;
     justify-content:center;
     color:#fff;
-    font-size:24px;
-    line-height:1.2;
+    font-size:22px;
+    line-height:1.25;
     overflow-wrap:break-word;
 }
 
@@ -589,7 +589,7 @@ gap:18px;
 
 .journey-card{
 
-height:342px;
+height:290px;
 
 padding:28px 22px 26px;
 
@@ -665,7 +665,7 @@ gap:12px;
 
 .journey-card{
 
-height:288px;
+height:250px;
 
 padding:18px 12px 16px;
 
@@ -817,7 +817,7 @@ gap:8px;
 
 .journey-card{
 
-height:260px;
+height:230px;
 
 padding:14px 8px 12px;
 
