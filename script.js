@@ -8,11 +8,15 @@ document.querySelectorAll('nav a, .button').forEach(link => {
 
         const href = link.getAttribute('href');
 
-        if (!href.startsWith('#')) return;
+        if (!href || !href.startsWith('#')) return;
+
+        const target = document.querySelector(href);
+
+        if (!target) return;
 
         e.preventDefault();
 
-        document.querySelector(href).scrollIntoView({
+        target.scrollIntoView({
 
             behavior: 'smooth'
 
@@ -27,27 +31,37 @@ document.querySelectorAll('nav a, .button').forEach(link => {
    Fade In Sections
 ====================================== */
 
-const observer = new IntersectionObserver((entries)=>{
+const revealObserver = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
 
-    entries.forEach(entry=>{
+        entries.forEach(entry => {
 
-        if(entry.isIntersecting){
+            if (entry.isIntersecting) {
 
-            entry.target.classList.add("show");
+                entry.target.classList.add('show');
 
-        }
+            }
 
-    });
+        });
 
-},{
-    threshold:.15
-});
+    }, {
+        threshold: .15
+    })
+    : null;
 
-document.querySelectorAll("section:not(.hero)").forEach(section=>{
+document.querySelectorAll('section:not(.hero)').forEach(section => {
 
-    section.classList.add("hidden");
+    section.classList.add('hidden');
 
-    observer.observe(section);
+    if (revealObserver) {
+
+        revealObserver.observe(section);
+
+    } else {
+
+        section.classList.add('show');
+
+    }
 
 });
 
@@ -56,76 +70,175 @@ document.querySelectorAll("section:not(.hero)").forEach(section=>{
    Floating Navbar
 ====================================== */
 
-const nav=document.querySelector("nav");
+const nav = document.querySelector('nav');
 
-window.addEventListener("scroll",()=>{
+if (nav) {
 
-    if(window.scrollY>60){
+    window.addEventListener('scroll', () => {
 
-        nav.style.background="rgba(16,35,29,.92)";
+        if (window.scrollY > 60) {
 
-        nav.style.boxShadow="0 18px 45px rgba(0,0,0,.30)";
+            nav.style.background = 'rgba(16,35,29,.92)';
 
-    }
+            nav.style.boxShadow = '0 18px 45px rgba(0,0,0,.30)';
 
-    else{
+        } else {
 
-        nav.style.background="rgba(255,255,255,.08)";
+            nav.style.background = 'rgba(255,255,255,.08)';
 
-        nav.style.boxShadow="none";
+            nav.style.boxShadow = 'none';
 
-    }
+        }
 
-});
+    });
+
+}
 
 
 /* ======================================
    Hero Parallax
 ====================================== */
 
-const hero=document.querySelector(".hero");
+const hero = document.querySelector('.hero');
 
-window.addEventListener("scroll",()=>{
+if (hero) {
 
-    hero.style.backgroundPositionY=window.scrollY*.35+"px";
+    window.addEventListener('scroll', () => {
 
-});
+        hero.style.backgroundPositionY = window.scrollY * .35 + 'px';
+
+    });
+
+}
 
 
 /* ======================================
-   Pause Logo Belt On Hover
+   Professional Journey Carousel
 ====================================== */
 
-const track=document.querySelector(".logo-track");
+const journeyCarousel = document.querySelector('[data-journey-carousel]');
 
-track.addEventListener("mouseenter",()=>{
+if (journeyCarousel) {
 
-    track.style.animationPlayState="paused";
+    const track = journeyCarousel.querySelector('.journey-track');
+    const pages = Array.from(journeyCarousel.querySelectorAll('.journey-page'));
+    const previousButton = journeyCarousel.querySelector('.journey-arrow--prev');
+    const nextButton = journeyCarousel.querySelector('.journey-arrow--next');
+    const dots = Array.from(document.querySelectorAll('.journey-dot'));
+    const viewport = journeyCarousel.querySelector('.journey-viewport');
+    let currentPage = 0;
+    let pointerStartX = 0;
 
-});
+    journeyCarousel.setAttribute('tabindex', '0');
 
-track.addEventListener("mouseleave",()=>{
+    const showPage = index => {
 
-    track.style.animationPlayState="running";
+        if (!track || pages.length === 0) return;
 
-});
+        currentPage = (index + pages.length) % pages.length;
+
+        track.style.transform = `translate3d(-${currentPage * 100}%,0,0)`;
+
+        pages.forEach((page, pageIndex) => {
+
+            const isActive = pageIndex === currentPage;
+
+            page.classList.toggle('active', isActive);
+
+            page.setAttribute('aria-hidden', String(!isActive));
+
+        });
+
+        dots.forEach((dot, dotIndex) => {
+
+            const isActive = dotIndex === currentPage;
+
+            dot.classList.toggle('active', isActive);
+
+            dot.setAttribute('aria-selected', String(isActive));
+
+        });
+
+    };
+
+    previousButton?.addEventListener('click', () => {
+
+        showPage(currentPage - 1);
+
+    });
+
+    nextButton?.addEventListener('click', () => {
+
+        showPage(currentPage + 1);
+
+    });
+
+    dots.forEach((dot, dotIndex) => {
+
+        dot.addEventListener('click', () => {
+
+            showPage(dotIndex);
+
+        });
+
+    });
+
+    journeyCarousel.addEventListener('keydown', event => {
+
+        if (event.key === 'ArrowLeft') {
+
+            event.preventDefault();
+
+            showPage(currentPage - 1);
+
+        }
+
+        if (event.key === 'ArrowRight') {
+
+            event.preventDefault();
+
+            showPage(currentPage + 1);
+
+        }
+
+    });
+
+    viewport?.addEventListener('pointerdown', event => {
+
+        pointerStartX = event.clientX;
+
+    });
+
+    viewport?.addEventListener('pointerup', event => {
+
+        const distance = event.clientX - pointerStartX;
+
+        if (Math.abs(distance) < 45) return;
+
+        showPage(currentPage + (distance < 0 ? 1 : -1));
+
+    });
+
+    showPage(0);
+
+}
 
 
 /* ======================================
    Cursor Glow
 ====================================== */
 
-const glow=document.createElement("div");
+const glow = document.createElement('div');
 
-glow.className="cursor-glow";
+glow.className = 'cursor-glow';
 
 document.body.appendChild(glow);
 
-window.addEventListener("mousemove",(e)=>{
+window.addEventListener('mousemove', e => {
 
-    glow.style.left=e.clientX+"px";
+    glow.style.left = e.clientX + 'px';
 
-    glow.style.top=e.clientY+"px";
+    glow.style.top = e.clientY + 'px';
 
 });
 
@@ -134,35 +247,33 @@ window.addEventListener("mousemove",(e)=>{
    Active Navbar Link
 ====================================== */
 
-const sections=document.querySelectorAll("section");
+const sections = document.querySelectorAll('section[id]');
 
-const navLinks=document.querySelectorAll("nav a");
+const navLinks = document.querySelectorAll('nav a');
 
-window.addEventListener("scroll",()=>{
+window.addEventListener('scroll', () => {
 
-    let current="";
+    let current = '';
 
-    sections.forEach(section=>{
+    sections.forEach(section => {
 
-        const top=section.offsetTop-150;
+        const top = section.offsetTop - 150;
 
-        const height=section.clientHeight;
+        if (window.scrollY >= top) {
 
-        if(scrollY>=top){
-
-            current=section.getAttribute("id");
+            current = section.getAttribute('id');
 
         }
 
     });
 
-    navLinks.forEach(link=>{
+    navLinks.forEach(link => {
 
-        link.classList.remove("active");
+        link.classList.remove('active');
 
-        if(link.getAttribute("href")==="#"+current){
+        if (link.getAttribute('href') === '#' + current) {
 
-            link.classList.add("active");
+            link.classList.add('active');
 
         }
 
