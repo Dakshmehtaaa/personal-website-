@@ -135,7 +135,7 @@ HERO
 
 .hero{
 
-    min-height:86vh;
+    min-height:78vh;
 
     display:flex;
 
@@ -145,7 +145,7 @@ HERO
 
     text-align:center;
 
-    padding:120px 25px 72px;
+    padding:120px 25px 44px;
 
 }
 
@@ -242,7 +242,7 @@ PROFESSIONAL JOURNEY
 #companies{
     max-width:1400px;
     margin:auto;
-    padding:82px 40px 120px;
+    padding:52px 40px 120px;
 }
 
 #companies h2{
@@ -342,6 +342,12 @@ PROFESSIONAL JOURNEY
     width:auto;
     height:auto;
     object-fit:contain;
+}
+
+.journey-logo-shell img.journey-logo--kedge{
+    max-width:none;
+    max-height:none;
+    width:min(280px,128%);
 }
 
 .journey-logo-pair{
@@ -539,7 +545,7 @@ RESPONSIVE
 
 #companies{
 
-padding:76px 28px 110px;
+padding:52px 28px 110px;
 
 }
 
@@ -657,6 +663,14 @@ max-height:54px;
 
 }
 
+.journey-logo-shell img.journey-logo--kedge{
+
+max-height:none;
+
+width:128%;
+
+}
+
 .journey-logo-pair{
 
 gap:8px;
@@ -759,7 +773,7 @@ margin-top:54px;
 
 #companies{
 
-padding:70px 16px 96px;
+padding:52px 16px 96px;
 
 }
 
@@ -798,6 +812,14 @@ border-radius:13px;
 .journey-logo-shell img{
 
 max-height:42px;
+
+}
+
+.journey-logo-shell img.journey-logo--kedge{
+
+max-height:none;
+
+width:136%;
 
 }
 
