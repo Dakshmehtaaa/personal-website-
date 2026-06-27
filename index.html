@@ -241,6 +241,79 @@
 
 </section>
 
+<!-- ================= FRANCE MAP ================= -->
+
+<section id="france-map" class="map-section">
+
+    <h2>Impact Across France</h2>
+
+    <p class="section-subtitle">
+        Explore the territories and departments where my professional and academic journey took place. Hover or tap on a highlighted region to view organizations.
+    </p>
+
+    <div class="map-container">
+
+        <div class="map-visual">
+            <svg viewBox="0 0 500 500" class="france-svg" aria-label="Map of France territories">
+                <!-- Passive Regions (Background Silhouette of France) -->
+                <path class="map-region passive" d="M 120,60 L 230,60 L 280,80 L 230,140 L 150,130 Z" title="Hauts-de-France & Normandy" />
+                <path class="map-region passive" d="M 50,130 L 150,130 L 170,210 L 60,200 Z" title="Brittany & Pays de la Loire" />
+                <path class="map-region passive" d="M 280,80 L 420,110 L 440,220 L 340,220 L 320,120 Z" title="Grand Est & Bourgogne" />
+                <path class="map-region passive" d="M 170,210 L 210,160 L 270,170 L 340,220 L 350,310 L 200,310 Z" title="Centre & Auvergne" />
+                <path class="map-region passive" d="M 150,330 L 200,310 L 350,310 L 330,440 L 200,450 L 130,390 L 90,370 Z" title="Occitanie" />
+
+                <!-- Active Interactive Regions -->
+                <!-- Île-de-France (Paris - Dept 75) -->
+                <g class="interactive-group" data-region="paris" tabindex="0" role="button" aria-label="Île-de-France department 75">
+                    <path class="map-region active-region" d="M 230,140 L 280,80 L 320,120 L 270,170 L 210,160 Z" />
+                    <circle class="region-beacon" cx="260" cy="135" r="8" />
+                    <circle class="region-pulse" cx="260" cy="135" r="8" />
+                    <text class="region-label" x="260" y="115">Île-de-France (75)</text>
+                </g>
+
+                <!-- Nouvelle-Aquitaine (Bordeaux - Dept 33) -->
+                <g class="interactive-group" data-region="bordeaux" tabindex="0" role="button" aria-label="Nouvelle-Aquitaine department 33">
+                    <path class="map-region active-region" d="M 60,200 L 170,210 L 200,310 L 150,330 L 90,370 L 60,290 Z" />
+                    <circle class="region-beacon" cx="130" cy="280" r="8" />
+                    <circle class="region-pulse" cx="130" cy="280" r="8" />
+                    <text class="region-label" x="130" y="260">Nouvelle-Aquitaine (33)</text>
+                </g>
+
+                <!-- Provence-Alpes-Côte d'Azur (Marseille / Gémenos - Dept 13) -->
+                <g class="interactive-group" data-region="marseille" tabindex="0" role="button" aria-label="Provence-Alpes-Côte d'Azur department 13">
+                    <path class="map-region active-region" d="M 350,310 L 450,280 L 470,380 L 400,440 L 330,440 Z" />
+                    <circle class="region-beacon" cx="390" cy="370" r="8" />
+                    <circle class="region-pulse" cx="390" cy="370" r="8" />
+                    <text class="region-label" x="390" y="350">PACA (13)</text>
+                </g>
+            </svg>
+        </div>
+
+        <div class="map-info-panel" id="map-info">
+            <div class="map-info-default" id="map-default">
+                <div class="map-prompt-icon">📍</div>
+                <h3>Select a Territory</h3>
+                <p>Hover or tap on <strong>Île-de-France (75)</strong>, <strong>Nouvelle-Aquitaine (33)</strong>, or <strong>PACA (13)</strong> on the map to reveal the organizations and impact generated in each department.</p>
+                <div class="international-badge">
+                    <span>🌍 International Experience: India (JIMS & Travel Triangle)</span>
+                </div>
+            </div>
+            <div class="map-info-content hidden" id="map-content">
+                <div class="map-content-header">
+                    <h3 id="region-title">Region Name</h3>
+                    <span id="region-dept" class="region-dept-badge">Department</span>
+                </div>
+                <p id="region-desc" class="region-description">Description of impact in this territory.</p>
+                <div class="region-logos" id="region-logos">
+                    <!-- Dynamic logos inserted via JS -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
 <!-- ================= CONTACT ================= -->
 
 <section id="contact">
