@@ -239,173 +239,192 @@ section h2{
 LOGO BELT
 ========================= */
 
-.logo-slider{
+/* ==========================================
+   EXPERIENCE CAROUSEL
+========================================== */
 
-    width:100vw;
-
-    overflow:hidden;
-
-    position:relative;
-
-    margin-left:calc(50% - 50vw);
-
+#companies{
+    max-width:1400px;
+    margin:auto;
+    padding:120px 40px;
 }
 
-.logo-track{
+.section-subtitle{
+    text-align:center;
+    color:#b7c4b8;
+    margin:-40px auto 70px;
+    max-width:700px;
+    font-size:18px;
+}
 
+.carousel{
     display:flex;
-
     align-items:center;
-
-    gap:90px;
-
-    width:max-content;
-
-    animation:scroll 40s linear infinite;
-
+    justify-content:center;
+    gap:30px;
 }
 
-.logo-track:hover{
-
-    animation-play-state:paused;
-
+.carousel-track{
+    width:1120px;
 }
 
-.logo-item{
+.carousel-page{
+    display:none;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
 
-    position:relative;
+.carousel-page.active{
+    display:grid;
+}
 
-    flex-shrink:0;
+.company-card{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:28px;
+
+    padding:45px;
+
+    min-height:420px;
 
     display:flex;
+
+    flex-direction:column;
 
     justify-content:center;
 
     align-items:center;
 
-    width:220px;
-
-    height:140px;
-
-}
-
-.logo-item img{
-
-    max-width:180px;
-
-    max-height:90px;
+    text-align:center;
 
     transition:.35s;
 
 }
 
-.logo-item:hover img{
+.company-card:hover{
 
-    transform:scale(1.12);
+    transform:translateY(-10px);
 
-}
+    background:rgba(255,255,255,.12);
 
-.logo-slider::before,
-.logo-slider::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    width:150px;
-
-    height:100%;
-
-    z-index:5;
+    box-shadow:0 25px 55px rgba(0,0,0,.25);
 
 }
 
-.logo-slider::before{
+.company-card img{
 
-    left:0;
+    width:180px;
 
-    background:linear-gradient(to right,var(--bg),transparent);
+    height:90px;
 
-}
+    object-fit:contain;
 
-.logo-slider::after{
-
-    right:0;
-
-    background:linear-gradient(to left,var(--bg2),transparent);
+    margin-bottom:25px;
 
 }
 
-/* =========================
-TOOLTIP
-========================= */
+.mini-logo{
 
-.tooltip{
+    width:110px !important;
 
-    position:absolute;
+    height:40px !important;
 
-    bottom:-135px;
+    margin-top:-15px;
 
-    left:50%;
-
-    transform:translateX(-50%) translateY(15px);
-
-    width:260px;
-
-    background:rgba(18,35,29,.95);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:18px;
-
-    padding:18px;
-
-    text-align:center;
-
-    opacity:0;
-
-    transition:.3s;
-
-    pointer-events:none;
+    margin-bottom:20px;
 
 }
 
-.tooltip h3{
+.company-card h3{
 
-    margin-bottom:8px;
-
-    color:var(--green);
-
-}
-
-.tooltip p{
-
-    font-size:14px;
-
-    color:#d8e4d9;
+    font-size:28px;
 
     margin-bottom:10px;
 
 }
 
-.tooltip span{
+.company-card p{
 
-    color:var(--earth);
+    color:#d8e4d9;
 
-    font-size:14px;
-
-}
-
-.logo-item:hover .tooltip{
-
-    opacity:1;
-
-    transform:translateX(-50%) translateY(0);
+    line-height:1.6;
 
 }
 
+.company-card span{
+
+    margin-top:15px;
+
+    color:var(--green);
+
+    font-weight:700;
+
+}
+
+.arrow{
+
+    width:60px;
+
+    height:60px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.1);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:26px;
+
+    transition:.3s;
+
+}
+
+.arrow:hover{
+
+    background:var(--green);
+
+    transform:scale(1.08);
+
+}
+
+.dots{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-top:45px;
+
+}
+
+.dot{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#6b7280;
+
+}
+
+.dot.active{
+
+    background:var(--green);
+
+}
 /* =========================
 CONTACT
 ========================= */
