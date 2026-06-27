@@ -232,15 +232,53 @@ const glow = document.createElement('div');
 
 glow.className = 'cursor-glow';
 
+glow.style.opacity = '0';
+
 document.body.appendChild(glow);
+
+let mouseX = window.innerWidth / 2;
+
+let mouseY = window.innerHeight / 2;
+
+let glowX = mouseX;
+
+let glowY = mouseY;
+
+let isVisible = false;
 
 window.addEventListener('mousemove', e => {
 
-    glow.style.left = e.clientX + 'px';
+    if (!isVisible) {
 
-    glow.style.top = e.clientY + 'px';
+        isVisible = true;
+
+        glow.style.opacity = '1';
+
+        glowX = e.clientX;
+
+        glowY = e.clientY;
+
+    }
+
+    mouseX = e.clientX;
+
+    mouseY = e.clientY;
 
 });
+
+function animateGlow() {
+
+    glowX += (mouseX - glowX) * 0.12;
+
+    glowY += (mouseY - glowY) * 0.12;
+
+    glow.style.transform = `translate3d(${glowX - 160}px, ${glowY - 160}px, 0)`;
+
+    requestAnimationFrame(animateGlow);
+
+}
+
+animateGlow();
 
 
 /* ======================================
