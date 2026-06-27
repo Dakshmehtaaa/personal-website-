@@ -109,7 +109,7 @@ nav.scrolled{
 }
 
 .nav-linkedin:hover{
-    color:var(--magenta);
+    color:#0077b5;
     transform:translateY(-2px);
 }
 
@@ -319,8 +319,9 @@ section h2{
     padding:18px;
     overflow:hidden;
     border-radius:22px;
-    background:rgba(255,255,255,.98);
-    border:1px solid rgba(16,35,29,.06);
+    background:linear-gradient(135deg, #10231d, #1a3528);
+    border:1px solid rgba(43,140,103,.3);
+    box-shadow:0 8px 24px rgba(16,35,29,.15);
 }
 
 .journey-logo-shell img{
