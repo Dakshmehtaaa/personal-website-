@@ -187,35 +187,95 @@ section h2{
 }
 
 /* ==========================================
-   Companies I've Worked With
+   COMPANIES BELT
 ========================================== */
 
 #companies{
     text-align:center;
 }
 
-#companies h2{
-    margin-bottom:60px;
+.logo-slider{
+    overflow:hidden;
+    position:relative;
+    width:100%;
+    margin-top:60px;
 }
 
-.companies-grid{
+.logo-slider::before,
+.logo-slider::after{
+    content:"";
+    position:absolute;
+    top:0;
+    width:120px;
+    height:100%;
+    z-index:5;
+}
+
+.logo-slider::before{
+    left:0;
+    background:linear-gradient(to right,#08111f,transparent);
+}
+
+.logo-slider::after{
+    right:0;
+    background:linear-gradient(to left,#08111f,transparent);
+}
+
+.logo-track{
+    display:flex;
+    width:max-content;
+    animation:scroll 35s linear infinite;
+}
+
+.logo-track:hover{
+    animation-play-state:paused;
+}
+
+.logo-item{
+    width:220px;
+    height:120px;
+    flex-shrink:0;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:60px;
-    flex-wrap:wrap;
+    position:relative;
 }
 
-.companies-grid img{
-    height:70px;
-    width:auto;
-    opacity:0.8;
-    filter:grayscale(100%);
-    transition:all .35s ease;
+.logo-item img{
+    max-height:70px;
+    max-width:160px;
+    transition:.3s;
 }
 
-.companies-grid img:hover{
+.logo-item:hover img{
+    transform:scale(1.12);
+}
+
+.logo-item span{
+    position:absolute;
+    bottom:-18px;
+    background:#16233d;
+    padding:8px 16px;
+    border-radius:25px;
+    opacity:0;
+    transition:.3s;
+    white-space:nowrap;
+    font-size:14px;
+}
+
+.logo-item:hover span{
     opacity:1;
-    filter:grayscale(0%);
-    transform:translateY(-6px) scale(1.08);
+    bottom:-36px;
+}
+
+@keyframes scroll{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-50%);
+}
+
 }
