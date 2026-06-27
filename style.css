@@ -21,13 +21,17 @@
 
 }
 
-body{
+html, body{
 
     font-family:'Inter',sans-serif;
+
+    background:var(--bg);
 
     background:linear-gradient(135deg,var(--bg),#0e2b25,var(--bg2));
 
     color:var(--white);
+
+    min-height:100%;
 
     overflow-x:hidden;
 
