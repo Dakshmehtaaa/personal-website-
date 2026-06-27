@@ -6,6 +6,9 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+}
+
+html{
     scroll-behavior:smooth;
 }
 
@@ -93,8 +96,15 @@ nav{
 
     border:1px solid rgba(255,255,255,.1);
 
+    transition:background .3s ease, box-shadow .3s ease;
+
     z-index:1000;
 
+}
+
+nav.scrolled{
+    background:rgba(16,35,29,.92);
+    box-shadow:0 18px 45px rgba(0,0,0,.30);
 }
 
 .logo{
@@ -1256,12 +1266,18 @@ nav a.active{
 
     pointer-events:none;
 
-    background:radial-gradient(circle, rgba(108,191,106,.22) 0%, rgba(184,144,90,.08) 50%, transparent 70%);
-
-    filter:blur(30px);
+    background:radial-gradient(circle, rgba(108,191,106,.18) 0%, rgba(108,191,106,.05) 40%, transparent 70%);
 
     transition:opacity .4s ease;
 
+    will-change:transform;
+
     z-index:9999;
 
+}
+
+@media (pointer: coarse) {
+    .cursor-glow {
+        display: none !important;
+    }
 }
