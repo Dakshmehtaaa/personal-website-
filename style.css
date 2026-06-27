@@ -718,23 +718,35 @@ height:42px;
 
 font-size:18px;
 
+top:auto;
+
+bottom:-64px;
+
+transform:none;
+
 }
 
 .journey-arrow--prev{
 
-left:-10px;
+left:calc(50% - 134px);
 
 }
 
 .journey-arrow--next{
 
-right:-10px;
+right:calc(50% - 134px);
+
+}
+
+.journey-arrow:hover{
+
+transform:scale(1.07);
 
 }
 
 .journey-dots{
 
-margin-top:30px;
+margin-top:54px;
 
 }
 
@@ -855,6 +867,18 @@ line-height:1.25;
 width:36px;
 
 height:36px;
+
+}
+
+.journey-arrow--prev{
+
+left:calc(50% - 110px);
+
+}
+
+.journey-arrow--next{
+
+right:calc(50% - 110px);
 
 }
 
