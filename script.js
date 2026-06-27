@@ -1,21 +1,35 @@
-// Smooth scroll highlight
-document.querySelectorAll("nav a").forEach(link => {
-    link.addEventListener("click", e => {
+/* ======================================
+   Smooth Scrolling
+====================================== */
+
+document.querySelectorAll('nav a, .button').forEach(link => {
+
+    link.addEventListener('click', e => {
+
+        const href = link.getAttribute('href');
+
+        if (!href.startsWith('#')) return;
+
         e.preventDefault();
 
-        const target = document.querySelector(link.getAttribute("href"));
+        document.querySelector(href).scrollIntoView({
 
-        target.scrollIntoView({
-            behavior: "smooth"
+            behavior: 'smooth'
+
         });
+
     });
+
 });
 
-// Fade in sections
 
-const observer = new IntersectionObserver(entries => {
+/* ======================================
+   Fade In Sections
+====================================== */
 
-    entries.forEach(entry => {
+const observer = new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
 
         if(entry.isIntersecting){
 
@@ -26,7 +40,7 @@ const observer = new IntersectionObserver(entries => {
     });
 
 },{
-    threshold:0.2
+    threshold:.15
 });
 
 document.querySelectorAll("section").forEach(section=>{
@@ -37,22 +51,121 @@ document.querySelectorAll("section").forEach(section=>{
 
 });
 
-// Floating navbar
+
+/* ======================================
+   Floating Navbar
+====================================== */
+
+const nav=document.querySelector("nav");
 
 window.addEventListener("scroll",()=>{
 
-    const nav=document.querySelector("nav");
+    if(window.scrollY>60){
 
-    if(window.scrollY>50){
+        nav.style.background="rgba(16,35,29,.92)";
 
-        nav.style.background="rgba(8,17,31,.85)";
-        nav.style.boxShadow="0 20px 40px rgba(0,0,0,.35)";
+        nav.style.boxShadow="0 18px 45px rgba(0,0,0,.30)";
 
-    }else{
+    }
+
+    else{
 
         nav.style.background="rgba(255,255,255,.08)";
+
         nav.style.boxShadow="none";
 
     }
+
+});
+
+
+/* ======================================
+   Hero Parallax
+====================================== */
+
+const hero=document.querySelector(".hero");
+
+window.addEventListener("scroll",()=>{
+
+    hero.style.backgroundPositionY=window.scrollY*.35+"px";
+
+});
+
+
+/* ======================================
+   Pause Logo Belt On Hover
+====================================== */
+
+const track=document.querySelector(".logo-track");
+
+track.addEventListener("mouseenter",()=>{
+
+    track.style.animationPlayState="paused";
+
+});
+
+track.addEventListener("mouseleave",()=>{
+
+    track.style.animationPlayState="running";
+
+});
+
+
+/* ======================================
+   Cursor Glow
+====================================== */
+
+const glow=document.createElement("div");
+
+glow.className="cursor-glow";
+
+document.body.appendChild(glow);
+
+window.addEventListener("mousemove",(e)=>{
+
+    glow.style.left=e.clientX+"px";
+
+    glow.style.top=e.clientY+"px";
+
+});
+
+
+/* ======================================
+   Active Navbar Link
+====================================== */
+
+const sections=document.querySelectorAll("section");
+
+const navLinks=document.querySelectorAll("nav a");
+
+window.addEventListener("scroll",()=>{
+
+    let current="";
+
+    sections.forEach(section=>{
+
+        const top=section.offsetTop-150;
+
+        const height=section.clientHeight;
+
+        if(scrollY>=top){
+
+            current=section.getAttribute("id");
+
+        }
+
+    });
+
+    navLinks.forEach(link=>{
+
+        link.classList.remove("active");
+
+        if(link.getAttribute("href")==="#"+current){
+
+            link.classList.add("active");
+
+        }
+
+    });
 
 });
