@@ -43,7 +43,7 @@ const observer = new IntersectionObserver((entries)=>{
     threshold:.15
 });
 
-document.querySelectorAll("section").forEach(section=>{
+document.querySelectorAll("section:not(.hero)").forEach(section=>{
 
     section.classList.add("hidden");
 
