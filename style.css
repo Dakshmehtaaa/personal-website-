@@ -185,3 +185,37 @@ section h2{
 }
 
 }
+
+/* ==========================================
+   Companies I've Worked With
+========================================== */
+
+#companies{
+    text-align:center;
+}
+
+#companies h2{
+    margin-bottom:60px;
+}
+
+.companies-grid{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:60px;
+    flex-wrap:wrap;
+}
+
+.companies-grid img{
+    height:70px;
+    width:auto;
+    opacity:0.8;
+    filter:grayscale(100%);
+    transition:all .35s ease;
+}
+
+.companies-grid img:hover{
+    opacity:1;
+    filter:grayscale(0%);
+    transform:translateY(-6px) scale(1.08);
+}
