@@ -67,48 +67,24 @@ document.querySelectorAll('section:not(.hero)').forEach(section => {
 
 
 /* ======================================
-   Floating Navbar
+   Floating Navbar (Optimized with rAF)
 ====================================== */
-
 const nav = document.querySelector('nav');
-
 if (nav) {
-
+    let ticking = false;
     window.addEventListener('scroll', () => {
-
-        if (window.scrollY > 60) {
-
-            nav.style.background = 'rgba(16,35,29,.92)';
-
-            nav.style.boxShadow = '0 18px 45px rgba(0,0,0,.30)';
-
-        } else {
-
-            nav.style.background = 'rgba(255,255,255,.08)';
-
-            nav.style.boxShadow = 'none';
-
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                if (window.scrollY > 60) {
+                    if (!nav.classList.contains('scrolled')) nav.classList.add('scrolled');
+                } else {
+                    if (nav.classList.contains('scrolled')) nav.classList.remove('scrolled');
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-
-    });
-
-}
-
-
-/* ======================================
-   Hero Parallax
-====================================== */
-
-const hero = document.querySelector('.hero');
-
-if (hero) {
-
-    window.addEventListener('scroll', () => {
-
-        hero.style.backgroundPositionY = window.scrollY * .35 + 'px';
-
-    });
-
+    }, { passive: true });
 }
 
 
@@ -267,57 +243,14 @@ window.addEventListener('mousemove', e => {
 });
 
 function animateGlow() {
-
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     glowX += (mouseX - glowX) * 0.12;
-
     glowY += (mouseY - glowY) * 0.12;
-
     glow.style.transform = `translate3d(${glowX - 160}px, ${glowY - 160}px, 0)`;
-
     requestAnimationFrame(animateGlow);
-
 }
 
 animateGlow();
-
-
-/* ======================================
-   Active Navbar Link
-====================================== */
-
-const sections = document.querySelectorAll('section[id]');
-
-const navLinks = document.querySelectorAll('nav a');
-
-window.addEventListener('scroll', () => {
-
-    let current = '';
-
-    sections.forEach(section => {
-
-        const top = section.offsetTop - 150;
-
-        if (window.scrollY >= top) {
-
-            current = section.getAttribute('id');
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove('active');
-
-        if (link.getAttribute('href') === '#' + current) {
-
-            link.classList.add('active');
-
-        }
-
-    });
-
-});
 
 
 /* ======================================
