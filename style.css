@@ -103,6 +103,38 @@ nav{
 
 }
 
+.nav-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:35px;
+
+}
+
+.nav-linkedin{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--white);
+
+    transition:transform .3s ease, color .3s ease;
+
+}
+
+.nav-linkedin:hover{
+
+    color:var(--green);
+
+    transform:translateY(-2px);
+
+}
+
 nav ul{
 
     display:flex;
