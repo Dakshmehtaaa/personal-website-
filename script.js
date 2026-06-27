@@ -254,30 +254,32 @@ animateGlow();
 
 
 /* ======================================
-   Anthropic-Style Typewriter & Reveal
+   Typewriter Name & Quick Reveal Sequence
 ====================================== */
 window.addEventListener('DOMContentLoaded', () => {
+    const navEl = document.querySelector('nav');
     const h1 = document.querySelector('.hero-content h1');
     const h2 = document.querySelector('.hero-content h2');
     const p = document.querySelector('.hero-content p');
-    const revealElements = [
-        document.querySelector('.hero-actions'),
-        document.querySelector('nav'),
+    const heroActions = document.querySelector('.hero-actions');
+    const restOfSite = [
         document.querySelector('#companies'),
         document.querySelector('#contact')
     ].filter(Boolean);
 
     if (!h1 || !h2 || !p) return;
 
+    // Save original text
     const textH1 = h1.textContent.trim();
-    const textH2 = h2.textContent.trim();
-    const textP = p.textContent.trim().replace(/\s+/g, ' ');
 
-    revealElements.forEach(el => el.classList.add('reveal-fade'));
+    // Hide elements initially
+    if (navEl) { navEl.classList.add('reveal-fade'); }
+    [h2, p, heroActions, ...restOfSite].filter(Boolean).forEach(el => {
+        el.classList.add('reveal-fade');
+    });
 
+    // Clear only the name for typewriter
     h1.textContent = '';
-    h2.textContent = '';
-    p.textContent = '';
 
     const cursor = document.createElement('span');
     cursor.className = 'typewrite-cursor';
@@ -291,23 +293,29 @@ window.addEventListener('DOMContentLoaded', () => {
                 i++;
             } else {
                 clearInterval(interval);
-                if (callback) setTimeout(callback, 200);
+                if (callback) setTimeout(callback, 150);
             }
         }, speed);
     };
 
+    // STEP 1: Navbar appears first
     setTimeout(() => {
-        typeText(h1, textH1, 45, () => {
-            typeText(h2, textH2, 25, () => {
-                typeText(p, textP, 12, () => {
-                    setTimeout(() => {
-                        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
-                        revealElements.forEach(el => el.classList.add('revealed'));
-                    }, 400);
+        if (navEl) navEl.classList.add('revealed');
+
+        // STEP 2: After navbar, typewrite the name
+        setTimeout(() => {
+            typeText(h1, textH1, 55, () => {
+                // STEP 3: Remove cursor and reveal everything else quickly
+                if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+
+                // Stagger the reveals for a snappy cascade
+                const allReveal = [h2, p, heroActions, ...restOfSite].filter(Boolean);
+                allReveal.forEach((el, i) => {
+                    setTimeout(() => el.classList.add('revealed'), i * 120);
                 });
             });
-        });
-    }, 300);
+        }, 400);
+    }, 200);
 });
 
 
