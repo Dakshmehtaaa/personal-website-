@@ -590,6 +590,7 @@ CONTACT
     display:flex;
     gap:20px;
     align-items:center;
+    justify-content:center;
     flex-wrap:wrap;
 }
 
@@ -801,6 +802,14 @@ CONTACT
 .reveal-fade.revealed{
     opacity:1;
     transform:translateY(0);
+}
+
+nav.reveal-fade{
+    transform:translate(-50%, -20px);
+}
+
+nav.reveal-fade.revealed{
+    transform:translate(-50%, 0);
 }
 
 /* =========================
