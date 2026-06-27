@@ -27,44 +27,6 @@ document.querySelectorAll('nav a, .button').forEach(link => {
 });
 
 
-/* ======================================
-   Fade In Sections
-====================================== */
-
-const revealObserver = 'IntersectionObserver' in window
-    ? new IntersectionObserver((entries) => {
-
-        entries.forEach(entry => {
-
-            if (entry.isIntersecting) {
-
-                entry.target.classList.add('show');
-
-            }
-
-        });
-
-    }, {
-        threshold: .15
-    })
-    : null;
-
-document.querySelectorAll('section:not(.hero)').forEach(section => {
-
-    section.classList.add('hidden');
-
-    if (revealObserver) {
-
-        revealObserver.observe(section);
-
-    } else {
-
-        section.classList.add('show');
-
-    }
-
-});
-
 
 /* ======================================
    Floating Navbar (Optimized with rAF)
