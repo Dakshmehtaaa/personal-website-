@@ -300,9 +300,9 @@ section h2{
 
 .journey-card:hover{
     transform:translateY(-8px);
-    border-color:rgba(123,111,240,.38);
-    background:linear-gradient(160deg, rgba(123,111,240,.14), rgba(56,189,248,.07));
-    box-shadow:0 28px 80px rgba(0,0,0,.4), 0 0 40px rgba(123,111,240,.12);
+    border-color:rgba(56,189,248,.6);
+    background:linear-gradient(160deg, rgba(123,111,240,.18), rgba(56,189,248,.1));
+    box-shadow:0 28px 80px rgba(0,0,0,.5), 0 0 40px rgba(123,111,240,.25), 0 0 15px rgba(56,189,248,.2);
 }
 
 .journey-logo-shell{
@@ -713,10 +713,13 @@ section h2{
 .typewrite-cursor{
     display:inline-block;
     width:3px;
+    height:1em;
     background:linear-gradient(180deg, var(--accent), var(--cyan));
     margin-left:4px;
     animation:blinkCursor .8s infinite;
     vertical-align:middle;
+    -webkit-text-fill-color:initial;
+    box-shadow:0 0 8px var(--cyan);
 }
 
 @keyframes blinkCursor{
