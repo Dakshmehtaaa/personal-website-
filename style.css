@@ -135,7 +135,7 @@ HERO
 
 .hero{
 
-    min-height:100vh;
+    min-height:86vh;
 
     display:flex;
 
@@ -145,7 +145,7 @@ HERO
 
     text-align:center;
 
-    padding:120px 25px;
+    padding:120px 25px 72px;
 
 }
 
@@ -242,7 +242,7 @@ PROFESSIONAL JOURNEY
 #companies{
     max-width:1400px;
     margin:auto;
-    padding:120px 40px;
+    padding:82px 40px 120px;
 }
 
 #companies h2{
@@ -539,7 +539,7 @@ RESPONSIVE
 
 #companies{
 
-padding:110px 28px;
+padding:76px 28px 110px;
 
 }
 
@@ -759,7 +759,7 @@ margin-top:54px;
 
 #companies{
 
-padding:96px 16px;
+padding:70px 16px 96px;
 
 }
 
