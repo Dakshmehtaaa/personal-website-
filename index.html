@@ -24,16 +24,10 @@
 <nav>
 
     <div class="logo">
-        DM
+        Daksh Mehta
     </div>
 
     <div class="nav-right">
-
-        <ul>
-
-            <li><a href="#companies">Companies</a></li>
-
-        </ul>
 
         <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer" class="nav-linkedin" aria-label="LinkedIn Profile">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -62,11 +56,14 @@
 
         </p>
 
-        <a href="#companies" class="button">
-
-            Explore My Journey
-
-        </a>
+        <div class="hero-actions">
+            <a href="#companies" class="button">
+                Explore My Journey
+            </a>
+            <button type="button" class="button button--cv" id="open-cv-modal">
+                📄 Download My CV
+            </button>
+        </div>
 
     </div>
 
@@ -277,6 +274,43 @@
     </div>
 
 </section>
+
+<!-- ================= CV DOWNLOAD MODAL ================= -->
+<div class="cv-modal-backdrop hidden" id="cv-modal">
+    <div class="cv-modal-box">
+        <button type="button" class="cv-modal-close" id="close-cv-modal" aria-label="Close Modal">✕</button>
+        <div class="cv-modal-header">
+            <div class="cv-modal-icon">📄</div>
+            <h3>Download Curriculum Vitae</h3>
+            <p>Please enter your details below to download Daksh Mehta's CV and receive a copy via email.</p>
+        </div>
+        <form id="cv-download-form" class="cv-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name">First Name *</label>
+                    <input type="text" id="first-name" name="first_name" required placeholder="John">
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name *</label>
+                    <input type="text" id="last-name" name="last_name" required placeholder="Doe">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="work-email">Professional Email ID *</label>
+                <input type="email" id="work-email" name="work_email" required placeholder="john.doe@company.com">
+            </div>
+            <button type="submit" class="button button--submit">
+                Request & Download CV
+            </button>
+            <p class="form-disclaimer">🔒 Your information is confidential and used strictly to share my professional profile.</p>
+        </form>
+        <div id="cv-success-msg" class="cv-success hidden">
+            <div class="success-icon">✨</div>
+            <h4>Thank You!</h4>
+            <p>Your CV download has started automatically. If you have automated email delivery configured, a copy has also been sent to your inbox.</p>
+        </div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 
