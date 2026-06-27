@@ -319,3 +319,138 @@ window.addEventListener('scroll', () => {
 
 });
 
+
+/* ======================================
+   Anthropic-Style Typewriter & Reveal
+====================================== */
+window.addEventListener('DOMContentLoaded', () => {
+    const h1 = document.querySelector('.hero-content h1');
+    const h2 = document.querySelector('.hero-content h2');
+    const p = document.querySelector('.hero-content p');
+    const revealElements = [
+        document.querySelector('.hero-actions'),
+        document.querySelector('nav'),
+        document.querySelector('#companies'),
+        document.querySelector('#contact')
+    ].filter(Boolean);
+
+    if (!h1 || !h2 || !p) return;
+
+    const textH1 = h1.textContent.trim();
+    const textH2 = h2.textContent.trim();
+    const textP = p.textContent.trim().replace(/\s+/g, ' ');
+
+    revealElements.forEach(el => el.classList.add('reveal-fade'));
+
+    h1.textContent = '';
+    h2.textContent = '';
+    p.textContent = '';
+
+    const cursor = document.createElement('span');
+    cursor.className = 'typewrite-cursor';
+
+    const typeText = (element, text, speed, callback) => {
+        element.appendChild(cursor);
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                cursor.insertAdjacentText('beforebegin', text.charAt(i));
+                i++;
+            } else {
+                clearInterval(interval);
+                if (callback) setTimeout(callback, 200);
+            }
+        }, speed);
+    };
+
+    setTimeout(() => {
+        typeText(h1, textH1, 45, () => {
+            typeText(h2, textH2, 25, () => {
+                typeText(p, textP, 12, () => {
+                    setTimeout(() => {
+                        if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+                        revealElements.forEach(el => el.classList.add('revealed'));
+                    }, 400);
+                });
+            });
+        });
+    }, 300);
+});
+
+
+/* ======================================
+   CV Download Modal & Email Automation
+====================================== */
+const openCvBtn = document.getElementById('open-cv-modal');
+const closeCvBtn = document.getElementById('close-cv-modal');
+const cvModal = document.getElementById('cv-modal');
+const cvForm = document.getElementById('cv-download-form');
+const cvSuccessMsg = document.getElementById('cv-success-msg');
+
+if (openCvBtn && cvModal) {
+    openCvBtn.addEventListener('click', () => {
+        cvModal.classList.remove('hidden');
+        if (cvForm) cvForm.classList.remove('hidden');
+        if (cvSuccessMsg) cvSuccessMsg.classList.add('hidden');
+    });
+}
+
+if (closeCvBtn && cvModal) {
+    closeCvBtn.addEventListener('click', () => {
+        cvModal.classList.add('hidden');
+    });
+}
+
+if (cvModal) {
+    cvModal.addEventListener('click', (e) => {
+        if (e.target === cvModal) {
+            cvModal.classList.add('hidden');
+        }
+    });
+}
+
+if (cvForm) {
+    cvForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const email = document.getElementById('work-email').value;
+
+        // 1. Trigger Instant CV PDF Download in Browser
+        const link = document.createElement('a');
+        link.href = 'assets/CV_Daksh_2026.pdf';
+        link.download = 'CV_Daksh_Mehta.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // 2. Email Automation Hook
+        // To enable automated email notifications sending your CV:
+        // Get a free API key from Web3Forms.com or Formspree and uncomment:
+        /*
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+                access_key: 'YOUR_WEB3FORMS_ACCESS_KEY_HERE',
+                subject: `New CV Download Request from ${firstName} ${lastName}`,
+                from_name: 'Daksh Mehta CV Portal',
+                email: email,
+                message: `${firstName} ${lastName} (${email}) requested and downloaded your CV.`
+            })
+        }).catch(err => console.log('Email automation error:', err));
+        */
+
+        cvForm.classList.add('hidden');
+        if (cvSuccessMsg) cvSuccessMsg.classList.remove('hidden');
+
+        cvForm.reset();
+
+        setTimeout(() => {
+            if (cvModal) cvModal.classList.add('hidden');
+        }, 5000);
+    });
+}
+
+
