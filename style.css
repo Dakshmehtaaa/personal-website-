@@ -167,56 +167,39 @@ nav a:hover{
 
 .profile-frame{
     position:relative;
-    width:360px;
-    height:360px;
+    width:380px;
+    height:380px;
     border-radius:50%;
+    padding:10px;
+    background:linear-gradient(135deg, #10231d, #2b8c67, #b8905a);
+    box-shadow:0 30px 80px rgba(43,140,103,.28), 0 0 50px rgba(184,144,90,.22);
     animation:floatProfile 6s ease-in-out infinite;
+    cursor:pointer;
 }
 
-.profile-ring{
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    padding:8px;
-    background:linear-gradient(135deg, var(--accent), var(--magenta));
-    box-shadow:0 25px 70px rgba(43,140,103,.25), 0 0 45px rgba(184,144,90,.18);
-}
-
-.profile-ring::after{
+.profile-frame::before{
     content:"";
-    display:block;
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    background:linear-gradient(135deg, rgba(43,140,103,.45), rgba(184,144,90,.45));
+    filter:blur(16px);
+    z-index:-1;
+}
+
+.profile-frame img{
     width:100%;
     height:100%;
-    background:#ffffff;
-    border-radius:50%;
-}
-
-.profile-circle-clip{
-    position:absolute;
-    inset:8px;
-    border-radius:50%;
-    overflow:hidden;
-    z-index:2;
-    background:#ffffff;
-}
-
-.profile-popout-wrapper{
-    position:absolute;
-    inset:8px;
-    z-index:3;
-    pointer-events:none;
-    clip-path:inset(-120px -60px 60% -60px);
-}
-
-.profile-img{
-    position:absolute;
-    width:100%;
-    height:122%;
-    top:-22%;
-    left:0;
     object-fit:cover;
     object-position:center 15%;
+    border-radius:50%;
+    background:#ffffff;
     display:block;
+    transition:transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.profile-frame:hover img{
+    transform:scale(1.05);
 }
 
 @keyframes floatProfile{
