@@ -170,19 +170,52 @@ nav a:hover{
     width:360px;
     height:360px;
     border-radius:50%;
-    padding:8px;
-    background:linear-gradient(135deg, var(--accent), var(--magenta));
-    box-shadow:0 25px 70px rgba(43,140,103,.25), 0 0 45px rgba(184,144,90,.18);
     animation:floatProfile 6s ease-in-out infinite;
 }
 
-.profile-frame img{
+.profile-ring{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    padding:8px;
+    background:linear-gradient(135deg, var(--accent), var(--magenta));
+    box-shadow:0 25px 70px rgba(43,140,103,.25), 0 0 45px rgba(184,144,90,.18);
+}
+
+.profile-ring::after{
+    content:"";
+    display:block;
     width:100%;
     height:100%;
+    background:#ffffff;
+    border-radius:50%;
+}
+
+.profile-circle-clip{
+    position:absolute;
+    inset:8px;
+    border-radius:50%;
+    overflow:hidden;
+    z-index:2;
+    background:#ffffff;
+}
+
+.profile-popout-wrapper{
+    position:absolute;
+    inset:8px;
+    z-index:3;
+    pointer-events:none;
+    clip-path:inset(-120px -60px 60% -60px);
+}
+
+.profile-img{
+    position:absolute;
+    width:100%;
+    height:122%;
+    top:-22%;
+    left:0;
     object-fit:cover;
     object-position:center 15%;
-    border-radius:50%;
-    background:#ffffff;
     display:block;
 }
 
