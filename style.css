@@ -634,10 +634,11 @@ section h2{
 }
 
 .cv-modal-box{
+    box-sizing:border-box;
     background:#ffffff;
     border:1px solid rgba(43,140,103,.3);
     border-radius:28px;
-    padding:40px;
+    padding:36px 32px;
     max-width:520px;
     width:100%;
     position:relative;
@@ -702,14 +703,17 @@ section h2{
 
 .form-row{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
+    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+    gap:14px;
+    width:100%;
 }
 
 .form-group{
     display:flex;
     flex-direction:column;
     gap:6px;
+    min-width:0;
+    width:100%;
 }
 
 .form-group label{
@@ -719,6 +723,9 @@ section h2{
 }
 
 .form-group input{
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
     background:#f4f7f5;
     border:1px solid rgba(16,35,29,.2);
     border-radius:12px;
@@ -1005,6 +1012,10 @@ section h2{
 }
 
 @media(max-width:520px){
+
+.cv-modal-box{
+    padding:26px 20px;
+}
 
 #companies{
     padding:52px 16px 96px;
