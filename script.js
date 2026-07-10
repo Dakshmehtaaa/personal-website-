@@ -227,6 +227,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const heroProfile = document.querySelector('.hero-profile');
     const restOfSite = [
         document.querySelector('#companies'),
+        document.querySelector('#linkedin-posts'),
         document.querySelector('#contact')
     ].filter(Boolean);
 
