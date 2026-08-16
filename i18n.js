@@ -175,6 +175,9 @@ window.TRANSLATIONS = {
         'li.h2': 'La durabilité en action chez CEVA Logistics',
         'li.tag3': 'Jour 26 sur 30 · Scopes 1, 2 et 3',
         'li.h3': 'Saviez-vous que votre café émet du carbone ?',
+        'li.s1': "Nous connaissons tous Ron. Il enchaîne les journées de bureau, adore un bon barbecue et attrape du plastique à usage unique au passage — environ 6 tonnes de CO₂ par an. Voici comment Ron, et vous, pouvez changer cela avec quelques gestes du quotidien.",
+        'li.s2': "Un quart des émissions mondiales provient des transports. Pendant un mois, j'ai travaillé aux côtés de l'équipe RSE de CEVA Logistics, au siège mondial, à la construction d'un réseau logistique plus durable.",
+        'li.s3': "Du grain à la tasse, votre café porte une empreinte carbone : scope 1 pour la torréfaction et le transport, scope 2 pour l'électricité invisible, scope 3 pour l'emballage, les déchets et le lait.",
         'li.open': 'Ouvrir sur LinkedIn ↗',
         'li.follow': 'Me suivre sur LinkedIn',
 

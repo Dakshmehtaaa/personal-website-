@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
 
@@ -8,73 +8,126 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <title>Daksh Mehta | Sustainability Portfolio</title>
+    <meta name="description" content="Daksh Mehta — CSR, ESG and sustainability project manager in Paris. ESG reporting, GHG accounting, EcoVadis, CDP and CSRD.">
 
-    <link rel="stylesheet" href="style.css?v=19">
+    <title>Daksh Mehta | CSR · ESG · Sustainability</title>
 
+    <link rel="stylesheet" href="style.css?v=24">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+
+    <!-- Set theme + language before first paint to avoid a flash -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+
+                var l = localStorage.getItem('lang');
+                if (!l) l = (navigator.language || 'en').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
+                document.documentElement.setAttribute('lang', l);
+            } catch (e) { /* storage blocked — fall back to defaults */ }
+        })();
+    </script>
 
 </head>
 
 <body>
 
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
 <!-- ================= NAVBAR ================= -->
 
 <nav>
 
-    <div class="logo">
-        Daksh Mehta
-    </div>
+    <a class="logo" href="#top">Daksh Mehta</a>
 
-    <ul>
-        <li><a href="#companies">Journey</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#linkedin-posts">Insights</a></li>
-        <li><a href="#contact">Contact</a></li>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+        <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+        <li><a href="#insights" data-i18n="nav.insights">Insights</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
 
     <div class="nav-right">
-        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer" class="nav-linkedin" aria-label="LinkedIn Profile">
-            <img src="assets/linkedin-icon-2.svg" alt="LinkedIn Profile" style="width: 36px; height: 36px; display: block; border-radius: 6px;">
+
+        <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme" title="Switch theme">
+            <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">☀</span>
+            <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">☾</span>
+        </button>
+
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
+           class="nav-linkedin" aria-label="LinkedIn profile">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="34" height="34">
         </a>
+
+        <button type="button" class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
     </div>
 
 </nav>
 
+<main id="main">
+
 <!-- ================= HERO ================= -->
 
-<section class="hero">
+<section class="hero" id="top">
 
     <div class="hero-container">
 
         <div class="hero-content">
 
+            <p class="hero-eyebrow" data-i18n="hero.eyebrow">CSR · ESG · Project Manager</p>
+
             <h1>Daksh Mehta</h1>
 
-            <h2>Sustainability • AI • ESG • Strategy</h2>
+            <h2 data-i18n="hero.tagline">Turning sustainability commitments into measurable impact</h2>
 
-            <p>
-
-                Building practical sustainability solutions through Artificial Intelligence,
-                ESG strategy, stakeholder engagement and impact-driven innovation.
-
+            <p class="hero-lede" data-i18n="hero.lede">
+                Three years of corporate experience across CSR, ESG and EU policy — CSR project
+                management, ESG reporting, and sustainability certifications. Currently building
+                sustainability and social impact programmes at Dataiku in Paris.
             </p>
 
             <div class="hero-actions">
-                <a href="#companies" class="button">
-                    Explore My Journey
-                </a>
-                <button type="button" class="button button--cv" id="open-cv-modal">
-                    📄 Download My CV
+                <a href="#portfolio" class="button" data-i18n="hero.ctaWork">View my work</a>
+                <button type="button" class="button button--ghost" id="open-cv-modal">
+                    <span aria-hidden="true">↓</span>&nbsp;<span data-i18n="hero.ctaCv">Download my CV</span>
                 </button>
             </div>
+
+            <ul class="hero-stats">
+                <li>
+                    <strong>3+</strong>
+                    <span data-i18n="stats.years">years of corporate experience</span>
+                </li>
+                <li>
+                    <strong>97<sup>th</sup></strong>
+                    <span data-i18n="stats.ecovadis">percentile EcoVadis rating, 2024</span>
+                </li>
+                <li>
+                    <strong>20+</strong>
+                    <span data-i18n="stats.rfis">client RFIs, tenders &amp; CO₂ reports</span>
+                </li>
+            </ul>
 
         </div>
 
         <div class="hero-profile">
             <div class="profile-frame">
-                <img src="assets/logos/profile picture.avif" alt="Daksh Mehta Profile Picture">
+                <img src="assets/logos/profile picture.avif" alt="Daksh Mehta" width="420" height="420">
             </div>
         </div>
 
@@ -82,219 +135,233 @@
 
 </section>
 
+<!-- ================= ABOUT ================= -->
 
+<section id="about" class="about-section">
 
-<!-- ================= PROFESSIONAL JOURNEY ================= -->
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="about.kicker">About</p>
+        <h2 data-i18n="about.title">Sustainability, made operational</h2>
+    </div>
 
-<section id="companies" class="journey-section">
+    <div class="about-grid">
 
-    <h2>Professional Journey</h2>
+        <div class="about-copy">
 
-    <p class="section-subtitle">
-        Organizations where I've created impact across Sustainability, AI and ESG.
-    </p>
+            <p data-i18n="about.p1">
+                I work where sustainability strategy meets the systems that actually deliver it —
+                reporting frameworks, procurement processes, supplier ratings and the data behind them.
+                Most of my three years has been spent inside large organisations, turning commitments
+                into evidence that stands up to scrutiny.
+            </p>
 
-    <div class="journey-carousel" data-journey-carousel>
+            <p data-i18n="about.p2">
+                At CEVA Logistics I led the project to improve the 2024 CDP rating and helped reach a
+                97th-percentile EcoVadis score — a twelve-point year-on-year improvement — while handling
+                more than twenty client RFIs, tenders and CO₂ reports for brands including CMA CGM and
+                Ferrari. At Thales I mapped and automated the CSR process inside the Purchasing
+                department and reported fifteen-plus sustainable procurement KPIs each week.
+            </p>
 
-        <button class="journey-arrow journey-arrow--prev" type="button" aria-label="Previous journey page" title="Previous">
-            &#10094;
-        </button>
+            <p data-i18n="about.p3">
+                Today, as Sustainability and Social Impact Apprentice at Dataiku, I coordinate ESG
+                benchmarking and vendor engagement, support the 2026 CSR Report through GHG data
+                consolidation, and work with global teams on the AI for Good programme — helping
+                nonprofits use AI to amplify their impact.
+            </p>
 
-        <div class="journey-viewport">
-
-            <div class="journey-track">
-
-                <div class="journey-page" aria-label="Professional journey page 1">
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Dataiku.svg" alt="Dataiku" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Dataiku</h3>
-                            <span>Paris, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/CEVA.svg" alt="CEVA Logistics" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>CEVA Logistics</h3>
-                            <span>Marseille, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Thales_Logo.svg.svg" alt="Thales" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Thales</h3>
-                            <span>Gémenos, France</span>
-                        </div>
-
-                    </article>
-
-                </div>
-
-                <div class="journey-page" aria-label="Professional journey page 2">
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Back_market.svg" alt="Back Market" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Back Market</h3>
-                            <span>Bordeaux, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Pollenrobotics.svg" alt="Pollen Robotics" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Pollen Robotics</h3>
-                            <span>Bordeaux, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Travel_Triangle_-_Logo.svg" alt="Travel Triangle" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Travel Triangle</h3>
-                            <span>Gurugram, India</span>
-                        </div>
-
-                    </article>
-
-                </div>
-
-                <div class="journey-page" aria-label="Professional journey page 3">
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/Inseec.svg" alt="INSEEC" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>INSEEC École de Commerce</h3>
-                            <span>Paris, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img class="journey-logo--kedge" src="assets/logos/KBS.png" alt="KEDGE Business School" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>KEDGE Business School</h3>
-                            <span>Marseille, France</span>
-                        </div>
-
-                    </article>
-
-                    <article class="journey-card">
-
-                        <div class="journey-logo-shell">
-                            <img src="assets/logos/JIMS.png" alt="JIMS" loading="lazy" decoding="async">
-                        </div>
-
-                        <div class="journey-card-copy">
-                            <h3>Jagannath International Management School</h3>
-                            <span>New Delhi, India</span>
-                        </div>
-
-                    </article>
-
-                </div>
-
+            <div class="about-langs">
+                <span class="about-langs-label" data-i18n="about.languages">Languages</span>
+                <span class="chip">English — C2</span>
+                <span class="chip">Français — B2</span>
+                <span class="chip">हिन्दी — <span data-i18n="about.native">Native</span></span>
             </div>
 
         </div>
 
-        <button class="journey-arrow journey-arrow--next" type="button" aria-label="Next journey page" title="Next">
-            &#10095;
-        </button>
+        <aside class="about-skills">
 
-    </div>
+            <h3 data-i18n="about.toolkit">Frameworks &amp; tools</h3>
 
-    <div class="journey-dots" role="tablist" aria-label="Professional journey pages">
-        <button class="journey-dot active" type="button" aria-label="Show journey page 1" aria-selected="true"></button>
-        <button class="journey-dot" type="button" aria-label="Show journey page 2" aria-selected="false"></button>
-        <button class="journey-dot" type="button" aria-label="Show journey page 3" aria-selected="false"></button>
+            <div class="chip-cloud">
+                <span class="chip chip--accent">CSRD</span>
+                <span class="chip chip--accent">CDP</span>
+                <span class="chip chip--accent">EcoVadis</span>
+                <span class="chip chip--accent">SBTi</span>
+                <span class="chip chip--accent">EU Taxonomy</span>
+                <span class="chip chip--accent">GHG accounting</span>
+                <span class="chip chip--accent">B Corp</span>
+                <span class="chip chip--accent">LCA</span>
+                <span class="chip">Power BI</span>
+                <span class="chip">Power Automate</span>
+                <span class="chip">Excel &amp; SQL</span>
+                <span class="chip">Microsoft 365</span>
+                <span class="chip">AI tools</span>
+            </div>
+
+            <h3 class="about-skills-second" data-i18n="about.education">Education</h3>
+
+            <div class="edu-item">
+                <strong>INSEEC — Paris</strong>
+                <span data-i18n="about.edu1">MSc International Business Management, Project Management · 2025–present</span>
+            </div>
+
+            <div class="edu-item">
+                <strong>KEDGE Business School — Bordeaux</strong>
+                <span data-i18n="about.edu2">PGE Master in Management: Sustainability · 2021–2025</span>
+                <em data-i18n="about.edu2note">First place, school green start-up competition</em>
+            </div>
+
+        </aside>
+
     </div>
 
 </section>
 
-<!-- ================= PROJECT PORTFOLIO ================= -->
+<!-- ================= EXPERIENCE ================= -->
+
+<section id="experience" class="experience-section">
+
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="exp.kicker">Experience</p>
+        <h2 data-i18n="exp.title">Where I've done the work</h2>
+    </div>
+
+    <ol class="timeline">
+
+        <li class="timeline-item">
+            <div class="timeline-card">
+                <div class="timeline-logo">
+                    <img src="assets/logos/Dataiku.svg" alt="Dataiku" loading="lazy" decoding="async">
+                </div>
+                <div class="timeline-body">
+                    <div class="timeline-meta">
+                        <span class="timeline-date" data-i18n="exp.d1">Sep 2025 — present</span>
+                        <span class="timeline-place">Paris, France</span>
+                    </div>
+                    <h3 data-i18n="exp.r1">Sustainability &amp; Social Impact Apprentice</h3>
+                    <p class="timeline-org">Dataiku</p>
+                    <ul>
+                        <li data-i18n="exp.r1b1">Coordinate ESG benchmarking and vendor engagement to support CSR platform procurement.</li>
+                        <li data-i18n="exp.r1b2">Support the 2026 CSR Report through GHG data consolidation, reporting and stakeholder coordination.</li>
+                        <li data-i18n="exp.r1b3">Work with global teams on the AI for Good programme, helping nonprofits use AI to amplify social impact.</li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+
+        <li class="timeline-item">
+            <div class="timeline-card">
+                <div class="timeline-logo">
+                    <img src="assets/logos/Thales_Logo.svg.svg" alt="Thales" loading="lazy" decoding="async">
+                </div>
+                <div class="timeline-body">
+                    <div class="timeline-meta">
+                        <span class="timeline-date" data-i18n="exp.d2">Mar — Aug 2025</span>
+                        <span class="timeline-place">Gémenos, France</span>
+                    </div>
+                    <h3 data-i18n="exp.r2">CSR Consultant Intern</h3>
+                    <p class="timeline-org">Thales</p>
+                    <ul>
+                        <li data-i18n="exp.r2b1">Mapped and automated the CSR process inside the Purchasing department, improving KPI tracking and reporting.</li>
+                        <li data-i18n="exp.r2b2">Reported 15+ sustainable procurement KPIs weekly to drive informed decision-making.</li>
+                        <li data-i18n="exp.r2b3">Presented project success stories at Thales' Global Low Carbon Seminar.</li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+
+        <li class="timeline-item">
+            <div class="timeline-card">
+                <div class="timeline-logo">
+                    <img src="assets/logos/CEVA.svg" alt="CEVA Logistics" loading="lazy" decoding="async">
+                </div>
+                <div class="timeline-body">
+                    <div class="timeline-meta">
+                        <span class="timeline-date" data-i18n="exp.d3">Apr — Oct 2024</span>
+                        <span class="timeline-place">Marseille, France</span>
+                    </div>
+                    <h3 data-i18n="exp.r3">CSR Customer Desk Intern</h3>
+                    <p class="timeline-org">CEVA Logistics</p>
+                    <ul>
+                        <li data-i18n="exp.r3b1">Led the project to improve the 2024 CDP rating.</li>
+                        <li data-i18n="exp.r3b2">Achieved a 97th-percentile EcoVadis rating in 2024 — a 12-point year-on-year improvement.</li>
+                        <li data-i18n="exp.r3b3">Managed 20+ client RFIs, tenders and CO₂ reports for brands including CMA CGM and Ferrari.</li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+
+        <li class="timeline-item">
+            <div class="timeline-card">
+                <div class="timeline-logo">
+                    <img src="assets/logos/Back_market.svg" alt="Back Market" loading="lazy" decoding="async">
+                </div>
+                <div class="timeline-body">
+                    <div class="timeline-meta">
+                        <span class="timeline-date" data-i18n="exp.d4">Jul — Dec 2022</span>
+                        <span class="timeline-place">Bordeaux, France</span>
+                    </div>
+                    <h3 data-i18n="exp.r4">Process Manager Intern</h3>
+                    <p class="timeline-org">Back Market</p>
+                    <ul>
+                        <li data-i18n="exp.r4b1">Extracted and analysed 17 KPIs in Excel and SQL, delivering insights in weekly meetings.</li>
+                        <li data-i18n="exp.r4b2">Reviewed the performance of 500+ customer care agents, identifying pain points for improvement.</li>
+                        <li data-i18n="exp.r4b3">Supported the manager in running projects for a team of five.</li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+
+    </ol>
+
+    <p class="logo-strip-label" data-i18n="exp.also">Also worked and studied with</p>
+
+    <div class="logo-strip">
+        <img src="assets/logos/Pollenrobotics.svg" alt="Pollen Robotics" loading="lazy" decoding="async">
+        <img src="assets/logos/Travel_Triangle_-_Logo.svg" alt="Travel Triangle" loading="lazy" decoding="async">
+        <img src="assets/logos/Inseec.svg" alt="INSEEC" loading="lazy" decoding="async">
+        <img src="assets/logos/KBS.png" alt="KEDGE Business School" loading="lazy" decoding="async">
+        <img src="assets/logos/JIMS.png" alt="JIMS New Delhi" loading="lazy" decoding="async">
+    </div>
+
+</section>
+
+<!-- ================= PORTFOLIO ================= -->
 
 <section id="portfolio" class="portfolio-section">
 
-    <h2>Portfolio</h2>
-
-    <p class="section-subtitle">
-        Project work and the things I do outside it.
-    </p>
-
-    <div class="portfolio-tabs" role="tablist" aria-label="Portfolio categories">
-
-        <button class="portfolio-tab active" type="button" role="tab" id="tabbtn-projects"
-                aria-controls="tab-projects" aria-selected="true" data-tab-target="tab-projects">
-            💼 Projects
-        </button>
-
-        <button class="portfolio-tab" type="button" role="tab" id="tabbtn-hobbies"
-                aria-controls="tab-hobbies" aria-selected="false" data-tab-target="tab-hobbies">
-            ⚽️ Hobbies
-        </button>
-
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="pf.kicker">Portfolio</p>
+        <h2 data-i18n="pf.title">Projects &amp; hobbies</h2>
     </div>
 
-    <!-- ---------- PANEL : PROJECTS ---------- -->
+    <div class="portfolio-tabs" role="tablist" aria-label="Portfolio categories">
+        <button class="portfolio-tab active" type="button" role="tab" id="tabbtn-projects"
+                aria-controls="tab-projects" aria-selected="true" data-tab-target="tab-projects"
+                data-i18n="pf.tabProjects">Projects</button>
+        <button class="portfolio-tab" type="button" role="tab" id="tabbtn-hobbies"
+                aria-controls="tab-hobbies" aria-selected="false" data-tab-target="tab-hobbies"
+                data-i18n="pf.tabHobbies">Hobbies</button>
+    </div>
 
     <div class="portfolio-panel active" id="tab-projects" role="tabpanel" aria-labelledby="tabbtn-projects">
 
-        <p class="panel-note">
+        <p class="panel-note" data-i18n="pf.note">
             Ordered from most to least relevant to my sustainability practice.
             Select a project to read the full brief and download the deck.
         </p>
 
         <div class="accordion-list">
 
-            <p class="accordion-group">Flagship sustainability work</p>
+            <p class="accordion-group" data-i18n="pf.g1">Flagship sustainability work</p>
 
-            <!-- 01 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-01">
                     <span class="accordion-num">01</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Sustain Swap — Virtual Start-up Creation</span>
-                        <span class="accordion-sub">Start-up Creation · Circular Economy · Academic</span>
+                        <span class="accordion-title" data-i18n="p1.title">Sustain Swap — Virtual Start-up Creation</span>
+                        <span class="accordion-sub" data-i18n="p1.sub">Start-up creation · Circular economy · Academic</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -302,51 +369,49 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/special-projects/SustainSwap.png" alt="Sustain Swap marketing poster" loading="lazy" decoding="async">
+                                <img src="assets/notion/special-projects/SustainSwap.png" alt="Sustain Swap poster" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
+                                <p data-i18n="p1.b1">
                                     SustainSwap is a student-to-student second-hand marketplace built around one promise:
-                                    <em>the first hassle-free second hand solution.</em> Instead of leaving students to
-                                    photograph, list, haggle and ship items themselves, the model routes everything through
-                                    the university. Students log in with their university access, register goods for sale and
-                                    send them to SustainSwap, which verifies, values and refurbishes each item before it is
-                                    published. Buyers order online and either collect from a campus pick-up point or receive
-                                    the item by eco-friendly delivery.
+                                    the first hassle-free second hand solution. Instead of leaving students to photograph,
+                                    list, haggle and ship items themselves, the model routes everything through the
+                                    university. Students log in with their university access, register goods for sale and
+                                    send them in; SustainSwap verifies, values and refurbishes each item before publishing
+                                    it. Buyers order online and either collect from a campus pick-up point or receive the
+                                    item by eco-friendly delivery.
                                 </p>
-                                <p>
-                                    The project covers the full commercial build rather than just the idea. Segmentation runs
-                                    on socio-professional status, environmental awareness and sustainable shopping behaviour;
-                                    targeting focuses on budget-conscious settlers, eco-conscious students and international
-                                    students. Positioning is worked through the complete marketing mix — resale economics that
-                                    repay the initial investment several times over, subscription and upfront-with-partial-refund
-                                    pricing to give students financial flexibility, a central warehouse with campus pick-up boxes
-                                    for logistics, and student ambassadors, pop-up shops and social campaigns timed to the start
-                                    of each semester for promotion.
+                                <p data-i18n="p1.b2">
+                                    The project covers the full commercial build rather than just the idea. Segmentation
+                                    runs on socio-professional status, environmental awareness and sustainable shopping
+                                    behaviour; targeting focuses on budget-conscious settlers, eco-conscious students and
+                                    international students. Positioning is worked through the complete marketing mix —
+                                    resale economics that repay the initial investment several times over, subscription and
+                                    upfront-with-partial-refund pricing, campus warehousing and pick-up boxes, and student
+                                    ambassadors and pop-up shops timed to the start of each semester.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Circular economy · reuse · student affordability</li>
-                                    <li><strong>Deliverables</strong> Investor pitch deck, marketing poster, product demo</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p1.f1">Circular economy · reuse · student affordability</span></li>
+                                    <li><strong data-i18n="pf.deliverables">Deliverables</strong> <span data-i18n="p1.f2">Investor pitch deck, marketing poster, product demo</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/presentations/Pitch_deck_SustainSwap.pdf" download class="project-link project-link--primary">⬇ Download pitch deck (PDF · 4.4 MB)</a>
-                            <a href="assets/notion/presentations/Pitch_deck_SustainSwap.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
-                            <a href="assets/notion/special-projects/SustainSwap.png" target="_blank" rel="noopener noreferrer" class="project-link">Poster</a>
-                            <a href="assets/notion/special-projects/SustainSwap_demo.mov" target="_blank" rel="noopener noreferrer" class="project-link">Demo video</a>
+                            <a href="assets/notion/presentations/Pitch_deck_SustainSwap.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlDeck">Download pitch deck</span> · 4.4 MB</a>
+                            <a href="assets/notion/presentations/Pitch_deck_SustainSwap.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
+                            <a href="assets/notion/special-projects/SustainSwap.png" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.poster">Poster</a>
+                            <a href="assets/notion/special-projects/SustainSwap_demo.mov" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.demo">Demo video</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 02 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-02">
                     <span class="accordion-num">02</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Value Chain Analysis — FREITAG Bags</span>
-                        <span class="accordion-sub">Circular Economy · Corporate Project</span>
+                        <span class="accordion-title" data-i18n="p2.title">Value Chain Analysis — FREITAG Bags</span>
+                        <span class="accordion-sub" data-i18n="p2.sub">Circular economy · Corporate project</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -357,41 +422,39 @@
                                 <span>🧳</span>
                             </div>
                             <div class="project-detail-copy">
-                                <p>
+                                <p data-i18n="p2.b1">
                                     FREITAG makes bags out of used truck tarpaulins, seatbelts and bicycle inner tubes —
-                                    one of the few businesses where the waste stream <em>is</em> the raw material. That makes it
-                                    an unusually honest test case for circular economy thinking, because the circularity is not
-                                    an add-on to the product, it is the product.
+                                    one of the few businesses where the waste stream is the raw material. That makes it an
+                                    unusually honest test case for circular economy thinking, because the circularity is
+                                    not an add-on to the product; it is the product.
                                 </p>
-                                <p>
+                                <p data-i18n="p2.b2">
                                     This analysis maps the value chain end to end: sourcing and cleaning used tarpaulins,
-                                    cutting and design, manufacture, distribution, and the repair and resale loop that keeps
-                                    bags in use. The question running through it is where circularity actually creates margin
-                                    and defensibility rather than just marketing language. The work was built first as a
-                                    collaborative FigJam whiteboard — mapping material flows and stakeholders visually — and
-                                    then presented as a deck.
+                                    cutting and design, manufacture, distribution, and the repair and resale loop that
+                                    keeps bags in use. The question running through it is where circularity actually
+                                    creates margin and defensibility rather than just marketing language. It was built
+                                    first as a collaborative FigJam whiteboard, then presented as a deck.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Upcycling · material flows · circular margin</li>
-                                    <li><strong>Format</strong> Presentation plus a live FigJam whiteboard</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p2.f1">Upcycling · material flows · circular margin</span></li>
+                                    <li><strong data-i18n="pf.format">Format</strong> <span data-i18n="p2.f2">Presentation plus a live FigJam whiteboard</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://pitch.com/public/661428a4-a1e7-497e-bdc3-8a4d059c2bde/b6b04baa-869f-41af-a9d9-cda1511e1682" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary">View presentation ↗</a>
-                            <a href="https://www.figma.com/file/ojunkCqeKDSm2wDNcFbv8N?node-id=0-1&type=whiteboard" target="_blank" rel="noopener noreferrer" class="project-link">Open FigJam board ↗</a>
+                            <a href="https://pitch.com/public/661428a4-a1e7-497e-bdc3-8a4d059c2bde/b6b04baa-869f-41af-a9d9-cda1511e1682" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary" data-i18n="pf.viewDeck">View presentation ↗</a>
+                            <a href="https://www.figma.com/file/ojunkCqeKDSm2wDNcFbv8N?node-id=0-1&type=whiteboard" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.figjam">Open FigJam board ↗</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 03 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-03">
                     <span class="accordion-num">03</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Green ETF Analysis — BNP Paribas</span>
-                        <span class="accordion-sub">Sustainable Finance · Corporate Project</span>
+                        <span class="accordion-title" data-i18n="p3.title">Green ETF Analysis — BNP Paribas</span>
+                        <span class="accordion-sub" data-i18n="p3.sub">Sustainable finance · Corporate project</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -399,44 +462,43 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/covers/Green_ETF_BNP_Paribas.png" alt="Green ETF analysis title slide" loading="lazy" decoding="async">
+                                <img src="assets/notion/covers/Green_ETF_BNP_Paribas.png" alt="Green ETF analysis" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    An investment analysis of the <strong>BNP Paribas Easy ECPI Circular Economy Leaders
-                                    UCITS ETF</strong>, presented as a pitch to a prospective investor. The fund tracks
-                                    companies that ECPI identifies as leaders in circular economy practice, which makes it a
-                                    useful place to ask the question that matters most in green finance: does the label
-                                    survive contact with the actual holdings?
+                                <p data-i18n="p3.b1">
+                                    An investment analysis of the BNP Paribas Easy ECPI Circular Economy Leaders UCITS
+                                    ETF, presented as a pitch to a prospective investor. The fund tracks companies ECPI
+                                    identifies as leaders in circular economy practice, which makes it a useful place to
+                                    ask the question that matters most in green finance: does the label survive contact
+                                    with the actual holdings?
                                 </p>
-                                <p>
+                                <p data-i18n="p3.b2">
                                     The analysis works through the screening methodology behind the index, what the fund
                                     holds as a result, and how it has performed — then weighs it on financial and
-                                    sustainability grounds together rather than treating them as separate scorecards.
-                                    It sits at the intersection I care about most: capital allocation as a sustainability
-                                    lever, not just a reporting exercise.
+                                    sustainability grounds together rather than as separate scorecards. It sits at the
+                                    intersection I care about most: capital allocation as a sustainability lever, not just
+                                    a reporting exercise.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Green finance · ESG screening · fund analysis</li>
-                                    <li><strong>Subject</strong> BNP Paribas Easy ECPI Circular Economy Leaders UCITS ETF</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p3.f1">Green finance · ESG screening · fund analysis</span></li>
+                                    <li><strong data-i18n="pf.subject">Subject</strong> <span>BNP Paribas Easy ECPI Circular Economy Leaders UCITS ETF</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/presentations/Green_ETF_BNP_Paribas.pdf" download class="project-link project-link--primary">⬇ Download analysis (PDF · 0.8 MB)</a>
-                            <a href="assets/notion/presentations/Green_ETF_BNP_Paribas.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/presentations/Green_ETF_BNP_Paribas.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlAnalysis">Download analysis</span> · 0.8 MB</a>
+                            <a href="assets/notion/presentations/Green_ETF_BNP_Paribas.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 04 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-04">
                     <span class="accordion-num">04</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Innovation in International Trade to Reduce Climate Impact</span>
-                        <span class="accordion-sub">Carbon Footprint · Supply Chain · Academic</span>
+                        <span class="accordion-title" data-i18n="p4.title">Innovation in International Trade to Reduce Climate Impact</span>
+                        <span class="accordion-sub" data-i18n="p4.sub">Carbon footprint · Supply chain · Academic</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -444,44 +506,43 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/covers/Innovation_international_trade.png" alt="Innovation in international trade title slide" loading="lazy" decoding="async">
+                                <img src="assets/notion/covers/Innovation_international_trade.png" alt="Innovation in international trade" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
+                                <p data-i18n="p4.b1">
                                     International trade is one of the hardest emissions problems there is: the goods move
-                                    because the economics say they should, and the emissions follow the ships, the ports and
-                                    the length of the supply chain. This project asks where innovation can genuinely cut that
-                                    footprint rather than simply move it somewhere less visible.
+                                    because the economics say they should, and the emissions follow the ships, the ports
+                                    and the length of the supply chain. This project asks where innovation can genuinely
+                                    cut that footprint rather than simply move it somewhere less visible.
                                 </p>
-                                <p>
-                                    It looks across the trade system — freight modes and routing, port and customs operations,
-                                    and how supply chains are designed in the first place — to identify the levers that
-                                    actually shift emissions at scale. It is the same problem space I went on to work in at
-                                    CEVA Logistics, inside the CSR team of a global freight operator.
+                                <p data-i18n="p4.b2">
+                                    It looks across the trade system — freight modes and routing, port and customs
+                                    operations, and how supply chains are designed in the first place — to identify the
+                                    levers that actually shift emissions at scale. It is the same problem space I went on
+                                    to work in at CEVA Logistics, inside the CSR team of a global freight operator.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Freight emissions · supply chain design · trade policy</li>
-                                    <li><strong>Team</strong> Daksh Mehta, Vedansha Soni, Fantin Suc, Jose Martini</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p4.f1">Freight emissions · supply chain design · trade policy</span></li>
+                                    <li><strong data-i18n="pf.team">Team</strong> <span>Daksh Mehta, Vedansha Soni, Fantin Suc, Jose Martini</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/presentations/Innovation_international_trade.pdf" download class="project-link project-link--primary">⬇ Download paper (PDF · 1.1 MB)</a>
-                            <a href="assets/notion/presentations/Innovation_international_trade.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/presentations/Innovation_international_trade.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlPaper">Download paper</span> · 1.1 MB</a>
+                            <a href="assets/notion/presentations/Innovation_international_trade.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <p class="accordion-group">Corporate strategy &amp; analysis</p>
+            <p class="accordion-group" data-i18n="pf.g2">Corporate strategy &amp; analysis</p>
 
-            <!-- 05 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-05">
                     <span class="accordion-num">05</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">SHEIN — Scenario Planning &amp; EU Strategy</span>
-                        <span class="accordion-sub">Market Strategy · Corporate Project</span>
+                        <span class="accordion-title" data-i18n="p5.title">SHEIN — Scenario Planning &amp; EU Strategy</span>
+                        <span class="accordion-sub" data-i18n="p5.sub">Market strategy · Corporate project</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -489,42 +550,41 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/covers/Shein_EU_strategy.png" alt="SHEIN scenario planning title slide" loading="lazy" decoding="async">
+                                <img src="assets/notion/covers/Shein_EU_strategy.png" alt="SHEIN scenario planning" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    A scenario-planning exercise on SHEIN's future in Europe. No consumer sector is under a
-                                    sharper sustainability squeeze than ultra-fast fashion — textile waste rules, incoming
-                                    due-diligence regulation, and a consumer conversation that has turned sceptical — and none
-                                    has grown faster in spite of it.
+                                <p data-i18n="p5.b1">
+                                    A scenario-planning exercise on SHEIN's future in Europe. No consumer sector is under
+                                    a sharper sustainability squeeze than ultra-fast fashion — textile waste rules,
+                                    incoming due-diligence regulation, and a consumer conversation that has turned
+                                    sceptical — and none has grown faster in spite of it.
                                 </p>
-                                <p>
-                                    Rather than committing to a single forecast, the deck builds out alternative futures for
-                                    the European market and tests which strategic choices hold up across all of them. That is
-                                    the useful discipline in scenario planning: it forces a strategy to be judged on
-                                    robustness rather than on how good the base case looks.
+                                <p data-i18n="p5.b2">
+                                    Rather than committing to a single forecast, the deck builds out alternative futures
+                                    for the European market and tests which strategic choices hold up across all of them.
+                                    That is the useful discipline in scenario planning: it forces a strategy to be judged
+                                    on robustness rather than on how good the base case looks.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Scenario planning · market entry · regulatory risk</li>
-                                    <li><strong>Format</strong> Group project, 12-page deck</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p5.f1">Scenario planning · market entry · regulatory risk</span></li>
+                                    <li><strong data-i18n="pf.format">Format</strong> <span data-i18n="p5.f2">Group project, 12-page deck</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/presentations/Shein_EU_strategy.pdf" download class="project-link project-link--primary">⬇ Download deck (PDF · 4.4 MB)</a>
-                            <a href="assets/notion/presentations/Shein_EU_strategy.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/presentations/Shein_EU_strategy.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlDeck2">Download deck</span> · 4.4 MB</a>
+                            <a href="assets/notion/presentations/Shein_EU_strategy.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 06 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-06">
                     <span class="accordion-num">06</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Bolivia Child Labour Analysis</span>
-                        <span class="accordion-sub">Social &amp; ESG · Academic</span>
+                        <span class="accordion-title" data-i18n="p6.title">Bolivia Child Labour Analysis</span>
+                        <span class="accordion-sub" data-i18n="p6.sub">Social &amp; ESG · Academic</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -535,37 +595,36 @@
                                 <span>🌍</span>
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    Sustainability conversations default to carbon, but the social pillar is where corporate
-                                    exposure is often most acute and least measured. This study examines child labour in
-                                    Bolivia — the economic conditions that sustain it, the policy and legal response, and the
-                                    gap between the two.
+                                <p data-i18n="p6.b1">
+                                    Sustainability conversations default to carbon, but the social pillar is where
+                                    corporate exposure is often most acute and least measured. This study examines child
+                                    labour in Bolivia — the economic conditions that sustain it, the policy and legal
+                                    response, and the gap between the two.
                                 </p>
-                                <p>
-                                    The relevance to corporate practice is direct: human rights due diligence across supply
-                                    chains is moving from voluntary reporting to legal obligation, and understanding why child
-                                    labour persists in a given economy is the difference between a policy that works and a
-                                    clause in a supplier contract that nobody enforces.
+                                <p data-i18n="p6.b2">
+                                    The relevance to corporate practice is direct: human rights due diligence across
+                                    supply chains is moving from voluntary reporting to legal obligation, and
+                                    understanding why child labour persists in a given economy is the difference between
+                                    a policy that works and a clause nobody enforces.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Social pillar of ESG · human rights due diligence</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p6.f1">Social pillar of ESG · human rights due diligence</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://www.canva.com/design/DAFwGIwxxp8/qiT4Rs7eLCvrGxvxck9Ung/edit" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary">View presentation ↗</a>
+                            <a href="https://www.canva.com/design/DAFwGIwxxp8/qiT4Rs7eLCvrGxvxck9Ung/edit" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary" data-i18n="pf.viewPres">View presentation ↗</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 07 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-07">
                     <span class="accordion-num">07</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Post-Sale Service Quality Check — Back Market</span>
-                        <span class="accordion-sub">Data Analysis · Corporate Project</span>
+                        <span class="accordion-title" data-i18n="p7.title">Post-Sale Service Quality Check — Back Market</span>
+                        <span class="accordion-sub" data-i18n="p7.sub">Data analysis · Corporate project</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -576,39 +635,38 @@
                                 <span>📊</span>
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    Back Market is Europe's largest marketplace for refurbished electronics, and its entire
-                                    environmental case rests on something unglamorous: whether customers trust that a
-                                    refurbished device will still be supported after they buy it. Extending a phone's life by
-                                    a few years is one of the highest-leverage things a consumer can do for their footprint,
-                                    but only if the after-sales experience holds.
+                                <p data-i18n="p7.b1">
+                                    Back Market is Europe's largest marketplace for refurbished electronics, and its
+                                    entire environmental case rests on something unglamorous: whether customers trust that
+                                    a refurbished device will still be supported after they buy it. Extending a phone's
+                                    life by a few years is one of the highest-leverage things a consumer can do for their
+                                    footprint — but only if the after-sales experience holds.
                                 </p>
-                                <p>
-                                    This workbook analyses post-sale service quality across that layer — structuring the raw
-                                    service data, building the quality checks, and reading what the results say about where
-                                    the experience breaks down. It is the quiet operational work that decides whether a
-                                    circular business model actually keeps devices in circulation.
+                                <p data-i18n="p7.b2">
+                                    This workbook analyses post-sale service quality across that layer: structuring the
+                                    raw service data, building the quality checks, and reading what the results say about
+                                    where the experience breaks down. It is the quiet operational work that decides
+                                    whether a circular business model actually keeps devices in circulation.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> After-sales quality · refurbished electronics · reuse</li>
-                                    <li><strong>Format</strong> Excel workbook</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p7.f1">After-sales quality · refurbished electronics · reuse</span></li>
+                                    <li><strong data-i18n="pf.format">Format</strong> <span data-i18n="p7.f2">Excel workbook</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://docs.google.com/file/d/12UGXc28VMVYewpSJ6W9g9pP57_Pdfhop/edit" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary">Open workbook ↗</a>
+                            <a href="https://docs.google.com/file/d/12UGXc28VMVYewpSJ6W9g9pP57_Pdfhop/edit" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary" data-i18n="pf.openWb">Open workbook ↗</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 08 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-08">
                     <span class="accordion-num">08</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">SWOT Analysis — Intel Data Center Manager</span>
-                        <span class="accordion-sub">Competitive Analysis · Corporate Project</span>
+                        <span class="accordion-title" data-i18n="p8.title">SWOT Analysis — Intel Data Center Manager</span>
+                        <span class="accordion-sub" data-i18n="p8.sub">Competitive analysis · Corporate project</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -619,37 +677,36 @@
                                 <span>🖥️</span>
                             </div>
                             <div class="project-detail-copy">
-                                <p>
+                                <p data-i18n="p8.b1">
                                     Intel Data Center Manager is software for monitoring power, thermals and utilisation
-                                    across a data centre estate. This is a strategic SWOT of the product: its strengths and
-                                    weaknesses as a platform, the competitive pressure around it, and where the opportunity
-                                    and threat actually sit.
+                                    across a data centre estate. This is a strategic SWOT of the product: its strengths
+                                    and weaknesses as a platform, the competitive pressure around it, and where the
+                                    opportunity and threat actually sit.
                                 </p>
-                                <p>
-                                    The sustainability angle is not incidental. Data centre electricity consumption is both a
-                                    major operating cost and a fast-growing share of ICT emissions, which means energy
-                                    efficiency has quietly become a commercial argument rather than a compliance one — and
-                                    that reframing is what makes the category interesting.
+                                <p data-i18n="p8.b2">
+                                    The sustainability angle is not incidental. Data centre electricity consumption is
+                                    both a major operating cost and a fast-growing share of ICT emissions, which means
+                                    energy efficiency has quietly become a commercial argument rather than a compliance
+                                    one — and that reframing is what makes the category interesting.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Competitive positioning · data centre energy efficiency</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p8.f1">Competitive positioning · data centre energy efficiency</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://www.canva.com/design/DAFyHvwtEtE/mtJn-yLGLVZjaBWHSWJMBQ/view" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary">View presentation ↗</a>
+                            <a href="https://www.canva.com/design/DAFyHvwtEtE/mtJn-yLGLVZjaBWHSWJMBQ/view" target="_blank" rel="noopener noreferrer" class="project-link project-link--primary" data-i18n="pf.viewPres">View presentation ↗</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 09 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-09">
                     <span class="accordion-num">09</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Strategy Implementation — Amazon &amp; Samsung</span>
-                        <span class="accordion-sub">Consulting · Strategic Management · Academic</span>
+                        <span class="accordion-title" data-i18n="p9.title">Strategy Implementation — Amazon &amp; Samsung</span>
+                        <span class="accordion-sub" data-i18n="p9.sub">Consulting · Strategic management · Academic</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -657,47 +714,46 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/covers/Strategy_implementation.png" alt="Strategy implementation title slide" loading="lazy" decoding="async">
+                                <img src="assets/notion/covers/Strategy_implementation.png" alt="Strategy implementation" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
+                                <p data-i18n="p9.b1">
                                     Strategies rarely fail on the whiteboard; they fail in execution. This project takes
-                                    implementation seriously as its own phase of the strategic management process — the point
-                                    where ideas have to convert into tangible actions and outcomes — and sets out six factors
-                                    that determine whether that conversion works: clear communication, careful planning,
-                                    resources, evaluation, flexibility and collaboration.
+                                    implementation seriously as its own phase of the strategic management process — the
+                                    point where ideas convert into tangible actions and outcomes — and sets out six
+                                    factors that determine whether that conversion works: clear communication, careful
+                                    planning, resources, evaluation, flexibility and collaboration.
                                 </p>
-                                <p>
-                                    Those six are then tested against real companies. Samsung serves as the cautionary case,
-                                    where a lack of testing, poor communication and a failure to learn from previous mistakes
-                                    undermined execution. Amazon is the counterweight — investment in technology innovation, a
-                                    diversified patent portfolio, the "Alexa Everywhere" rollout, AWS as the engine of
-                                    operating income, and a pattern of partnerships and logistics integration that turned
-                                    strategy into infrastructure.
+                                <p data-i18n="p9.b2">
+                                    Those six are then tested against real companies. Samsung serves as the cautionary
+                                    case, where a lack of testing, poor communication and a failure to learn from previous
+                                    mistakes undermined execution. Amazon is the counterweight — investment in technology
+                                    innovation, a diversified patent portfolio, the Alexa Everywhere rollout, AWS as the
+                                    engine of operating income, and a pattern of partnerships and logistics integration
+                                    that turned strategy into infrastructure.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Focus</strong> Execution · change management · case analysis</li>
-                                    <li><strong>Team</strong> Salena Bacar, Clementine Damide, Junjie Liao, William Koncevich, Daksh Mehta, Luana Saintot</li>
+                                    <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p9.f1">Execution · change management · case analysis</span></li>
+                                    <li><strong data-i18n="pf.team">Team</strong> <span>Salena Bacar, Clementine Damide, Junjie Liao, William Koncevich, Daksh Mehta, Luana Saintot</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/presentations/Strategy_implementation.pdf" download class="project-link project-link--primary">⬇ Download deck (PDF · 1.8 MB)</a>
-                            <a href="assets/notion/presentations/Strategy_implementation.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/presentations/Strategy_implementation.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlDeck2">Download deck</span> · 1.8 MB</a>
+                            <a href="assets/notion/presentations/Strategy_implementation.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <p class="accordion-group">Design &amp; creative</p>
+            <p class="accordion-group" data-i18n="pf.g3">Design &amp; creative</p>
 
-            <!-- 10 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-10">
                     <span class="accordion-num">10</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Restaurant Menu Card — Restaurant Bharati</span>
-                        <span class="accordion-sub">Graphic Design · Hospitality</span>
+                        <span class="accordion-title" data-i18n="p10.title">Restaurant Menu Card — Restaurant Bharati</span>
+                        <span class="accordion-sub" data-i18n="p10.sub">Graphic design · Hospitality</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -705,40 +761,39 @@
                     <div class="accordion-body-inner">
                         <div class="project-detail">
                             <div class="project-detail-media">
-                                <img src="assets/notion/covers/Menu_Card.png" alt="Restaurant Bharati menu cover" loading="lazy" decoding="async">
+                                <img src="assets/notion/covers/Menu_Card.png" alt="Restaurant Bharati menu" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    A complete eight-page menu designed for Restaurant Bharati — cover through to the final
-                                    course, with the layout, typography, photography and print-ready artwork all handled
+                                <p data-i18n="p10.b1">
+                                    A complete eight-page menu designed for Restaurant Bharati — cover through to the
+                                    final course, with layout, typography, photography and print-ready artwork all handled
                                     end to end.
                                 </p>
-                                <p>
-                                    Menu design is a deceptively strict brief: every page has to stay readable in low light,
-                                    hold a consistent visual identity across very different course types, and put the right
-                                    dishes where the eye lands first. It is a useful counterweight to strategy work, because
-                                    the constraints are physical and the feedback is immediate.
+                                <p data-i18n="p10.b2">
+                                    Menu design is a deceptively strict brief: every page has to stay readable in low
+                                    light, hold a consistent identity across very different course types, and put the
+                                    right dishes where the eye lands first. A useful counterweight to strategy work — the
+                                    constraints are physical and the feedback is immediate.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Scope</strong> Eight pages · layout, typography, print-ready artwork</li>
+                                    <li><strong data-i18n="pf.scope">Scope</strong> <span data-i18n="p10.f1">Eight pages · layout, typography, print-ready artwork</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/graphic-design/Menu_Card.pdf" download class="project-link project-link--primary">⬇ Download design (PDF · 4.7 MB)</a>
-                            <a href="assets/notion/graphic-design/Menu_Card.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/graphic-design/Menu_Card.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlDesign">Download design</span> · 4.7 MB</a>
+                            <a href="assets/notion/graphic-design/Menu_Card.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <!-- 11 -->
             <article class="accordion-item">
                 <button class="accordion-head" type="button" aria-expanded="false" aria-controls="proj-11">
                     <span class="accordion-num">11</span>
                     <span class="accordion-titles">
-                        <span class="accordion-title">Dessert Card — French Edition</span>
-                        <span class="accordion-sub">Graphic Design · Hospitality · FR</span>
+                        <span class="accordion-title" data-i18n="p11.title">Dessert Card — French Edition</span>
+                        <span class="accordion-sub" data-i18n="p11.sub">Graphic design · Hospitality · FR</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -749,24 +804,24 @@
                                 <img src="assets/notion/covers/Dessert_card_FR.png" alt="French dessert card" loading="lazy" decoding="async">
                             </div>
                             <div class="project-detail-copy">
-                                <p>
-                                    A companion dessert card in French for the same restaurant, presenting house-made Indian
-                                    desserts — kulfi, burfi, gulab jamun, suji halwa — to a French audience.
+                                <p data-i18n="p11.b1">
+                                    A companion dessert card in French for the same restaurant, presenting house-made
+                                    Indian desserts — kulfi, burfi, gulab jamun, suji halwa — to a French audience.
                                 </p>
-                                <p>
-                                    The interesting constraint here is translation in both senses. The visual system has to
-                                    survive a change of language and format, and the dishes themselves have to read as
+                                <p data-i18n="p11.b2">
+                                    The interesting constraint here is translation in both senses. The visual system has
+                                    to survive a change of language and format, and the dishes themselves have to read as
                                     appealing to diners who may never have encountered them, without flattening what they
                                     actually are.
                                 </p>
                                 <ul class="project-facts">
-                                    <li><strong>Scope</strong> Two pages · bilingual visual system</li>
+                                    <li><strong data-i18n="pf.scope">Scope</strong> <span data-i18n="p11.f1">Two pages · bilingual visual system</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="assets/notion/graphic-design/Dessert_card_FR.pdf" download class="project-link project-link--primary">⬇ Download design (PDF · 0.4 MB)</a>
-                            <a href="assets/notion/graphic-design/Dessert_card_FR.pdf" target="_blank" rel="noopener noreferrer" class="project-link">View in browser</a>
+                            <a href="assets/notion/graphic-design/Dessert_card_FR.pdf" download class="project-link project-link--primary"><span aria-hidden="true">↓</span>&nbsp;<span data-i18n="pf.dlDesign">Download design</span> · 0.4 MB</a>
+                            <a href="assets/notion/graphic-design/Dessert_card_FR.pdf" target="_blank" rel="noopener noreferrer" class="project-link" data-i18n="pf.view">View in browser</a>
                         </div>
                     </div>
                 </div>
@@ -776,268 +831,205 @@
 
     </div>
 
-    <!-- ---------- PANEL : HOBBIES ---------- -->
-
     <div class="portfolio-panel" id="tab-hobbies" role="tabpanel" aria-labelledby="tabbtn-hobbies" hidden>
 
-        <p class="panel-note">
-            Chess, the gym and a passport that gets used.
+        <p class="panel-note" data-i18n="pf.hobbiesNote">
+            Chess, the gym and a passport that gets used. I also organised a charitable chess
+            tournament that raised funds for the Animal and Bird Welfare Society.
         </p>
 
         <div class="hobby-strip">
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/chess-1.gif" target="_blank" rel="noopener noreferrer">
                     <img src="assets/notion/hobbies/chess-1.gif" alt="Playing chess" loading="lazy" decoding="async">
                 </a>
-                <figcaption>♟️ Chess</figcaption>
+                <figcaption data-i18n="hob.chess">♟ Chess</figcaption>
             </figure>
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/chess-2.gif" target="_blank" rel="noopener noreferrer">
                     <img src="assets/notion/hobbies/chess-2.gif" alt="Playing chess" loading="lazy" decoding="async">
                 </a>
-                <figcaption>♟️ Chess</figcaption>
+                <figcaption data-i18n="hob.chess">♟ Chess</figcaption>
             </figure>
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/fitness-1.gif" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/notion/hobbies/fitness-1.gif" alt="Training in the gym" loading="lazy" decoding="async">
+                    <img src="assets/notion/hobbies/fitness-1.gif" alt="Training" loading="lazy" decoding="async">
                 </a>
-                <figcaption>🏋️‍♂️ Fitness</figcaption>
+                <figcaption data-i18n="hob.fitness">🏋 Fitness</figcaption>
             </figure>
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/fitness-2.gif" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/notion/hobbies/fitness-2.gif" alt="Training in the gym" loading="lazy" decoding="async">
+                    <img src="assets/notion/hobbies/fitness-2.gif" alt="Training" loading="lazy" decoding="async">
                 </a>
-                <figcaption>🏋️‍♂️ Fitness</figcaption>
+                <figcaption data-i18n="hob.fitness">🏋 Fitness</figcaption>
             </figure>
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/IMG_1334_Original.jpeg" target="_blank" rel="noopener noreferrer">
                     <img src="assets/notion/hobbies/IMG_1334_Original.jpeg" alt="Travelling" loading="lazy" decoding="async">
                 </a>
-                <figcaption>✈️ Travelling</figcaption>
+                <figcaption data-i18n="hob.travel">✈ Travelling</figcaption>
             </figure>
-
             <figure class="hobby-item">
                 <a href="assets/notion/hobbies/IMG_6795.jpeg" target="_blank" rel="noopener noreferrer">
                     <img src="assets/notion/hobbies/IMG_6795.jpeg" alt="Travelling" loading="lazy" decoding="async">
                 </a>
-                <figcaption>✈️ Travelling</figcaption>
+                <figcaption data-i18n="hob.travel">✈ Travelling</figcaption>
             </figure>
-
         </div>
 
     </div>
 
 </section>
 
-<!-- ================= FEATURED LINKEDIN POSTS ================= -->
+<!-- ================= LINKEDIN INSIGHTS ================= -->
 
-<section id="linkedin-posts" class="insights-section">
+<section id="insights" class="insights-section">
 
-    <h2>Featured LinkedIn Insights</h2>
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="li.kicker">Insights</p>
+        <h2 data-i18n="li.title">Featured on LinkedIn</h2>
+        <p class="section-sub" data-i18n="li.sub">Live posts, loaded straight from LinkedIn.</p>
+    </div>
 
-    <p class="section-subtitle">
-        My latest thoughts, analyses, and leadership updates on Sustainability, AI, and ESG.
-    </p>
+    <div class="insights-grid">
 
-    <div class="insights-container">
+        <article class="insight-card">
+            <span class="insight-tag" data-i18n="li.tag1">Day 20 of 30 · Carbon footprint</span>
+            <h3 data-i18n="li.h1">Is your daily grind hurting the planet? Meet Ron.</h3>
+            <p class="insight-snippet" data-i18n="li.s1">We all know Ron. He cruises through the 9-to-5, loves a good BBQ and grabs single-use plastics on the go — around 6 tonnes of CO₂ a year. Here is how Ron, and you, can change that with a few everyday tweaks.</p>
+            <div class="li-embed">
+                <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7200042921897639938"
+                        height="470" width="100%" frameborder="0" allowfullscreen
+                        title="LinkedIn post: carbon footprint" loading="lazy"></iframe>
+            </div>
+            <a class="insight-fallback" href="https://www.linkedin.com/feed/update/urn:li:activity:7200042921897639938/"
+               target="_blank" rel="noopener noreferrer" data-i18n="li.open">Open on LinkedIn ↗</a>
+        </article>
 
-        <div class="insights-grid">
+        <article class="insight-card">
+            <span class="insight-tag" data-i18n="li.tag2">Day 30 of 30 · Corporate CSR</span>
+            <h3 data-i18n="li.h2">Sustainability in action at CEVA Logistics</h3>
+            <p class="insight-snippet" data-i18n="li.s2">A quarter of all global emissions come from transport. For a month I worked alongside CEVA Logistics' CSR team at global headquarters on building a more sustainable logistics network.</p>
+            <div class="li-embed">
+                <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7207298248997269504"
+                        height="470" width="100%" frameborder="0" allowfullscreen
+                        title="LinkedIn post: CEVA Logistics" loading="lazy"></iframe>
+            </div>
+            <a class="insight-fallback" href="https://www.linkedin.com/feed/update/urn:li:activity:7207298248997269504/"
+               target="_blank" rel="noopener noreferrer" data-i18n="li.open">Open on LinkedIn ↗</a>
+        </article>
 
-            <!-- Post Card 1 -->
-            <article class="insight-card">
-                <div class="insight-header">
-                    <div class="insight-author">
-                        <img src="assets/logos/profile picture.avif" alt="Daksh Mehta">
-                        <div>
-                            <h4>Daksh Mehta</h4>
-                            <span>Sustainability • AI • ESG • Strategy</span>
-                        </div>
-                    </div>
-                    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7200042921897639938/" target="_blank" rel="noopener noreferrer" class="insight-linkedin-badge" aria-label="View Post on LinkedIn">
-                        <img src="assets/linkedin-icon-2.svg" alt="LinkedIn">
-                    </a>
-                </div>
+        <article class="insight-card">
+            <span class="insight-tag" data-i18n="li.tag3">Day 26 of 30 · Scope 1, 2 &amp; 3</span>
+            <h3 data-i18n="li.h3">Did you know your coffee creates carbon?</h3>
+            <p class="insight-snippet" data-i18n="li.s3">From bean to brew, your coffee carries a greenhouse gas footprint: Scope 1 from roasting and transport, Scope 2 from hidden electricity use, Scope 3 from packaging, waste and creamer.</p>
+            <div class="li-embed">
+                <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7205848676588515328"
+                        height="470" width="100%" frameborder="0" allowfullscreen
+                        title="LinkedIn post: GHG scopes" loading="lazy"></iframe>
+            </div>
+            <a class="insight-fallback" href="https://www.linkedin.com/posts/mehtadaksh_sustainability-climatechange-ghg-activity-7205848676588515328-BCAx"
+               target="_blank" rel="noopener noreferrer" data-i18n="li.open">Open on LinkedIn ↗</a>
+        </article>
 
-                <div class="insight-body">
-                    <span class="insight-tag">Day 20 of 30 • Carbon Footprint</span>
-                    <h3 class="insight-title">Is Your Daily Grind Hurting the Planet? Meet Ron!</h3>
-                    <p class="insight-snippet">
-                        Let's face it, we all know Ron. He cruises through the 9-to-5, loves a good BBQ, and grabs single-use plastics on the go. Ron's everyday choices create a whopping 6 tonnes of CO2 a year! But wait, there's hope! Here is how Ron (and you!) can be a champion for the planet with a few simple everyday tweaks...
-                    </p>
-                </div>
+    </div>
 
-                <div class="insight-footer">
-                    <div class="insight-metrics">
-                        <span>🌱 30-Day Challenge</span>
-                        <span>💡 Small Steps Big Impact</span>
-                    </div>
-                    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7200042921897639938/" target="_blank" rel="noopener noreferrer" class="insight-link-btn">
-                        Read on LinkedIn ↗
-                    </a>
-                </div>
-            </article>
-
-            <!-- Post Card 2 -->
-            <article class="insight-card">
-                <div class="insight-header">
-                    <div class="insight-author">
-                        <img src="assets/logos/profile picture.avif" alt="Daksh Mehta">
-                        <div>
-                            <h4>Daksh Mehta</h4>
-                            <span>Sustainability • AI • ESG • Strategy</span>
-                        </div>
-                    </div>
-                    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7207298248997269504/" target="_blank" rel="noopener noreferrer" class="insight-linkedin-badge" aria-label="View Post on LinkedIn">
-                        <img src="assets/linkedin-icon-2.svg" alt="LinkedIn">
-                    </a>
-                </div>
-
-                <div class="insight-body">
-                    <span class="insight-tag">Day 30 of 30 • Corporate CSR & Logistics</span>
-                    <h3 class="insight-title">The Power of Sustainability in Action at CEVA Logistics</h3>
-                    <p class="insight-snippet">
-                        This marks the end of my 30-day challenge! Did you know a quarter of all global emissions come from the transport industry? For the past month, I've collaborated with CEVA Logistics' CSR team at global headquarters to build a more sustainable logistics network for the future...
-                    </p>
-                </div>
-
-                <div class="insight-footer">
-                    <div class="insight-metrics">
-                        <span>🌱 30-Day Challenge</span>
-                        <span>📦 CMA CGM Group</span>
-                    </div>
-                    <a href="https://www.linkedin.com/feed/update/urn:li:activity:7207298248997269504/" target="_blank" rel="noopener noreferrer" class="insight-link-btn">
-                        Read on LinkedIn ↗
-                    </a>
-                </div>
-            </article>
-
-            <!-- Post Card 3 -->
-            <article class="insight-card">
-                <div class="insight-header">
-                    <div class="insight-author">
-                        <img src="assets/logos/profile picture.avif" alt="Daksh Mehta">
-                        <div>
-                            <h4>Daksh Mehta</h4>
-                            <span>Sustainability • AI • ESG • Strategy</span>
-                        </div>
-                    </div>
-                    <a href="https://www.linkedin.com/posts/mehtadaksh_sustainability-climatechange-ghg-activity-7205848676588515328-BCAx" target="_blank" rel="noopener noreferrer" class="insight-linkedin-badge" aria-label="View Post on LinkedIn">
-                        <img src="assets/linkedin-icon-2.svg" alt="LinkedIn">
-                    </a>
-                </div>
-
-                <div class="insight-body">
-                    <span class="insight-tag">Day 26 of 30 • Scope 1, 2 & 3 Emissions</span>
-                    <h3 class="insight-title">Did You Know Your Coffee Creates Carbon? 3 Types of GHG Emissions</h3>
-                    <p class="insight-snippet">
-                        From bean to brew, our daily dose of caffeine comes with a greenhouse gas footprint. Let's unravel the GHG journey of our favorite cup: Scope 1 (Direct emissions from roasting & transport), Scope 2 (Hidden electricity use), and Scope 3 (Packaging, waste & creamer footprint)...
-                    </p>
-                </div>
-
-                <div class="insight-footer">
-                    <div class="insight-metrics">
-                        <span>🌱 30-Day Challenge</span>
-                        <span>☕ GHG Breakdown</span>
-                    </div>
-                    <a href="https://www.linkedin.com/posts/mehtadaksh_sustainability-climatechange-ghg-activity-7205848676588515328-BCAx" target="_blank" rel="noopener noreferrer" class="insight-link-btn">
-                        Read on LinkedIn ↗
-                    </a>
-                </div>
-            </article>
-
-        </div>
-
-        <div class="insights-cta">
-            <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer" class="button button--linkedin-cta">
-                <img src="assets/linkedin-icon-2.svg" alt="LinkedIn" style="width:20px;height:20px;vertical-align:middle;margin-right:8px;filter:brightness(0) invert(1);">
-                View All Posts & Connect on LinkedIn ↗
-            </a>
-        </div>
-
+    <div class="insights-cta">
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
+           class="button button--linkedin">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="20" height="20">
+            <span data-i18n="li.follow">Follow me on LinkedIn</span>
+        </a>
     </div>
 
 </section>
 
 <!-- ================= CONTACT ================= -->
 
-<section id="contact">
-
-    <h2>Let's Connect</h2>
+<section id="contact" class="contact-section">
 
     <div class="contact-card">
 
-        <p>
-
-            📧
-
-            <a href="mailto:Dakshmehta077@gmail.com">
-
-                Dakshmehta077@gmail.com
-
-            </a>
-
+        <p class="section-kicker" data-i18n="ct.kicker">Contact</p>
+        <h2 data-i18n="ct.title">Let's talk sustainability</h2>
+        <p class="contact-lede" data-i18n="ct.lede">
+            Open to conversations about CSR and ESG programmes, reporting and certifications,
+            or anything at the intersection of sustainability and data.
         </p>
 
-        <p>
-
-            💼
-
-            <a href="https://www.linkedin.com/in/mehtadaksh"
-               target="_blank">
-
-                linkedin.com/in/mehtadaksh
-
+        <div class="contact-links">
+            <a href="mailto:Dakshmehta077@gmail.com" class="contact-link">
+                <span class="contact-icon" aria-hidden="true">✉</span>
+                <span class="contact-text">
+                    <strong data-i18n="ct.email">Email</strong>
+                    Dakshmehta077@gmail.com
+                </span>
             </a>
-
-        </p>
+            <a href="https://www.linkedin.com/in/mehtadaksh" target="_blank" rel="noopener noreferrer" class="contact-link">
+                <span class="contact-icon" aria-hidden="true">in</span>
+                <span class="contact-text">
+                    <strong>LinkedIn</strong>
+                    linkedin.com/in/mehtadaksh
+                </span>
+            </a>
+            <div class="contact-link contact-link--static">
+                <span class="contact-icon" aria-hidden="true">◉</span>
+                <span class="contact-text">
+                    <strong data-i18n="ct.based">Based in</strong>
+                    Paris, France
+                </span>
+            </div>
+        </div>
 
     </div>
 
 </section>
 
+</main>
+
+<footer class="site-footer">
+    <p>© <span id="year">2026</span> Daksh Mehta</p>
+    <p data-i18n="footer.note">CSR · ESG · Sustainability project management</p>
+</footer>
+
 <!-- ================= CV DOWNLOAD MODAL ================= -->
-<div class="cv-modal-backdrop hidden" id="cv-modal">
+<div class="cv-modal-backdrop hidden" id="cv-modal" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
     <div class="cv-modal-box">
-        <button type="button" class="cv-modal-close" id="close-cv-modal" aria-label="Close Modal">✕</button>
+        <button type="button" class="cv-modal-close" id="close-cv-modal" aria-label="Close">✕</button>
         <div class="cv-modal-header">
-            <div class="cv-modal-icon">📄</div>
-            <h3>Download Curriculum Vitae</h3>
-            <p>Please enter your details below to download Daksh Mehta's CV and receive a copy via email.</p>
+            <div class="cv-modal-icon" aria-hidden="true">↓</div>
+            <h3 id="cv-modal-title" data-i18n="cv.title">Download my CV</h3>
+            <p data-i18n="cv.sub">Leave your details and the download starts straight away.</p>
         </div>
         <form id="cv-download-form" class="cv-form">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="first-name">First Name *</label>
-                    <input type="text" id="first-name" name="first_name" required placeholder="John">
+                    <label for="first-name" data-i18n="cv.first">First name</label>
+                    <input type="text" id="first-name" name="first_name" required placeholder="John" autocomplete="given-name">
                 </div>
                 <div class="form-group">
-                    <label for="last-name">Last Name *</label>
-                    <input type="text" id="last-name" name="last_name" required placeholder="Doe">
+                    <label for="last-name" data-i18n="cv.last">Last name</label>
+                    <input type="text" id="last-name" name="last_name" required placeholder="Doe" autocomplete="family-name">
                 </div>
             </div>
             <div class="form-group">
-                <label for="work-email">Professional Email ID *</label>
-                <input type="email" id="work-email" name="work_email" required placeholder="john.doe@company.com">
+                <label for="work-email" data-i18n="cv.emailLabel">Professional email</label>
+                <input type="email" id="work-email" name="work_email" required placeholder="john.doe@company.com" autocomplete="email">
             </div>
-            <button type="submit" class="button button--submit">
-                Request & Download CV
-            </button>
-            <p class="form-disclaimer">🔒 Your information is confidential and used strictly to share my professional profile.</p>
+            <button type="submit" class="button button--submit" data-i18n="cv.submit">Download CV</button>
+            <p class="form-disclaimer" data-i18n="cv.privacy">Your details stay in your browser — nothing is sent anywhere.</p>
         </form>
         <div id="cv-success-msg" class="cv-success hidden">
-            <div class="success-icon">✨</div>
-            <h4>Thank You!</h4>
-            <p>Your CV download has started automatically. If you have automated email delivery configured, a copy has also been sent to your inbox.</p>
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <h4 data-i18n="cv.thanks">Thank you</h4>
+            <p data-i18n="cv.started">Your download has started. If it didn't, use the link below.</p>
+            <a href="assets/CV_Daksh_2026.pdf" download class="project-link project-link--primary" data-i18n="cv.direct">Download directly</a>
         </div>
     </div>
 </div>
 
-<script src="script.js?v=19"></script>
+<script src="i18n.js?v=24"></script>
+<script src="script.js?v=24"></script>
 
 </body>
 
