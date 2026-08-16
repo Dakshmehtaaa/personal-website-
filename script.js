@@ -1,409 +1,323 @@
 /* ======================================
-   Smooth Scrolling
+   Theme (light / dark)
 ====================================== */
+(function () {
 
-document.querySelectorAll('nav a, .button').forEach(link => {
+    const root = document.documentElement;
+    const toggle = document.getElementById('theme-toggle');
+    const meta = document.querySelector('meta[name="theme-color"]');
 
-    link.addEventListener('click', e => {
+    const paintMeta = theme => {
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0c1512' : '#ffffff');
+    };
 
-        const href = link.getAttribute('href');
+    paintMeta(root.getAttribute('data-theme'));
 
-        if (!href || !href.startsWith('#')) return;
+    if (!toggle) return;
 
-        const target = document.querySelector(href);
+    toggle.addEventListener('click', () => {
 
-        if (!target) return;
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
 
-        e.preventDefault();
+        root.setAttribute('data-theme', next);
+        paintMeta(next);
 
-        target.scrollIntoView({
+        try { localStorage.setItem('theme', next); } catch (e) { /* storage blocked */ }
 
-            behavior: 'smooth'
+    });
+
+    // Follow the OS only while the visitor hasn't chosen for themselves
+    const query = window.matchMedia('(prefers-color-scheme: dark)');
+
+    query.addEventListener('change', event => {
+
+        let stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) { /* storage blocked */ }
+
+        if (stored) return;
+
+        const next = event.matches ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        paintMeta(next);
+
+    });
+
+})();
+
+
+/* ======================================
+   Language (EN / FR)
+====================================== */
+(function () {
+
+    const root = document.documentElement;
+    const buttons = Array.from(document.querySelectorAll('.lang-btn'));
+    const dictionary = (window.TRANSLATIONS || {});
+
+    if (!buttons.length) return;
+
+    // Capture the English source straight from the markup so we can switch back
+    const english = {};
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        english[element.dataset.i18n] = element.innerHTML;
+    });
+
+    const apply = lang => {
+
+        const table = lang === 'en' ? english : (dictionary[lang] || {});
+
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+
+            const value = table[element.dataset.i18n];
+
+            if (typeof value === 'string') element.innerHTML = value;
+            else if (lang !== 'en' && english[element.dataset.i18n] !== undefined) {
+                element.innerHTML = english[element.dataset.i18n];
+            }
+
+        });
+
+        root.setAttribute('lang', lang);
+
+        buttons.forEach(button => {
+            const isActive = button.dataset.lang === lang;
+            button.classList.toggle('active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+        });
+
+    };
+
+    buttons.forEach(button => {
+
+        button.addEventListener('click', () => {
+
+            const lang = button.dataset.lang;
+
+            apply(lang);
+
+            try { localStorage.setItem('lang', lang); } catch (e) { /* storage blocked */ }
 
         });
 
     });
 
-});
+    // The inline head script already set <html lang>; honour it now that the DOM is ready
+    apply(root.getAttribute('lang') === 'fr' ? 'fr' : 'en');
 
+})();
 
 
 /* ======================================
-   Floating Navbar (Optimized with rAF)
+   Navigation — scroll state, burger, active link
 ====================================== */
-const nav = document.querySelector('nav');
-if (nav) {
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
+(function () {
+
+    const nav = document.querySelector('nav');
+    const burger = document.getElementById('nav-burger');
+    const links = document.getElementById('nav-links');
+
+    if (nav) {
+
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+
+            if (ticking) return;
+
+            ticking = true;
+
             window.requestAnimationFrame(() => {
-                if (window.scrollY > 60) {
-                    if (!nav.classList.contains('scrolled')) nav.classList.add('scrolled');
-                } else {
-                    if (nav.classList.contains('scrolled')) nav.classList.remove('scrolled');
-                }
+                nav.classList.toggle('scrolled', window.scrollY > 40);
                 ticking = false;
             });
-            ticking = true;
-        }
-    }, { passive: true });
-}
 
-
-/* ======================================
-   Professional Journey Carousel
-====================================== */
-
-const journeyCarousel = document.querySelector('[data-journey-carousel]');
-
-if (journeyCarousel) {
-
-    const track = journeyCarousel.querySelector('.journey-track');
-    const pages = Array.from(journeyCarousel.querySelectorAll('.journey-page'));
-    const previousButton = journeyCarousel.querySelector('.journey-arrow--prev');
-    const nextButton = journeyCarousel.querySelector('.journey-arrow--next');
-    const dots = Array.from(document.querySelectorAll('.journey-dot'));
-    const viewport = journeyCarousel.querySelector('.journey-viewport');
-    let currentPage = 0;
-    let pointerStartX = 0;
-
-    journeyCarousel.setAttribute('tabindex', '0');
-
-    const showPage = index => {
-
-        if (!track || pages.length === 0) return;
-
-        currentPage = (index + pages.length) % pages.length;
-
-        track.style.transform = `translate3d(-${currentPage * 100}%,0,0)`;
-
-        pages.forEach((page, pageIndex) => {
-
-            const isActive = pageIndex === currentPage;
-
-            page.classList.toggle('active', isActive);
-
-            page.setAttribute('aria-hidden', String(!isActive));
-
-        });
-
-        dots.forEach((dot, dotIndex) => {
-
-            const isActive = dotIndex === currentPage;
-
-            dot.classList.toggle('active', isActive);
-
-            dot.setAttribute('aria-selected', String(isActive));
-
-        });
-
-    };
-
-    previousButton?.addEventListener('click', () => {
-
-        showPage(currentPage - 1);
-
-    });
-
-    nextButton?.addEventListener('click', () => {
-
-        showPage(currentPage + 1);
-
-    });
-
-    dots.forEach((dot, dotIndex) => {
-
-        dot.addEventListener('click', () => {
-
-            showPage(dotIndex);
-
-        });
-
-    });
-
-    journeyCarousel.addEventListener('keydown', event => {
-
-        if (event.key === 'ArrowLeft') {
-
-            event.preventDefault();
-
-            showPage(currentPage - 1);
-
-        }
-
-        if (event.key === 'ArrowRight') {
-
-            event.preventDefault();
-
-            showPage(currentPage + 1);
-
-        }
-
-    });
-
-    viewport?.addEventListener('pointerdown', event => {
-
-        pointerStartX = event.clientX;
-
-    });
-
-    viewport?.addEventListener('pointerup', event => {
-
-        const distance = event.clientX - pointerStartX;
-
-        if (Math.abs(distance) < 45) return;
-
-        showPage(currentPage + (distance < 0 ? 1 : -1));
-
-    });
-
-    showPage(0);
-
-}
-
-
-/* ======================================
-   Portfolio Tabs & Project Accordion
-====================================== */
-
-const portfolioTabs = Array.from(document.querySelectorAll('.portfolio-tab'));
-
-if (portfolioTabs.length) {
-
-    const panels = Array.from(document.querySelectorAll('.portfolio-panel'));
-
-    const showTab = targetId => {
-
-        portfolioTabs.forEach(tab => {
-
-            const isActive = tab.dataset.tabTarget === targetId;
-
-            tab.classList.toggle('active', isActive);
-
-            tab.setAttribute('aria-selected', String(isActive));
-
-        });
-
-        panels.forEach(panel => {
-
-            const isActive = panel.id === targetId;
-
-            panel.classList.toggle('active', isActive);
-
-            panel.hidden = !isActive;
-
-        });
-
-    };
-
-    portfolioTabs.forEach(tab => {
-
-        tab.addEventListener('click', () => {
-
-            showTab(tab.dataset.tabTarget);
-
-        });
-
-    });
-
-}
-
-const accordionHeads = Array.from(document.querySelectorAll('.accordion-head'));
-
-accordionHeads.forEach(head => {
-
-    head.addEventListener('click', () => {
-
-        const item = head.closest('.accordion-item');
-
-        if (!item) return;
-
-        const isOpen = item.classList.contains('open');
-
-        // Only one project open at a time
-        accordionHeads.forEach(other => {
-
-            const otherItem = other.closest('.accordion-item');
-
-            if (!otherItem || otherItem === item) return;
-
-            otherItem.classList.remove('open');
-
-            other.setAttribute('aria-expanded', 'false');
-
-        });
-
-        item.classList.toggle('open', !isOpen);
-
-        head.setAttribute('aria-expanded', String(!isOpen));
-
-    });
-
-});
-
-
-/* ======================================
-   Cursor Glow
-====================================== */
-
-const glow = document.createElement('div');
-
-glow.className = 'cursor-glow';
-
-glow.style.opacity = '0';
-
-document.body.appendChild(glow);
-
-let mouseX = window.innerWidth / 2;
-
-let mouseY = window.innerHeight / 2;
-
-let glowX = mouseX;
-
-let glowY = mouseY;
-
-let isVisible = false;
-
-window.addEventListener('mousemove', e => {
-
-    if (!isVisible) {
-
-        isVisible = true;
-
-        glow.style.opacity = '1';
-
-        glowX = e.clientX;
-
-        glowY = e.clientY;
+        }, { passive: true });
 
     }
 
-    mouseX = e.clientX;
+    if (burger && links) {
 
-    mouseY = e.clientY;
+        burger.addEventListener('click', () => {
+            const open = links.classList.toggle('open');
+            burger.setAttribute('aria-expanded', String(open));
+        });
 
-});
+        links.addEventListener('click', event => {
+            if (event.target.tagName !== 'A') return;
+            links.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
+        });
 
-function animateGlow() {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-    glowX += (mouseX - glowX) * 0.12;
-    glowY += (mouseY - glowY) * 0.12;
-    glow.style.transform = `translate3d(${glowX - 160}px, ${glowY - 160}px, 0)`;
-    requestAnimationFrame(animateGlow);
-}
+    }
 
-animateGlow();
+    // Highlight the section currently in view
+    const navAnchors = Array.from(document.querySelectorAll('.nav-links a'));
+    const sections = navAnchors
+        .map(anchor => document.querySelector(anchor.getAttribute('href')))
+        .filter(Boolean);
+
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+
+    const spy = new IntersectionObserver(entries => {
+
+        entries.forEach(entry => {
+
+            if (!entry.isIntersecting) return;
+
+            navAnchors.forEach(anchor => {
+                anchor.classList.toggle('active', anchor.getAttribute('href') === '#' + entry.target.id);
+            });
+
+        });
+
+    }, { rootMargin: '-45% 0px -50% 0px' });
+
+    sections.forEach(section => spy.observe(section));
+
+})();
 
 
 /* ======================================
-   Typewriter Name & Quick Reveal Sequence
+   Portfolio tabs + project accordion
 ====================================== */
-window.addEventListener('DOMContentLoaded', () => {
-    const navEl = document.querySelector('nav');
-    const h1 = document.querySelector('.hero-content h1');
-    const h2 = document.querySelector('.hero-content h2');
-    const p = document.querySelector('.hero-content p');
-    const heroActions = document.querySelector('.hero-actions');
-    const heroProfile = document.querySelector('.hero-profile');
-    const restOfSite = [
-        document.querySelector('#companies'),
-        document.querySelector('#portfolio'),
-        document.querySelector('#linkedin-posts'),
-        document.querySelector('#contact')
-    ].filter(Boolean);
+(function () {
 
-    if (!h1 || !h2 || !p) return;
+    const tabs = Array.from(document.querySelectorAll('.portfolio-tab'));
+    const panels = Array.from(document.querySelectorAll('.portfolio-panel'));
 
-    // Save original text
-    const textH1 = h1.textContent.trim();
+    tabs.forEach(tab => {
 
-    // Hide elements initially
-    if (navEl) { navEl.classList.add('reveal-fade'); }
-    [h2, p, heroActions, heroProfile, ...restOfSite].filter(Boolean).forEach(el => {
-        el.classList.add('reveal-fade');
+        tab.addEventListener('click', () => {
+
+            const target = tab.dataset.tabTarget;
+
+            tabs.forEach(other => {
+                const isActive = other === tab;
+                other.classList.toggle('active', isActive);
+                other.setAttribute('aria-selected', String(isActive));
+            });
+
+            panels.forEach(panel => {
+                const isActive = panel.id === target;
+                panel.classList.toggle('active', isActive);
+                panel.hidden = !isActive;
+            });
+
+        });
+
     });
 
-    // Clear only the name for typewriter
-    h1.textContent = '';
+    const heads = Array.from(document.querySelectorAll('.accordion-head'));
 
-    const cursor = document.createElement('span');
-    cursor.className = 'typewrite-cursor';
+    heads.forEach(head => {
 
-    const typeText = (element, text, speed, callback) => {
-        element.appendChild(cursor);
-        let i = 0;
-        const interval = setInterval(() => {
-            if (i < text.length) {
-                cursor.insertAdjacentText('beforebegin', text.charAt(i));
-                i++;
-            } else {
-                clearInterval(interval);
-                if (callback) setTimeout(callback, 150);
-            }
-        }, speed);
+        head.addEventListener('click', () => {
+
+            const item = head.closest('.accordion-item');
+
+            if (!item) return;
+
+            const willOpen = !item.classList.contains('open');
+
+            // Keep a single project open at a time
+            heads.forEach(other => {
+
+                const otherItem = other.closest('.accordion-item');
+
+                if (!otherItem || otherItem === item) return;
+
+                otherItem.classList.remove('open');
+                other.setAttribute('aria-expanded', 'false');
+
+            });
+
+            item.classList.toggle('open', willOpen);
+            head.setAttribute('aria-expanded', String(willOpen));
+
+        });
+
+    });
+
+})();
+
+
+/* ======================================
+   LinkedIn embeds — degrade gracefully
+   when the iframe cannot load (offline,
+   tracking blockers, non-public post)
+====================================== */
+(function () {
+
+    const embeds = Array.from(document.querySelectorAll('.li-embed'));
+
+    embeds.forEach(embed => {
+
+        const frame = embed.querySelector('iframe');
+
+        if (!frame) return;
+
+        let loaded = false;
+
+        frame.addEventListener('load', () => { loaded = true; });
+
+        // If the frame never loads at all, drop the empty box rather than
+        // leaving a blank panel. The written summary above it already carries
+        // the card, so nothing is lost.
+        window.setTimeout(() => {
+            if (!loaded) embed.remove();
+        }, 6000);
+
+    });
+
+})();
+
+
+/* ======================================
+   CV modal
+====================================== */
+(function () {
+
+    const openButton = document.getElementById('open-cv-modal');
+    const closeButton = document.getElementById('close-cv-modal');
+    const modal = document.getElementById('cv-modal');
+    const form = document.getElementById('cv-download-form');
+    const success = document.getElementById('cv-success-msg');
+
+    if (!modal) return;
+
+    const open = () => {
+        modal.classList.remove('hidden');
+        if (form) form.classList.remove('hidden');
+        if (success) success.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+        const first = modal.querySelector('input');
+        if (first) window.setTimeout(() => first.focus(), 120);
     };
 
-    // STEP 1: Navbar appears first
-    setTimeout(() => {
-        if (navEl) navEl.classList.add('revealed');
+    const close = () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    };
 
-        // STEP 2: After navbar, typewrite the name
-        setTimeout(() => {
-            typeText(h1, textH1, 55, () => {
-                // STEP 3: Remove cursor and reveal everything else quickly
-                if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+    if (openButton) openButton.addEventListener('click', open);
+    if (closeButton) closeButton.addEventListener('click', close);
 
-                // Stagger the reveals for a snappy cascade
-                const allReveal = [h2, p, heroActions, heroProfile, ...restOfSite].filter(Boolean);
-                allReveal.forEach((el, i) => {
-                    setTimeout(() => el.classList.add('revealed'), i * 120);
-                });
-            });
-        }, 400);
-    }, 200);
-});
-
-
-/* ======================================
-   CV Download Modal & Email Automation
-====================================== */
-const openCvBtn = document.getElementById('open-cv-modal');
-const closeCvBtn = document.getElementById('close-cv-modal');
-const cvModal = document.getElementById('cv-modal');
-const cvForm = document.getElementById('cv-download-form');
-const cvSuccessMsg = document.getElementById('cv-success-msg');
-
-if (openCvBtn && cvModal) {
-    openCvBtn.addEventListener('click', () => {
-        cvModal.classList.remove('hidden');
-        if (cvForm) cvForm.classList.remove('hidden');
-        if (cvSuccessMsg) cvSuccessMsg.classList.add('hidden');
+    modal.addEventListener('click', event => {
+        if (event.target === modal) close();
     });
-}
 
-if (closeCvBtn && cvModal) {
-    closeCvBtn.addEventListener('click', () => {
-        cvModal.classList.add('hidden');
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) close();
     });
-}
 
-if (cvModal) {
-    cvModal.addEventListener('click', (e) => {
-        if (e.target === cvModal) {
-            cvModal.classList.add('hidden');
-        }
-    });
-}
+    if (!form) return;
 
-if (cvForm) {
-    cvForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    form.addEventListener('submit', event => {
 
-        const firstName = document.getElementById('first-name').value;
-        const lastName = document.getElementById('last-name').value;
-        const email = document.getElementById('work-email').value;
+        event.preventDefault();
 
-        // 1. Trigger Instant CV PDF Download in Browser
+        // Start the download. Nothing is transmitted anywhere.
         const link = document.createElement('a');
         link.href = 'assets/CV_Daksh_2026.pdf';
         link.download = 'CV_Daksh_Mehta.pdf';
@@ -411,32 +325,86 @@ if (cvForm) {
         link.click();
         document.body.removeChild(link);
 
-        // 2. Email Automation Hook
-        // To enable automated email notifications sending your CV:
-        // Get a free API key from Web3Forms.com or Formspree and uncomment:
-        /*
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-                access_key: 'YOUR_WEB3FORMS_ACCESS_KEY_HERE',
-                subject: `New CV Download Request from ${firstName} ${lastName}`,
-                from_name: 'Daksh Mehta CV Portal',
-                email: email,
-                message: `${firstName} ${lastName} (${email}) requested and downloaded your CV.`
-            })
-        }).catch(err => console.log('Email automation error:', err));
-        */
+        form.classList.add('hidden');
+        if (success) success.classList.remove('hidden');
+        form.reset();
 
-        cvForm.classList.add('hidden');
-        if (cvSuccessMsg) cvSuccessMsg.classList.remove('hidden');
-
-        cvForm.reset();
-
-        setTimeout(() => {
-            if (cvModal) cvModal.classList.add('hidden');
-        }, 5000);
     });
-}
+
+})();
 
 
+/* ======================================
+   Scroll reveal
+====================================== */
+(function () {
+
+    const targets = document.querySelectorAll(
+        '.section-head, .about-grid, .timeline-item, .logo-strip, .portfolio-tabs, ' +
+        '.panel-note, .accordion-item, .insight-card, .contact-card, .hero-stats'
+    );
+
+    if (!targets.length) return;
+
+    if (!('IntersectionObserver' in window) ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        targets.forEach(target => target.classList.add('revealed'));
+        return;
+    }
+
+    targets.forEach(target => target.classList.add('reveal'));
+
+    // Position-based rather than observer-based: one code path, and content
+    // can never stay stuck invisible if a callback fails to fire.
+    let pending = Array.from(targets);
+    let ticking = false;
+
+    const check = () => {
+
+        const limit = window.innerHeight * 0.92;
+
+        pending = pending.filter(target => {
+
+            if (target.getBoundingClientRect().top > limit) return true;
+
+            target.classList.add('revealed');
+            return false;
+
+        });
+
+        if (!pending.length) {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', check);
+        }
+
+    };
+
+    function onScroll() {
+
+        if (ticking) return;
+
+        ticking = true;
+
+        window.requestAnimationFrame(() => {
+            check();
+            ticking = false;
+        });
+
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', check);
+    window.addEventListener('load', check);
+
+    check();
+
+})();
+
+
+/* ======================================
+   Footer year
+====================================== */
+(function () {
+    const year = document.getElementById('year');
+    if (year) year.textContent = String(new Date().getFullYear());
+})();
