@@ -163,6 +163,86 @@ if (journeyCarousel) {
 
 
 /* ======================================
+   Portfolio Tabs & Project Accordion
+====================================== */
+
+const portfolioTabs = Array.from(document.querySelectorAll('.portfolio-tab'));
+
+if (portfolioTabs.length) {
+
+    const panels = Array.from(document.querySelectorAll('.portfolio-panel'));
+
+    const showTab = targetId => {
+
+        portfolioTabs.forEach(tab => {
+
+            const isActive = tab.dataset.tabTarget === targetId;
+
+            tab.classList.toggle('active', isActive);
+
+            tab.setAttribute('aria-selected', String(isActive));
+
+        });
+
+        panels.forEach(panel => {
+
+            const isActive = panel.id === targetId;
+
+            panel.classList.toggle('active', isActive);
+
+            panel.hidden = !isActive;
+
+        });
+
+    };
+
+    portfolioTabs.forEach(tab => {
+
+        tab.addEventListener('click', () => {
+
+            showTab(tab.dataset.tabTarget);
+
+        });
+
+    });
+
+}
+
+const accordionHeads = Array.from(document.querySelectorAll('.accordion-head'));
+
+accordionHeads.forEach(head => {
+
+    head.addEventListener('click', () => {
+
+        const item = head.closest('.accordion-item');
+
+        if (!item) return;
+
+        const isOpen = item.classList.contains('open');
+
+        // Only one project open at a time
+        accordionHeads.forEach(other => {
+
+            const otherItem = other.closest('.accordion-item');
+
+            if (!otherItem || otherItem === item) return;
+
+            otherItem.classList.remove('open');
+
+            other.setAttribute('aria-expanded', 'false');
+
+        });
+
+        item.classList.toggle('open', !isOpen);
+
+        head.setAttribute('aria-expanded', String(!isOpen));
+
+    });
+
+});
+
+
+/* ======================================
    Cursor Glow
 ====================================== */
 
@@ -227,6 +307,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const heroProfile = document.querySelector('.hero-profile');
     const restOfSite = [
         document.querySelector('#companies'),
+        document.querySelector('#portfolio'),
         document.querySelector('#linkedin-posts'),
         document.querySelector('#contact')
     ].filter(Boolean);
