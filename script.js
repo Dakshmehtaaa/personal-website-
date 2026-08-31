@@ -1,4 +1,82 @@
 /* ======================================
+   Intro — typing splash (once per session)
+====================================== */
+(function () {
+
+    const overlay = document.getElementById('intro-overlay');
+    const textEl = document.getElementById('intro-text');
+    const cursorEl = document.getElementById('intro-cursor');
+
+    if (!overlay || !textEl || !cursorEl) return;
+    if (document.documentElement.getAttribute('data-intro') === 'skip') return;
+
+    const MESSAGE = 'Daksh Mehta';
+    const TYPE_MS = 85;
+    const START_DELAY = 550;
+    const END_HOLD = 550;
+    const FADE_MS = 500;
+
+    document.body.style.overflow = 'hidden';
+    cursorEl.classList.add('blink');
+
+    let finished = false;
+
+    const finish = () => {
+
+        if (finished) return;
+        finished = true;
+
+        overlay.classList.add('intro-hide');
+        document.body.style.overflow = '';
+
+        try { sessionStorage.setItem('introDone', '1'); } catch (e) { /* storage blocked */ }
+
+        window.setTimeout(() => { overlay.style.display = 'none'; }, FADE_MS);
+
+        window.removeEventListener('keydown', finish);
+        overlay.removeEventListener('click', finish);
+
+    };
+
+    // Let an impatient visitor jump straight to the site
+    overlay.addEventListener('click', finish);
+    window.addEventListener('keydown', finish);
+
+    window.setTimeout(() => {
+
+        if (finished) return;
+
+        cursorEl.classList.remove('blink');
+
+        let i = 0;
+
+        const typeNext = () => {
+
+            if (finished) return;
+
+            if (i >= MESSAGE.length) {
+                cursorEl.classList.add('blink');
+                window.setTimeout(finish, END_HOLD);
+                return;
+            }
+
+            textEl.textContent += MESSAGE[i];
+            i += 1;
+            window.setTimeout(typeNext, TYPE_MS);
+
+        };
+
+        typeNext();
+
+    }, START_DELAY);
+
+    // Safety net: a visitor is never trapped behind the splash
+    window.setTimeout(finish, START_DELAY + MESSAGE.length * TYPE_MS + END_HOLD + 3000);
+
+})();
+
+
+/* ======================================
    Theme (light / dark)
 ====================================== */
 (function () {
@@ -341,7 +419,8 @@
 
     const targets = document.querySelectorAll(
         '.section-head, .about-grid, .timeline-item, .logo-strip, .portfolio-tabs, ' +
-        '.panel-note, .accordion-item, .insight-card, .contact-card, .hero-stats'
+        '.panel-note, .accordion-item, .insight-card, .contact-card, .hero-stats, ' +
+        '.adv-card, .res-card, .promo-strip-link'
     );
 
     if (!targets.length) return;
