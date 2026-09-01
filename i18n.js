@@ -187,11 +187,11 @@ window.TRANSLATIONS = {
         'cv.direct': 'Télécharger directement',
 
         'sus.hero.eyebrow': "Pour les dirigeants d'entreprise",
-        'sus.hero.title': "La durabilité n'est pas une charge.<br>C'est un avantage.",
+        'sus.hero.title': "Faites de la durabilité<br>votre avantage stratégique.",
         'sus.hero.lede': "Six façons dont une stratégie de durabilité active porte ses fruits — en termes simples, pour ceux qui doivent justifier le budget.",
         'sus.hero.cta1': 'Voir les arguments business',
         'sus.hero.cta2': 'Ressources gratuites ↓',
-        'sus.hero.caption': 'Illustration — une dynamique, pas une mesure',
+        'sus.hero.caption': 'De petits pas. Un grand impact.',
 
         'sus.adv.kicker': 'Les arguments business',
         'sus.adv.title': "Ce qu'une stratégie active change vraiment",
