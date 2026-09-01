@@ -30,13 +30,24 @@
                 var l = localStorage.getItem('lang');
                 if (!l) l = (navigator.language || 'en').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
                 document.documentElement.setAttribute('lang', l);
+
+                var introDone = false;
+                try { introDone = sessionStorage.getItem('introDone') === '1'; } catch (e2) { /* storage blocked */ }
+                var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (introDone || reduceMotion) document.documentElement.setAttribute('data-intro', 'skip');
             } catch (e) { /* storage blocked — fall back to defaults */ }
         })();
     </script>
 
+    <noscript><style>.intro-overlay{ display:none !important; }</style></noscript>
+
 </head>
 
 <body>
+
+<div class="intro-overlay" id="intro-overlay" aria-hidden="true">
+    <p class="intro-type"><span class="intro-text" id="intro-text"></span><span class="intro-cursor" id="intro-cursor">|</span></p>
+</div>
 
 <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
@@ -50,6 +61,7 @@
         <li><a href="#about" data-i18n="nav.about">About</a></li>
         <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
         <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+        <li><a href="why-sustainability-matters.html" data-i18n="nav.why">For Companies</a></li>
         <li><a href="#insights" data-i18n="nav.insights">Insights</a></li>
         <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
@@ -111,15 +123,15 @@
             <ul class="hero-stats">
                 <li>
                     <strong>3+</strong>
-                    <span data-i18n="stats.years">years of corporate experience</span>
+                    <span data-i18n="stats.years">years in CSR &amp; ESG roles</span>
                 </li>
                 <li>
-                    <strong>97<sup>th</sup></strong>
-                    <span data-i18n="stats.ecovadis">percentile EcoVadis rating, 2024</span>
+                    <strong>8</strong>
+                    <span data-i18n="stats.frameworks">sustainability frameworks &amp; standards</span>
                 </li>
                 <li>
-                    <strong>20+</strong>
-                    <span data-i18n="stats.rfis">client RFIs, tenders &amp; CO₂ reports</span>
+                    <strong>4</strong>
+                    <span data-i18n="stats.companies">companies, Dataiku to CEVA Logistics</span>
                 </li>
             </ul>
 
@@ -361,7 +373,7 @@
                     <span class="accordion-num">01</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p1.title">Sustain Swap — Virtual Start-up Creation</span>
-                        <span class="accordion-sub" data-i18n="p1.sub">Start-up creation · Circular economy · Academic</span>
+                        <span class="accordion-sub" data-i18n="p1.sub">Start-up Pitch | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -373,22 +385,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p1.b1">
-                                    SustainSwap is a student-to-student second-hand marketplace built around one promise:
-                                    the first hassle-free second hand solution. Instead of leaving students to photograph,
-                                    list, haggle and ship items themselves, the model routes everything through the
-                                    university. Students log in with their university access, register goods for sale and
-                                    send them in; SustainSwap verifies, values and refurbishes each item before publishing
-                                    it. Buyers order online and either collect from a campus pick-up point or receive the
-                                    item by eco-friendly delivery.
-                                </p>
-                                <p data-i18n="p1.b2">
-                                    The project covers the full commercial build rather than just the idea. Segmentation
-                                    runs on socio-professional status, environmental awareness and sustainable shopping
-                                    behaviour; targeting focuses on budget-conscious settlers, eco-conscious students and
-                                    international students. Positioning is worked through the complete marketing mix —
-                                    resale economics that repay the initial investment several times over, subscription and
-                                    upfront-with-partial-refund pricing, campus warehousing and pick-up boxes, and student
-                                    ambassadors and pop-up shops timed to the start of each semester.
+                                    SustainSwap is a student-to-student second-hand marketplace: students send items in
+                                    through their university, SustainSwap verifies and refurbishes them, and buyers collect
+                                    on campus or get eco-friendly delivery. The plan covers the full commercial build —
+                                    segmentation, pricing, campus logistics and ambassador rollout — not just the concept.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p1.f1">Circular economy · reuse · student affordability</span></li>
@@ -411,7 +411,7 @@
                     <span class="accordion-num">02</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p2.title">Value Chain Analysis — FREITAG Bags</span>
-                        <span class="accordion-sub" data-i18n="p2.sub">Circular economy · Corporate project</span>
+                        <span class="accordion-sub" data-i18n="p2.sub">Value Chain Analysis | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -423,17 +423,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p2.b1">
-                                    FREITAG makes bags out of used truck tarpaulins, seatbelts and bicycle inner tubes —
-                                    one of the few businesses where the waste stream is the raw material. That makes it an
-                                    unusually honest test case for circular economy thinking, because the circularity is
-                                    not an add-on to the product; it is the product.
-                                </p>
-                                <p data-i18n="p2.b2">
-                                    This analysis maps the value chain end to end: sourcing and cleaning used tarpaulins,
-                                    cutting and design, manufacture, distribution, and the repair and resale loop that
-                                    keeps bags in use. The question running through it is where circularity actually
-                                    creates margin and defensibility rather than just marketing language. It was built
-                                    first as a collaborative FigJam whiteboard, then presented as a deck.
+                                    FREITAG makes bags from used truck tarpaulins, seatbelts and bike inner tubes — a rare
+                                    case where the waste stream is the raw material. This analysis maps the value chain
+                                    end to end, from sourcing to the repair-and-resale loop, to find where circularity
+                                    actually creates margin rather than just marketing language.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p2.f1">Upcycling · material flows · circular margin</span></li>
@@ -454,7 +447,7 @@
                     <span class="accordion-num">03</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p3.title">Green ETF Analysis — BNP Paribas</span>
-                        <span class="accordion-sub" data-i18n="p3.sub">Sustainable finance · Corporate project</span>
+                        <span class="accordion-sub" data-i18n="p3.sub">Investment Analysis | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -466,18 +459,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p3.b1">
-                                    An investment analysis of the BNP Paribas Easy ECPI Circular Economy Leaders UCITS
-                                    ETF, presented as a pitch to a prospective investor. The fund tracks companies ECPI
-                                    identifies as leaders in circular economy practice, which makes it a useful place to
-                                    ask the question that matters most in green finance: does the label survive contact
-                                    with the actual holdings?
-                                </p>
-                                <p data-i18n="p3.b2">
-                                    The analysis works through the screening methodology behind the index, what the fund
-                                    holds as a result, and how it has performed — then weighs it on financial and
-                                    sustainability grounds together rather than as separate scorecards. It sits at the
-                                    intersection I care about most: capital allocation as a sustainability lever, not just
-                                    a reporting exercise.
+                                    An investment pitch analysing the BNP Paribas Easy ECPI Circular Economy Leaders
+                                    UCITS ETF — what the fund actually holds, how it has performed, and whether the
+                                    "circular economy" label survives contact with the real portfolio. It sits at the
+                                    intersection I care about most: capital allocation as a sustainability lever.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p3.f1">Green finance · ESG screening · fund analysis</span></li>
@@ -498,7 +483,7 @@
                     <span class="accordion-num">04</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p4.title">Innovation in International Trade to Reduce Climate Impact</span>
-                        <span class="accordion-sub" data-i18n="p4.sub">Carbon footprint · Supply chain · Academic</span>
+                        <span class="accordion-sub" data-i18n="p4.sub">Research Paper | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -510,16 +495,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p4.b1">
-                                    International trade is one of the hardest emissions problems there is: the goods move
-                                    because the economics say they should, and the emissions follow the ships, the ports
-                                    and the length of the supply chain. This project asks where innovation can genuinely
-                                    cut that footprint rather than simply move it somewhere less visible.
-                                </p>
-                                <p data-i18n="p4.b2">
-                                    It looks across the trade system — freight modes and routing, port and customs
-                                    operations, and how supply chains are designed in the first place — to identify the
-                                    levers that actually shift emissions at scale. It is the same problem space I went on
-                                    to work in at CEVA Logistics, inside the CSR team of a global freight operator.
+                                    International trade is one of the hardest emissions problems: goods move because the
+                                    economics say so, and emissions follow the ships and ports. This paper looks across
+                                    freight modes, port operations and supply chain design to find where innovation can
+                                    genuinely cut that footprint — the same problem space I later worked on at CEVA Logistics.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p4.f1">Freight emissions · supply chain design · trade policy</span></li>
@@ -542,7 +521,7 @@
                     <span class="accordion-num">05</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p5.title">SHEIN — Scenario Planning &amp; EU Strategy</span>
-                        <span class="accordion-sub" data-i18n="p5.sub">Market strategy · Corporate project</span>
+                        <span class="accordion-sub" data-i18n="p5.sub">Strategy Deck | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -554,16 +533,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p5.b1">
-                                    A scenario-planning exercise on SHEIN's future in Europe. No consumer sector is under
-                                    a sharper sustainability squeeze than ultra-fast fashion — textile waste rules,
-                                    incoming due-diligence regulation, and a consumer conversation that has turned
-                                    sceptical — and none has grown faster in spite of it.
-                                </p>
-                                <p data-i18n="p5.b2">
-                                    Rather than committing to a single forecast, the deck builds out alternative futures
-                                    for the European market and tests which strategic choices hold up across all of them.
-                                    That is the useful discipline in scenario planning: it forces a strategy to be judged
-                                    on robustness rather than on how good the base case looks.
+                                    A scenario-planning exercise on SHEIN's future in Europe, where textile-waste rules
+                                    and incoming due-diligence law meet the fastest-growing model in fashion. Rather than
+                                    one forecast, the deck builds alternative futures and tests which strategic choices
+                                    hold up across all of them — judging strategy on robustness, not the best-case scenario.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p5.f1">Scenario planning · market entry · regulatory risk</span></li>
@@ -584,7 +557,7 @@
                     <span class="accordion-num">06</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p6.title">Bolivia Child Labour Analysis</span>
-                        <span class="accordion-sub" data-i18n="p6.sub">Social &amp; ESG · Academic</span>
+                        <span class="accordion-sub" data-i18n="p6.sub">Case Study | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -596,16 +569,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p6.b1">
-                                    Sustainability conversations default to carbon, but the social pillar is where
-                                    corporate exposure is often most acute and least measured. This study examines child
-                                    labour in Bolivia — the economic conditions that sustain it, the policy and legal
-                                    response, and the gap between the two.
-                                </p>
-                                <p data-i18n="p6.b2">
-                                    The relevance to corporate practice is direct: human rights due diligence across
-                                    supply chains is moving from voluntary reporting to legal obligation, and
-                                    understanding why child labour persists in a given economy is the difference between
-                                    a policy that works and a clause nobody enforces.
+                                    Sustainability conversations default to carbon, but the social pillar is often where
+                                    corporate exposure is most acute and least measured. This case study examines child
+                                    labour in Bolivia — the economic conditions that sustain it and the gap between policy
+                                    and enforcement — as human rights due diligence moves from voluntary to mandatory.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p6.f1">Social pillar of ESG · human rights due diligence</span></li>
@@ -624,7 +591,7 @@
                     <span class="accordion-num">07</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p7.title">Post-Sale Service Quality Check — Back Market</span>
-                        <span class="accordion-sub" data-i18n="p7.sub">Data analysis · Corporate project</span>
+                        <span class="accordion-sub" data-i18n="p7.sub">Data Analysis | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -636,17 +603,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p7.b1">
-                                    Back Market is Europe's largest marketplace for refurbished electronics, and its
-                                    entire environmental case rests on something unglamorous: whether customers trust that
-                                    a refurbished device will still be supported after they buy it. Extending a phone's
-                                    life by a few years is one of the highest-leverage things a consumer can do for their
-                                    footprint — but only if the after-sales experience holds.
-                                </p>
-                                <p data-i18n="p7.b2">
-                                    This workbook analyses post-sale service quality across that layer: structuring the
-                                    raw service data, building the quality checks, and reading what the results say about
-                                    where the experience breaks down. It is the quiet operational work that decides
-                                    whether a circular business model actually keeps devices in circulation.
+                                    Back Market's entire environmental case rests on something unglamorous: whether
+                                    customers trust a refurbished device to stay supported after purchase. This workbook
+                                    analyses post-sale service quality — structuring the raw data and reading where the
+                                    experience breaks down — the quiet operational work that keeps devices in circulation.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p7.f1">After-sales quality · refurbished electronics · reuse</span></li>
@@ -666,7 +626,7 @@
                     <span class="accordion-num">08</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p8.title">SWOT Analysis — Intel Data Center Manager</span>
-                        <span class="accordion-sub" data-i18n="p8.sub">Competitive analysis · Corporate project</span>
+                        <span class="accordion-sub" data-i18n="p8.sub">SWOT Analysis | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -678,16 +638,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p8.b1">
-                                    Intel Data Center Manager is software for monitoring power, thermals and utilisation
-                                    across a data centre estate. This is a strategic SWOT of the product: its strengths
-                                    and weaknesses as a platform, the competitive pressure around it, and where the
-                                    opportunity and threat actually sit.
-                                </p>
-                                <p data-i18n="p8.b2">
-                                    The sustainability angle is not incidental. Data centre electricity consumption is
-                                    both a major operating cost and a fast-growing share of ICT emissions, which means
-                                    energy efficiency has quietly become a commercial argument rather than a compliance
-                                    one — and that reframing is what makes the category interesting.
+                                    A strategic SWOT of Intel Data Center Manager, software for monitoring power, thermals
+                                    and utilisation across a data-centre estate. The sustainability angle isn't incidental:
+                                    data-centre electricity is a major cost and a fast-growing share of ICT emissions,
+                                    which has quietly turned energy efficiency into a commercial argument, not just compliance.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p8.f1">Competitive positioning · data centre energy efficiency</span></li>
@@ -706,7 +660,7 @@
                     <span class="accordion-num">09</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p9.title">Strategy Implementation — Amazon &amp; Samsung</span>
-                        <span class="accordion-sub" data-i18n="p9.sub">Consulting · Strategic management · Academic</span>
+                        <span class="accordion-sub" data-i18n="p9.sub">Case Study | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -718,19 +672,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p9.b1">
-                                    Strategies rarely fail on the whiteboard; they fail in execution. This project takes
-                                    implementation seriously as its own phase of the strategic management process — the
-                                    point where ideas convert into tangible actions and outcomes — and sets out six
-                                    factors that determine whether that conversion works: clear communication, careful
-                                    planning, resources, evaluation, flexibility and collaboration.
-                                </p>
-                                <p data-i18n="p9.b2">
-                                    Those six are then tested against real companies. Samsung serves as the cautionary
-                                    case, where a lack of testing, poor communication and a failure to learn from previous
-                                    mistakes undermined execution. Amazon is the counterweight — investment in technology
-                                    innovation, a diversified patent portfolio, the Alexa Everywhere rollout, AWS as the
-                                    engine of operating income, and a pattern of partnerships and logistics integration
-                                    that turned strategy into infrastructure.
+                                    Strategies rarely fail on the whiteboard; they fail in execution. This project sets out
+                                    six factors that decide whether implementation works — communication, planning,
+                                    resources, evaluation, flexibility, collaboration — then tests them against real cases:
+                                    Samsung as the cautionary tale, Amazon as the counterweight that turned strategy into infrastructure.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.focus">Focus</strong> <span data-i18n="p9.f1">Execution · change management · case analysis</span></li>
@@ -753,7 +698,7 @@
                     <span class="accordion-num">10</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p10.title">Restaurant Menu Card — Restaurant Bharati</span>
-                        <span class="accordion-sub" data-i18n="p10.sub">Graphic design · Hospitality</span>
+                        <span class="accordion-sub" data-i18n="p10.sub">Graphic Design | EN</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -765,15 +710,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p10.b1">
-                                    A complete eight-page menu designed for Restaurant Bharati — cover through to the
-                                    final course, with layout, typography, photography and print-ready artwork all handled
-                                    end to end.
-                                </p>
-                                <p data-i18n="p10.b2">
-                                    Menu design is a deceptively strict brief: every page has to stay readable in low
-                                    light, hold a consistent identity across very different course types, and put the
-                                    right dishes where the eye lands first. A useful counterweight to strategy work — the
-                                    constraints are physical and the feedback is immediate.
+                                    A complete eight-page menu for Restaurant Bharati, designed end to end — layout,
+                                    typography, photography and print-ready artwork. A useful counterweight to strategy
+                                    work: every page has to stay readable in low light and put the right dishes where the
+                                    eye lands first, and the feedback is immediate.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.scope">Scope</strong> <span data-i18n="p10.f1">Eight pages · layout, typography, print-ready artwork</span></li>
@@ -793,7 +733,7 @@
                     <span class="accordion-num">11</span>
                     <span class="accordion-titles">
                         <span class="accordion-title" data-i18n="p11.title">Dessert Card — French Edition</span>
-                        <span class="accordion-sub" data-i18n="p11.sub">Graphic design · Hospitality · FR</span>
+                        <span class="accordion-sub" data-i18n="p11.sub">Graphic Design | FR</span>
                     </span>
                     <span class="accordion-chevron" aria-hidden="true"></span>
                 </button>
@@ -805,14 +745,10 @@
                             </div>
                             <div class="project-detail-copy">
                                 <p data-i18n="p11.b1">
-                                    A companion dessert card in French for the same restaurant, presenting house-made
-                                    Indian desserts — kulfi, burfi, gulab jamun, suji halwa — to a French audience.
-                                </p>
-                                <p data-i18n="p11.b2">
-                                    The interesting constraint here is translation in both senses. The visual system has
-                                    to survive a change of language and format, and the dishes themselves have to read as
-                                    appealing to diners who may never have encountered them, without flattening what they
-                                    actually are.
+                                    A companion French-language dessert card for the same restaurant, presenting
+                                    house-made Indian desserts — kulfi, burfi, gulab jamun, suji halwa — to a French
+                                    audience. The visual system has to survive a change of language and format while the
+                                    dishes still read as appealing to diners who may never have tried them.
                                 </p>
                                 <ul class="project-facts">
                                     <li><strong data-i18n="pf.scope">Scope</strong> <span data-i18n="p11.f1">Two pages · bilingual visual system</span></li>
@@ -881,6 +817,17 @@
 
 </section>
 
+<!-- ================= PROMO STRIP ================= -->
+
+<section class="promo-strip">
+    <a href="why-sustainability-matters.html" class="promo-strip-link">
+        <span class="promo-strip-text" data-i18n="promo.text">
+            <strong>New:</strong> why an active sustainability strategy is a business advantage — for the company, not just the CSR team.
+        </span>
+        <span class="promo-strip-cta" data-i18n="promo.cta">Read the business case →</span>
+    </a>
+</section>
+
 <!-- ================= LINKEDIN INSIGHTS ================= -->
 
 <section id="insights" class="insights-section">
@@ -937,7 +884,7 @@
     <div class="insights-cta">
         <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
            class="button button--linkedin">
-            <img src="assets/linkedin-icon-2.svg" alt="" width="20" height="20">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="22" height="22">
             <span data-i18n="li.follow">Follow me on LinkedIn</span>
         </a>
     </div>
@@ -966,7 +913,9 @@
                 </span>
             </a>
             <a href="https://www.linkedin.com/in/mehtadaksh" target="_blank" rel="noopener noreferrer" class="contact-link">
-                <span class="contact-icon" aria-hidden="true">in</span>
+                <span class="contact-icon contact-icon--linkedin" aria-hidden="true">
+                    <img src="assets/linkedin-icon-2.svg" alt="" width="26" height="26">
+                </span>
                 <span class="contact-text">
                     <strong>LinkedIn</strong>
                     linkedin.com/in/mehtadaksh
@@ -988,7 +937,13 @@
 </main>
 
 <footer class="site-footer">
-    <p>© <span id="year">2026</span> Daksh Mehta</p>
+    <div class="footer-left">
+        <p>© <span id="year">2026</span> Daksh Mehta</p>
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
+           class="footer-linkedin" aria-label="LinkedIn profile">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="18" height="18">
+        </a>
+    </div>
     <p data-i18n="footer.note">CSR · ESG · Sustainability project management</p>
 </footer>
 
