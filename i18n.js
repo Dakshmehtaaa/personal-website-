@@ -24,10 +24,6 @@ window.TRANSLATIONS = {
         'hero.ctaWork': 'Voir mes travaux',
         'hero.ctaCv': 'Télécharger mon CV',
 
-        'stats.years': 'ans en RSE et ESG',
-        'stats.frameworks': 'référentiels et normes de durabilité',
-        'stats.companies': 'entreprises, de Dataiku à CEVA Logistics',
-
         'about.kicker': 'À propos',
         'about.title': 'La durabilité, rendue opérationnelle',
         'about.p1': "Je travaille là où la stratégie de durabilité rencontre les systèmes qui la font vivre : référentiels de reporting, processus achats, notations fournisseurs et les données qui les alimentent. L'essentiel de mes trois années s'est déroulé au sein de grandes organisations, à transformer des engagements en preuves qui résistent à l'examen.",
