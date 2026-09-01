@@ -257,34 +257,9 @@
 
 
 /* ======================================
-   Portfolio tabs + project accordion
+   Project accordion
 ====================================== */
 (function () {
-
-    const tabs = Array.from(document.querySelectorAll('.portfolio-tab'));
-    const panels = Array.from(document.querySelectorAll('.portfolio-panel'));
-
-    tabs.forEach(tab => {
-
-        tab.addEventListener('click', () => {
-
-            const target = tab.dataset.tabTarget;
-
-            tabs.forEach(other => {
-                const isActive = other === tab;
-                other.classList.toggle('active', isActive);
-                other.setAttribute('aria-selected', String(isActive));
-            });
-
-            panels.forEach(panel => {
-                const isActive = panel.id === target;
-                panel.classList.toggle('active', isActive);
-                panel.hidden = !isActive;
-            });
-
-        });
-
-    });
 
     const heads = Array.from(document.querySelectorAll('.accordion-head'));
 
@@ -418,7 +393,7 @@
 (function () {
 
     const targets = document.querySelectorAll(
-        '.section-head, .about-grid, .timeline-item, .logo-strip, .portfolio-tabs, ' +
+        '.section-head, .about-grid, .timeline-item, .logo-strip, ' +
         '.panel-note, .accordion-item, .insight-card, .contact-card, ' +
         '.adv-card, .res-card, .promo-strip-link'
     );
@@ -476,6 +451,56 @@
     window.addEventListener('load', check);
 
     check();
+
+})();
+
+
+/* ======================================
+   Advantages carousel (sustainability page)
+====================================== */
+(function () {
+
+    const track = document.getElementById('adv-track');
+    const prevBtn = document.getElementById('adv-prev');
+    const nextBtn = document.getElementById('adv-next');
+    const dots = Array.from(document.querySelectorAll('.adv-dot'));
+
+    if (!track || !prevBtn || !nextBtn || !dots.length) return;
+
+    const pageCount = track.children.length;
+    let page = 0;
+
+    const render = () => {
+
+        track.style.transform = `translateX(-${page * 100}%)`;
+
+        prevBtn.disabled = page === 0;
+        nextBtn.disabled = page === pageCount - 1;
+
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === page));
+
+    };
+
+    prevBtn.addEventListener('click', () => {
+        if (page === 0) return;
+        page -= 1;
+        render();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (page === pageCount - 1) return;
+        page += 1;
+        render();
+    });
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            page = i;
+            render();
+        });
+    });
+
+    render();
 
 })();
 
