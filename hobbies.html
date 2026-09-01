@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="description" content="Daksh Mehta — outside work: chess, fitness and travel.">
+
+    <title>Hobbies | Daksh Mehta</title>
+
+    <link rel="stylesheet" href="style.css?v=24">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+
+                var l = localStorage.getItem('lang');
+                if (!l) l = (navigator.language || 'en').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
+                document.documentElement.setAttribute('lang', l);
+            } catch (e) { /* storage blocked — fall back to defaults */ }
+            document.documentElement.setAttribute('data-intro', 'skip');
+        })();
+    </script>
+
+</head>
+
+<body>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <a class="logo" href="index.html#top">Daksh Mehta</a>
+
+    <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+        <li><a href="index.html#experience" data-i18n="nav.experience">Experience</a></li>
+        <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+        <li><a href="why-sustainability-matters.html" data-i18n="nav.why">For Companies</a></li>
+        <li><a href="index.html#insights" data-i18n="nav.insights">Insights</a></li>
+        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+
+        <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme" title="Switch theme">
+            <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">☀</span>
+            <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">☾</span>
+        </button>
+
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
+           class="nav-linkedin" aria-label="LinkedIn profile">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="24" height="24">
+        </a>
+
+        <button type="button" class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+    </div>
+
+</nav>
+
+<main id="main">
+
+<!-- ================= HOBBIES ================= -->
+
+<section class="hobbies-hero">
+
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="hb.kicker">Outside work</p>
+        <h1 data-i18n="hb.title">Chess, the gym, and a passport that gets used.</h1>
+        <p class="section-sub" data-i18n="hb.lede">I also organised a charitable chess tournament that raised funds for the Animal and Bird Welfare Society.</p>
+    </div>
+
+    <div class="hobby-strip">
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/chess-1.gif" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/chess-1.gif" alt="Playing chess" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.chess">♟ Chess</figcaption>
+        </figure>
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/chess-2.gif" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/chess-2.gif" alt="Playing chess" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.chess">♟ Chess</figcaption>
+        </figure>
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/fitness-1.gif" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/fitness-1.gif" alt="Training" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.fitness">🏋 Fitness</figcaption>
+        </figure>
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/fitness-2.gif" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/fitness-2.gif" alt="Training" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.fitness">🏋 Fitness</figcaption>
+        </figure>
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/IMG_1334_Original.jpeg" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/IMG_1334_Original.jpeg" alt="Travelling" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.travel">✈ Travelling</figcaption>
+        </figure>
+        <figure class="hobby-item">
+            <a href="assets/notion/hobbies/IMG_6795.jpeg" target="_blank" rel="noopener noreferrer">
+                <img src="assets/notion/hobbies/IMG_6795.jpeg" alt="Travelling" loading="lazy" decoding="async">
+            </a>
+            <figcaption data-i18n="hob.travel">✈ Travelling</figcaption>
+        </figure>
+    </div>
+
+    <p class="hobbies-back">
+        <a href="index.html#portfolio" data-i18n="hb.back">← Back to the portfolio</a>
+    </p>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-left">
+        <p>© <span id="year">2026</span> Daksh Mehta</p>
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="noopener noreferrer"
+           class="footer-linkedin" aria-label="LinkedIn profile">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="18" height="18">
+        </a>
+    </div>
+    <p data-i18n="footer.note">CSR · ESG · Sustainability project management</p>
+</footer>
+
+<script src="i18n.js?v=24"></script>
+<script src="script.js?v=24"></script>
+
+</body>
+
+</html>
