@@ -419,7 +419,7 @@
 
     const targets = document.querySelectorAll(
         '.section-head, .about-grid, .timeline-item, .logo-strip, .portfolio-tabs, ' +
-        '.panel-note, .accordion-item, .insight-card, .contact-card, .hero-stats, ' +
+        '.panel-note, .accordion-item, .insight-card, .contact-card, ' +
         '.adv-card, .res-card, .promo-strip-link'
     );
 

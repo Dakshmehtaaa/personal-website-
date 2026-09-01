@@ -375,18 +375,20 @@ nav.scrolled{
     width:40px;
     height:40px;
     border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--surface-2);
     overflow:hidden;
-    transition:transform .25s ease;
+    transition:transform .25s ease, border-color .25s ease;
 }
 
 .nav-linkedin img{
-    width:34px;
-    height:34px;
-    border-radius:8px;
+    width:24px;
+    height:24px;
+    border-radius:6px;
     display:block;
 }
 
-.nav-linkedin:hover{ transform:translateY(-2px) scale(1.05); }
+.nav-linkedin:hover{ transform:translateY(-2px) scale(1.05); border-color:var(--accent); }
 
 .nav-burger{
     display:none;
@@ -477,36 +479,6 @@ nav.scrolled{
 }
 
 .hero-actions--center{ justify-content:center; margin-bottom:0; }
-
-.hero-stats{
-    display:flex;
-    flex-wrap:wrap;
-    gap:clamp(20px, 4vw, 48px);
-    list-style:none;
-    padding-top:28px;
-    border-top:1px solid var(--border);
-}
-
-.hero-stats li{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    max-width:190px;
-}
-
-.hero-stats strong{
-    font-size:clamp(26px, 3.4vw, 34px);
-    font-weight:800;
-    letter-spacing:-.03em;
-    color:var(--accent);
-    line-height:1;
-}
-
-.hero-stats span{
-    color:var(--text-muted);
-    font-size:13.5px;
-    line-height:1.45;
-}
 
 .hero-profile{
     display:flex;
@@ -1340,15 +1312,12 @@ nav.scrolled{
     font-weight:800;
 }
 
-.contact-icon--linkedin{
-    background:#fff;
-    padding:9px;
-}
-
 .contact-icon--linkedin img{
     width:100%;
     height:100%;
     display:block;
+    background:#fff;
+    padding:4px;
     border-radius:7px;
 }
 
@@ -1780,7 +1749,7 @@ nav.scrolled{
 
     .hero h2, .hero-lede{ margin-inline:auto; }
 
-    .hero-actions, .hero-stats{ justify-content:center; }
+    .hero-actions{ justify-content:center; }
 
     .hero-profile{ order:-1; }
 
@@ -1857,10 +1826,6 @@ nav.scrolled{
     .timeline-logo{ width:54px; height:54px; }
 
     .hobby-strip{ grid-template-columns:1fr 1fr; gap:14px; }
-
-    .hero-stats{ gap:22px; }
-
-    .hero-stats li{ max-width:none; flex:1 1 130px; }
 
     .accordion-head{ gap:14px; padding:18px 16px; }
 
