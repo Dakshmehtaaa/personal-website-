@@ -38,7 +38,7 @@ window.TRANSLATIONS = {
         'about.edu2note': "Première place au concours de start-up verte de l'école",
 
         'exp.kicker': 'Expérience',
-        'exp.title': "Là où j'ai fait le travail",
+        'exp.title': "Le travail derrière l'impact",
         'exp.d1': 'Sept. 2025 — aujourd’hui',
         'exp.r1': 'Alternant Durabilité & Impact Social',
         'exp.r1b1': "Coordination du benchmarking ESG et de l'engagement fournisseurs pour l'achat de la plateforme RSE.",
