@@ -22,9 +22,8 @@ window.TRANSLATIONS = {
         'nav.insights': 'Publications',
         'nav.contact': 'Contact',
 
-        'hero.eyebrow': 'RSE · ESG · Chef de projet',
+        'hero.eyebrow': 'Consultant RSE',
         'hero.tagline': 'Transformer les engagements durables en impact mesurable',
-        'hero.lede': "Trois ans d'expérience en entreprise en RSE, ESG et politique européenne — pilotage de projets RSE, reporting extra-financier et certifications de durabilité. Actuellement en charge des programmes durabilité et impact social chez Dataiku à Paris.",
         'hero.ctaWork': 'Voir mes travaux',
         'hero.ctaCv': 'Télécharger mon CV',
 

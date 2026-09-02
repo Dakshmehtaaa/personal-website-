@@ -18,9 +18,9 @@ or serve the folder with any static file server.
   structure. Design tokens (colors, radii, shadows) are CSS custom properties on `:root` /
   `:root[data-theme="dark"]`.
 - `script.js` — small vanilla-JS IIFEs, one per feature (theme toggle, language switch, nav,
-  intro animation, portfolio accordion, LinkedIn embed fallback, show-more, spotlight glow,
-  carousels, scroll reveal). Each guards on `if (!element) return;` so it's safe to include on
-  every page even though not every page has every element.
+  intro animation, portfolio accordion, show-more, spotlight glow, carousels, scroll reveal).
+  Each guards on `if (!element) return;` so it's safe to include on every page even though not
+  every page has every element.
 - `i18n.js` — French translations keyed by `data-i18n` attribute. English lives directly in the
   HTML markup and is captured at runtime as the fallback/source of truth.
 - `assets/` — logos, the CV PDF, hobby photos, notion project exports, the `og-cover.png` share
@@ -71,8 +71,20 @@ or serve the folder with any static file server.
   card content around common laptop widths (~1440px) when the active item's label was left open
   permanently. If you add a page with its own anchor sections, copy the pattern rather than
   reintroducing a fixed label width.
+- **`.nav-drop-top::after` is a CSS border-triangle, not the "▾" character.** That glyph sits low
+  in its own box in most fonts and read as visibly off-center against the link text next to it,
+  however the spacing was tuned. A `border` triangle centers on the line itself regardless of
+  font/platform — don't swap it back for a text glyph.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
+- **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
+  `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
+  with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post
+  didn't have a cropped screenshot yet; it was removed once all three cards had one, along with
+  the script.js IIFE that degraded it when the iframe failed to load. Do not bring `.li-embed`
+  back for a new post — every LinkedIn post's iframe embed height is different (whatever LinkedIn
+  assigned it), so mixing it with `.insight-image` cards makes the row visibly uneven; get a
+  screenshot of the post from the user instead and add it the same way as the others.
 - **The site URL is hardcoded** as `https://dakshmehtaaa.github.io/personal-website-/` in the
   canonical/`og:` tags of all three pages, in `sitemap.xml`, `robots.txt`, the JSON-LD block at
   the end of `index.html`, and in `404.html`'s root-relative paths. Renaming the repo or adding a
@@ -84,6 +96,10 @@ or serve the folder with any static file server.
   WebFetch to most third-party domains — LinkedIn, GHG Protocol, CDP, etc. — returns
   `EGRESS_BLOCKED`) is blocked in this sandbox. Logos or images from external orgs/LinkedIn posts
   can't be downloaded programmatically here; ask the user to upload the files directly instead.
+- **Where an uploaded file actually lands**: check `/root/.claude/uploads/<session-id>/` (not the
+  repo). Mentioning a filename in chat is not the same as attaching it — if the user names a file
+  you can't find there or anywhere under the repo, it didn't come through; say so and ask them to
+  attach it directly (drag-and-drop / paste) rather than assuming it'll show up later.
 - Pillow is available for image work (including animated WebP); `ffmpeg`, `cwebp` and
   ImageMagick are not.
 
