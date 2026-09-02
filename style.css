@@ -311,10 +311,20 @@ section > .section-head + *,
     height:12px;
 }
 
+/* A CSS triangle rather than the "▾" glyph: that character sits low in its
+   own box in most fonts, so it read as off-center against the link text
+   however the surrounding spacing was tuned. This centers on the line
+   itself, independent of font metrics. */
 .nav-drop-top::after{
-    content:"▾";
-    margin-left:6px;
-    font-size:10px;
+    content:"";
+    display:inline-block;
+    vertical-align:2px;
+    margin-left:7px;
+    width:0;
+    height:0;
+    border-left:4px solid transparent;
+    border-right:4px solid transparent;
+    border-top:5px solid currentColor;
     opacity:.55;
 }
 
@@ -604,7 +614,7 @@ section > .section-head + *,
     font-weight:700;
     line-height:1.35;
     color:var(--text-soft);
-    margin-bottom:22px;
+    margin-bottom:36px;
     max-width:22ch;
 }
 
@@ -749,7 +759,10 @@ section > .section-head + *,
     display:grid;
     grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
     gap:clamp(24px, 4vw, 48px);
-    align-items:start;
+    /* The copy column runs noticeably shorter than the frameworks/education
+       card; top-aligning left a large dead gap under it while the card kept
+       going. Centering splits that slack instead of dumping it all below. */
+    align-items:center;
 }
 
 .about-copy p{
@@ -1455,15 +1468,6 @@ section > .section-head + *,
     margin-bottom:18px;
 }
 
-.li-embed{
-    position:relative;
-    overflow:hidden;
-    border-radius:var(--r-md);
-    border:1px solid var(--border);
-    background:var(--surface-2);
-    margin-bottom:16px;
-}
-
 .insight-image{
     overflow:hidden;
     border-radius:var(--r-md);
@@ -1480,12 +1484,6 @@ section > .section-head + *,
     max-height:100%;
     object-fit:contain;
     display:block;
-}
-
-.li-embed iframe{
-    display:block;
-    width:100%;
-    border:0;
 }
 
 /* Always visible, so a card still reads well if the embed is blocked */

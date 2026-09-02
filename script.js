@@ -318,37 +318,6 @@
 
 
 /* ======================================
-   LinkedIn embeds — degrade gracefully
-   when the iframe cannot load (offline,
-   tracking blockers, non-public post)
-====================================== */
-(function () {
-
-    const embeds = Array.from(document.querySelectorAll('.li-embed'));
-
-    embeds.forEach(embed => {
-
-        const frame = embed.querySelector('iframe');
-
-        if (!frame) return;
-
-        let loaded = false;
-
-        frame.addEventListener('load', () => { loaded = true; });
-
-        // If the frame never loads at all, drop the empty box rather than
-        // leaving a blank panel. The written summary above it already carries
-        // the card, so nothing is lost.
-        window.setTimeout(() => {
-            if (!loaded) embed.remove();
-        }, 6000);
-
-    });
-
-})();
-
-
-/* ======================================
    Scroll reveal
 ====================================== */
 (function () {
