@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dakshmehtaaa.github.io/personal-website-/sitemap.xml

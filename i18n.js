@@ -15,6 +15,10 @@ window.TRANSLATIONS = {
         'nav.experience': 'Expérience',
         'nav.portfolio': 'Portfolio',
         'nav.why': 'Pour les entreprises',
+        'nav.aboutMe': 'À propos de moi',
+        'nav.hobbies': 'Loisirs',
+        'nav.businessCase': 'Les arguments business',
+        'nav.resources': 'Ressources gratuites',
         'nav.insights': 'Publications',
         'nav.contact': 'Contact',
 
@@ -64,7 +68,8 @@ window.TRANSLATIONS = {
         'pf.kicker': 'Portfolio',
         'pf.title': 'Projets sélectionnés',
         'pf.note': 'Classés du plus au moins pertinent pour ma pratique de la durabilité. Sélectionnez un projet pour lire la présentation complète et télécharger le support.',
-        'pf.hobbiesNote': "Les échecs, la salle de sport et un passeport qui sert. J'ai aussi organisé un tournoi d'échecs caritatif au profit de l'Animal and Bird Welfare Society.",
+        'pf.showMore': 'Voir les 11 projets',
+        'pf.showLess': 'Voir moins de projets',
         'pf.hobbiesTeaser': "Les échecs, la salle de sport, et un passeport qui sert.",
         'pf.hobbiesTeaserCta': 'Voir mes loisirs →',
 
@@ -175,17 +180,6 @@ window.TRANSLATIONS = {
         'ct.based': 'Basé à',
 
         'footer.note': 'RSE · ESG · Gestion de projets durables',
-
-        'cv.title': 'Télécharger mon CV',
-        'cv.sub': 'Laissez vos coordonnées et le téléchargement démarre immédiatement.',
-        'cv.first': 'Prénom',
-        'cv.last': 'Nom',
-        'cv.emailLabel': 'E-mail professionnel',
-        'cv.submit': 'Télécharger le CV',
-        'cv.privacy': "Vos informations restent dans votre navigateur — rien n'est envoyé.",
-        'cv.thanks': 'Merci',
-        'cv.started': "Le téléchargement a démarré. Sinon, utilisez le lien ci-dessous.",
-        'cv.direct': 'Télécharger directement',
 
         'sus.hero.eyebrow': "Pour les dirigeants d'entreprise",
         'sus.hero.title': "Faites de la durabilité<br>votre avantage stratégique.",
