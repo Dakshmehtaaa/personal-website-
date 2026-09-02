@@ -185,7 +185,6 @@ window.TRANSLATIONS = {
         'sus.hero.lede': "Six façons dont une stratégie de durabilité active porte ses fruits — en termes simples, pour ceux qui doivent justifier le budget.",
         'sus.hero.cta1': 'Voir les arguments business',
         'sus.hero.cta2': 'Ressources gratuites ↓',
-        'sus.hero.caption': 'De petits pas. Un grand impact.',
 
         'sus.adv.kicker': 'Les arguments business',
         'sus.adv.title': "D'où vient vraiment l'avantage",
