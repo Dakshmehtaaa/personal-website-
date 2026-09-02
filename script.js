@@ -191,7 +191,7 @@
 ====================================== */
 (function () {
 
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector('.site-nav');
     const burger = document.getElementById('nav-burger');
     const links = document.getElementById('nav-links');
 
@@ -229,8 +229,9 @@
 
     }
 
-    // Highlight the section currently in view
-    const navAnchors = Array.from(document.querySelectorAll('.nav-links a'));
+    // Highlight the section currently in view — shared with the side index,
+    // whose links point at the same anchors
+    const navAnchors = Array.from(document.querySelectorAll('.nav-links a, .side-index a'));
     const sections = navAnchors
         .map(anchor => document.querySelector(anchor.getAttribute('href')))
         .filter(Boolean);
@@ -252,6 +253,27 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
 
     sections.forEach(section => spy.observe(section));
+
+})();
+
+
+/* ======================================
+   Side index — appears once the hero scrolls out of view
+====================================== */
+(function () {
+
+    const rail = document.getElementById('side-index');
+    const hero = document.getElementById('top');
+
+    if (!rail || !hero || !('IntersectionObserver' in window)) return;
+
+    // Reveal a bit before the hero has fully scrolled away rather than
+    // waiting for the last pixel of it to clear the viewport.
+    const reveal = new IntersectionObserver(entries => {
+        entries.forEach(entry => rail.classList.toggle('is-visible', !entry.isIntersecting));
+    }, { rootMargin: '0px 0px -70% 0px' });
+
+    reveal.observe(hero);
 
 })();
 

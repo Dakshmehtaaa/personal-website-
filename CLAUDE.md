@@ -47,6 +47,30 @@ or serve the folder with any static file server.
   percentage `max-height` on the `img` resolves against an indefinite grid track, so square marks
   (GRI, ESRS) render at full width and get clipped. The plate's dimensions live in
   `--plate-w`/`--plate-h`/`--plate-p` and the image bounds are `calc()`d from them.
+- **One content width.** Every full-width section (hero, about, timeline, portfolio, insights,
+  resources, footer) uses `max-width:var(--maxw)` (1280px) so left/right edges line up all the
+  way down the page. Don't give a section its own narrower cap to "fix" long paragraph lines —
+  cap the text instead (`max-width` in `ch` on the `p`/`ul`, e.g. `.project-detail-copy p`,
+  `.timeline-body ul`), so the card/section background still reaches the shared edge. The only
+  legitimate narrower caps are: `.section-head`/`.panel-note` (760px, a centered headline
+  measure) and `.contact-card` (960px, a deliberately focused CTA box) — both are sub-elements,
+  not full section containers, and adding a third one reintroduces the "different width per
+  section" bug this fixed.
+- **The top bar (`.site-nav`) is a full-width fixed bar, not a floating pill** — it spans
+  edge-to-edge like the rest of the site's sections, not inset with its own border-radius. Note
+  the class: the selector is scoped to `.site-nav` rather than the bare `nav` tag specifically
+  *because* `#side-index` (below) is also a `<nav>` landmark — a bare `nav{}` rule leaks into it
+  (this bit us once: `#side-index` inherited `width:100%` and `right:0` from it and rendered as a
+  full-width invisible strip). Never restyle the top bar via a bare `nav` selector.
+- **`#side-index`** is the scroll-spy rail on the left (index.html, why-sustainability-matters.html)
+  — hidden over the hero, faded in by script.js once `#top` scrolls out of view, reusing the same
+  IntersectionObserver-driven `.active` class the top nav's dropdown links get (`.nav-links a,
+  .side-index a` share one spy). Only shown above 1240px, and even then the label text is
+  hover-only, capped to `var(--avail-label)` (derived from the actual margin beside the maxw
+  column at the current viewport width) rather than a fixed px value — a fixed width overlapped
+  card content around common laptop widths (~1440px) when the active item's label was left open
+  permanently. If you add a page with its own anchor sections, copy the pattern rather than
+  reintroducing a fixed label width.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
 - **The site URL is hardcoded** as `https://dakshmehtaaa.github.io/personal-website-/` in the
