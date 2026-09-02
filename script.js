@@ -510,6 +510,43 @@
 
 
 /* ======================================
+   Sustainability page — background video
+====================================== */
+(function () {
+
+    const video = document.getElementById('sus-video');
+    const muteBtn = document.getElementById('sus-video-mute');
+
+    if (!video) return;
+
+    // Autoplay only ever works muted; a visitor who prefers no motion
+    // shouldn't get an auto-playing video regardless, so don't even start it.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        video.removeAttribute('autoplay');
+        video.pause();
+    } else if ('IntersectionObserver' in window) {
+        // Save the decode/CPU cost while it's off-screen rather than looping
+        // a video nobody is looking at.
+        new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) video.play().catch(() => {});
+                else video.pause();
+            });
+        }, { threshold: 0.25 }).observe(video);
+    }
+
+    if (!muteBtn) return;
+
+    muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        muteBtn.dataset.muted = String(video.muted);
+        muteBtn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+    });
+
+})();
+
+
+/* ======================================
    Coverflow carousel (hobbies page)
 ====================================== */
 (function () {

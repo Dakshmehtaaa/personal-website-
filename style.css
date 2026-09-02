@@ -1731,6 +1731,59 @@ section > .section-head + *,
 
 @keyframes spark-dot-in{ to{ opacity:1; transform:scale(1); } }
 
+/* video */
+.sus-video-section{
+    padding-top:0;
+    padding-bottom:0;
+}
+
+.sus-video-card{
+    position:relative;
+    max-width:var(--maxw);
+    margin:0 auto;
+    overflow:hidden;
+    border-radius:var(--r-xl);
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.sus-video{
+    display:block;
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    /* Shows through until the poster/video frame paints over it — a plain
+       flat fill read as a broken box rather than a loading video. */
+    background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 16%, transparent), var(--surface-2) 60%);
+}
+
+.sus-video-mute{
+    position:absolute;
+    right:18px;
+    bottom:18px;
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.35);
+    background:rgba(10,20,17,.45);
+    color:#fff;
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease;
+}
+
+.sus-video-mute:hover{ background:rgba(10,20,17,.65); transform:scale(1.06); }
+
+.sus-video-mute svg{ width:20px; height:20px; }
+
+.sus-video-mute-icon{ display:none; }
+.sus-video-mute[data-muted="true"] .sus-video-mute-icon--off{ display:block; }
+.sus-video-mute[data-muted="false"] .sus-video-mute-icon--on{ display:block; }
+
 /* advantages */
 .adv-carousel{
     max-width:var(--maxw);

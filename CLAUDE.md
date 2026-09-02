@@ -24,7 +24,8 @@ or serve the folder with any static file server.
 - `i18n.js` — French translations keyed by `data-i18n` attribute. English lives directly in the
   HTML markup and is captured at runtime as the fallback/source of truth.
 - `assets/` — logos, the CV PDF, hobby photos, notion project exports, the `og-cover.png` share
-  card.
+  card, `videos/` (the looping background video on the sustainability page — see its own README
+  for expected filenames).
 - `reference/21st-dev-effects/` — the original React sources for the two 21st.dev effects adapted
   here (spotlight card, coverflow carousel). Reference only; nothing imports them.
 
@@ -77,6 +78,14 @@ or serve the folder with any static file server.
   font/platform — don't swap it back for a text glyph.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
+- **The sustainability page's background video** (`.sus-video-section`, between the hero and
+  `#advantages`) autoplays muted+looped — required for autoplay to work at all — with a
+  click-to-unmute button (`#sus-video-mute`, swapping two SVG icons via `data-muted`, same pattern
+  as the theme toggle's sun/moon swap). script.js pauses it outright under
+  `prefers-reduced-motion`, and otherwise pauses/resumes it via `IntersectionObserver` so it's not
+  decoding off-screen. `.sus-video`'s CSS background is a light gradient rather than a flat fill —
+  it's what shows before the poster/video paints, and a flat box reads as broken rather than
+  loading.
 - **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
   `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
   with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post
