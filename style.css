@@ -12,7 +12,7 @@
 
 html{
     scroll-behavior:smooth;
-    scroll-padding-top:104px;
+    scroll-padding-top:96px;
     -webkit-text-size-adjust:100%;
 }
 
@@ -53,7 +53,7 @@ img, svg, iframe{
     --r-xl:30px;
     --r-pill:999px;
 
-    --maxw:1200px;
+    --maxw:1280px;
     --gutter:clamp(18px, 4vw, 48px);
 
     --ease:cubic-bezier(.22,1,.36,1);
@@ -238,30 +238,29 @@ section > .section-head + *,
 /* =========================================================
    NAV
 ========================================================= */
-nav{
+.site-nav{
     position:fixed;
-    top:16px;
-    left:50%;
-    transform:translateX(-50%);
+    top:0;
+    left:0;
+    right:0;
     z-index:1000;
-    width:min(94%, var(--maxw));
+    width:100%;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:20px;
-    padding:12px 12px 12px 24px;
-    border-radius:var(--r-pill);
+    padding:16px var(--gutter);
     background:var(--surface-glass);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow-sm);
+    border-bottom:1px solid transparent;
+    box-shadow:none;
     backdrop-filter:blur(20px) saturate(140%);
     -webkit-backdrop-filter:blur(20px) saturate(140%);
     transition:box-shadow .3s ease, background .3s ease, border-color .3s ease;
 }
 
-nav.scrolled{
-    box-shadow:var(--shadow);
-    border-color:var(--border-strong);
+.site-nav.scrolled{
+    box-shadow:var(--shadow-sm);
+    border-color:var(--border);
 }
 
 .logo{
@@ -464,6 +463,102 @@ nav.scrolled{
 .nav-burger[aria-expanded="true"] span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
 .nav-burger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
 .nav-burger[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+/* Scroll-spy rail. Only wide viewports get one — below ~1240px the maxw
+   column already reaches close to the edges and there's no margin left to
+   float it in without overlapping content. Hidden over the hero on purpose;
+   script.js adds .is-visible once the hero scrolls out of view. */
+.side-index{
+    display:none;
+}
+
+@media (min-width: 1240px){
+
+    .side-index{
+        --rail-left:clamp(14px, 2vw, 32px);
+        /* How much margin actually sits to the left of the centered maxw
+           column at this viewport — matches the auto-margin centering math
+           sections use, floored at the gutter for viewports where content
+           hasn't started centering yet. The label's max-width is capped to
+           this so it can never expand over card content, not even when a
+           section's active label stays open (see .side-index a.active below). */
+        --avail-label:calc(max(var(--gutter), (100vw - var(--maxw)) / 2) - var(--rail-left) - 8px - 10px - 20px);
+
+        position:fixed;
+        top:50%;
+        left:var(--rail-left);
+        z-index:600;
+        display:flex;
+        flex-direction:column;
+        gap:18px;
+        transform:translateY(-50%) translateX(-12px);
+        opacity:0;
+        pointer-events:none;
+        transition:opacity .4s var(--ease), transform .4s var(--ease);
+    }
+
+    .side-index.is-visible{
+        opacity:1;
+        pointer-events:auto;
+        transform:translateY(-50%) translateX(0);
+    }
+
+    .side-index a{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        text-decoration:none;
+        padding:3px 0;
+    }
+
+    .side-index-dot{
+        flex:0 0 auto;
+        width:8px;
+        height:8px;
+        border-radius:50%;
+        background:var(--border-strong);
+        transition:background .25s ease, transform .25s ease;
+    }
+
+    .side-index-label{
+        display:inline-block;
+        max-width:0;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        vertical-align:middle;
+        font-size:11px;
+        font-weight:700;
+        letter-spacing:.05em;
+        text-transform:uppercase;
+        color:var(--text-muted);
+        opacity:0;
+        transition:max-width .3s ease, opacity .2s ease, color .25s ease;
+    }
+
+    /* Only on hover, not permanently for the active item — the active dot
+       alone (below) is small enough to never overlap content at any width
+       the rail shows at; a persistently open label was wide enough to sit
+       on top of card content around common laptop viewports (~1440px). */
+    .side-index a:hover .side-index-label{
+        max-width:clamp(0px, var(--avail-label), 190px);
+        opacity:1;
+    }
+
+    .side-index a:hover .side-index-dot{ background:var(--accent); }
+
+    .side-index a.active .side-index-dot{
+        background:var(--accent);
+        transform:scale(1.35);
+    }
+
+    .side-index a.active .side-index-label{ color:var(--text); }
+
+}
+
+@media (prefers-reduced-motion: reduce){
+    .side-index, .side-index.is-visible, .side-index-dot, .side-index-label{ transition:none; }
+}
 
 /* =========================================================
    HERO
@@ -734,7 +829,7 @@ nav.scrolled{
 ========================================================= */
 .timeline{
     position:relative;
-    max-width:940px;
+    max-width:var(--maxw);
     list-style:none;
     padding-left:0;
 }
@@ -819,6 +914,7 @@ nav.scrolled{
 }
 
 .timeline-body ul{
+    max-width:64ch;
     list-style:none;
     display:flex;
     flex-direction:column;
@@ -897,9 +993,9 @@ nav.scrolled{
     line-height:1.7;
 }
 
-.accordion-list{ max-width:960px; }
+.accordion-list{ max-width:var(--maxw); }
 
-.portfolio-hobbies-cta{ max-width:960px; margin:32px auto 0; }
+.portfolio-hobbies-cta{ max-width:var(--maxw); margin:32px auto 0; }
 
 .pf-more[hidden]{ display:none; }
 
@@ -1084,6 +1180,7 @@ nav.scrolled{
 .project-detail-media--placeholder span{ font-size:58px; line-height:1; }
 
 .project-detail-copy p{
+    max-width:68ch;
     color:var(--text-soft);
     font-size:15.5px;
     line-height:1.8;
@@ -1423,7 +1520,7 @@ nav.scrolled{
    CONTACT + FOOTER
 ========================================================= */
 .contact-card{
-    max-width:880px;
+    max-width:960px;
     margin:0 auto;
     padding:clamp(32px, 5vw, 56px);
     text-align:center;
@@ -1991,9 +2088,7 @@ nav.scrolled{
 }
 
 @media (max-width: 760px){
-    html{ scroll-padding-top:90px; }
-
-    nav{ padding-left:18px; }
+    html{ scroll-padding-top:84px; }
 
     .logo{ font-size:17.5px; }
 
