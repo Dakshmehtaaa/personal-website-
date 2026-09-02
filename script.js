@@ -327,67 +327,6 @@
 
 
 /* ======================================
-   CV modal
-====================================== */
-(function () {
-
-    const openButton = document.getElementById('open-cv-modal');
-    const closeButton = document.getElementById('close-cv-modal');
-    const modal = document.getElementById('cv-modal');
-    const form = document.getElementById('cv-download-form');
-    const success = document.getElementById('cv-success-msg');
-
-    if (!modal) return;
-
-    const open = () => {
-        modal.classList.remove('hidden');
-        if (form) form.classList.remove('hidden');
-        if (success) success.classList.add('hidden');
-        document.body.style.overflow = 'hidden';
-        const first = modal.querySelector('input');
-        if (first) window.setTimeout(() => first.focus(), 120);
-    };
-
-    const close = () => {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-    };
-
-    if (openButton) openButton.addEventListener('click', open);
-    if (closeButton) closeButton.addEventListener('click', close);
-
-    modal.addEventListener('click', event => {
-        if (event.target === modal) close();
-    });
-
-    document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && !modal.classList.contains('hidden')) close();
-    });
-
-    if (!form) return;
-
-    form.addEventListener('submit', event => {
-
-        event.preventDefault();
-
-        // Start the download. Nothing is transmitted anywhere.
-        const link = document.createElement('a');
-        link.href = 'assets/CV_Daksh_2026.pdf';
-        link.download = 'CV_Daksh_Mehta.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        form.classList.add('hidden');
-        if (success) success.classList.remove('hidden');
-        form.reset();
-
-    });
-
-})();
-
-
-/* ======================================
    Scroll reveal
 ====================================== */
 (function () {
@@ -498,6 +437,174 @@
             page = i;
             render();
         });
+    });
+
+    render();
+
+})();
+
+
+/* ======================================
+   Portfolio — show the rest of the projects
+====================================== */
+(function () {
+
+    const toggle = document.getElementById('pf-more-toggle');
+    const more = document.getElementById('pf-more');
+
+    if (!toggle || !more) return;
+
+    const dictionary = (window.TRANSLATIONS || {});
+
+    // The label is swapped by JS, so it needs both translations up front
+    const label = open => {
+
+        const lang = document.documentElement.getAttribute('lang');
+        const key = open ? 'pf.showLess' : 'pf.showMore';
+        const fallback = open ? 'Show fewer projects' : 'Show all 11 projects';
+
+        return (lang === 'fr' && dictionary.fr && dictionary.fr[key]) || fallback;
+
+    };
+
+    const isOpen = () => !more.hasAttribute('hidden');
+
+    toggle.addEventListener('click', () => {
+
+        const open = !isOpen();
+
+        more.toggleAttribute('hidden', !open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.textContent = label(open);
+
+        // Keep the key in sync so a later language switch picks the right string
+        toggle.dataset.i18n = open ? 'pf.showLess' : 'pf.showMore';
+
+    });
+
+    // 'Show fewer projects' never appears in the markup, so the language switch
+    // has no captured English source for it and would leave the button in French
+    // on the way back. Rewrite our own label after every switch instead.
+    new MutationObserver(() => { toggle.textContent = label(isOpen()); })
+        .observe(document.documentElement, { attributeFilter: ['lang'] });
+
+})();
+
+
+/* ======================================
+   Spotlight hover glow on card blocks
+====================================== */
+(function () {
+
+    const cards = document.querySelectorAll('.adv-card, .res-card');
+
+    if (!cards.length) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    cards.forEach(card => {
+
+        card.addEventListener('pointermove', event => {
+
+            const rect = card.getBoundingClientRect();
+
+            card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+            card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+
+        });
+
+    });
+
+})();
+
+
+/* ======================================
+   Coverflow carousel (hobbies page)
+====================================== */
+(function () {
+
+    const root = document.getElementById('coverflow');
+    const stage = document.getElementById('coverflow-stage');
+    const dotsWrap = document.getElementById('cf-dots');
+    const prevBtn = document.getElementById('cf-prev');
+    const nextBtn = document.getElementById('cf-next');
+
+    if (!root || !stage || !dotsWrap || !prevBtn || !nextBtn) return;
+
+    const slides = Array.from(stage.querySelectorAll('.cf-slide'));
+
+    if (!slides.length) return;
+
+    const total = slides.length;
+    let index = 0;
+
+    const dots = slides.map((slide, i) => {
+
+        const dot = document.createElement('button');
+
+        dot.type = 'button';
+        dot.className = 'cf-dot';
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => go(i));
+        dotsWrap.appendChild(dot);
+
+        // Clicking a side slide brings it to the front
+        slide.addEventListener('click', () => { if (i !== index) go(i); });
+
+        return dot;
+
+    });
+
+    // Shortest signed distance from the active slide, so the strip wraps evenly
+    const offsetFrom = i => {
+        let diff = (i - index + total) % total;
+        if (diff > total / 2) diff -= total;
+        return diff;
+    };
+
+    function render() {
+
+        slides.forEach((slide, i) => {
+
+            const pos = offsetFrom(i);
+
+            if (Math.abs(pos) <= 2) slide.setAttribute('data-pos', String(pos));
+            else slide.removeAttribute('data-pos');
+
+        });
+
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+
+    }
+
+    function go(next) {
+        index = (next + total) % total;
+        render();
+    }
+
+    prevBtn.addEventListener('click', () => go(index - 1));
+    nextBtn.addEventListener('click', () => go(index + 1));
+
+    root.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') { go(index - 1); event.preventDefault(); }
+        if (event.key === 'ArrowRight') { go(index + 1); event.preventDefault(); }
+    });
+
+    // Swipe
+    let startX = null;
+
+    stage.addEventListener('pointerdown', event => { startX = event.clientX; });
+
+    stage.addEventListener('pointerup', event => {
+
+        if (startX === null) return;
+
+        const diff = event.clientX - startX;
+
+        if (Math.abs(diff) > 45) go(diff < 0 ? index + 1 : index - 1);
+
+        startX = null;
+
     });
 
     render();

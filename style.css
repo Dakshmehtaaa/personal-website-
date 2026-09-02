@@ -299,6 +299,56 @@ nav.scrolled{
     background:color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
+/* dropdown groups */
+.nav-drop{ position:relative; }
+
+/* hover bridge across the gap so the menu doesn't flicker shut */
+.nav-drop::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    height:12px;
+}
+
+.nav-drop-top::after{
+    content:"▾";
+    margin-left:6px;
+    font-size:10px;
+    opacity:.55;
+}
+
+.nav-drop-menu{
+    position:absolute;
+    top:calc(100% + 10px);
+    left:50%;
+    z-index:10;
+    min-width:196px;
+    padding:8px;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    border-radius:var(--r-lg);
+    background:var(--surface);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(-50%) translateY(-6px);
+    transition:opacity .22s ease, transform .22s ease, visibility .22s;
+}
+
+.nav-drop:hover .nav-drop-menu,
+.nav-drop:focus-within .nav-drop-menu{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(-50%) translateY(0);
+}
+
+.nav-drop-menu a{ white-space:nowrap; font-size:14px; }
+
 .nav-right{
     display:flex;
     align-items:center;
@@ -851,6 +901,29 @@ nav.scrolled{
 
 .portfolio-hobbies-cta{ max-width:960px; margin:32px auto 0; }
 
+.pf-more[hidden]{ display:none; }
+
+.pf-more-toggle{
+    display:block;
+    margin:26px auto 0;
+    padding:13px 28px;
+    border-radius:var(--r-pill);
+    border:1px solid var(--border-strong);
+    background:var(--surface);
+    color:var(--accent);
+    font-family:inherit;
+    font-size:14.5px;
+    font-weight:700;
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease, transform .25s ease;
+}
+
+.pf-more-toggle:hover{
+    background:var(--accent);
+    color:#fff;
+    transform:translateY(-2px);
+}
+
 .accordion-group{
     margin:34px 0 14px;
     color:var(--gold);
@@ -1104,45 +1177,140 @@ nav.scrolled{
 
 .hobbies-back a:hover{ color:var(--gold); }
 
-.hobby-strip{
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0,1fr));
-    gap:18px;
-    max-width:960px;
+/* 3D coverflow gallery — adapted from a 21st.dev React component
+   (see reference/21st-dev-effects/) into vanilla CSS + JS. */
+.coverflow{
+    max-width:var(--maxw);
     margin:0 auto;
+    user-select:none;
 }
 
-.hobby-item{
-    overflow:hidden;
+.coverflow-stage{
+    position:relative;
+    height:clamp(360px, 56vw, 520px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:1400px;
+}
+
+.cf-slide{
+    position:absolute;
+    width:clamp(200px, 29vw, 330px);
+    height:clamp(300px, 44vw, 500px);
+    margin:0;
     border-radius:var(--r-lg);
-    background:var(--surface);
+    overflow:hidden;
+    background:var(--surface-2);
     border:1px solid var(--border);
-    box-shadow:var(--shadow-sm);
-    transition:transform .3s var(--ease), box-shadow .3s ease, border-color .3s ease;
-}
-
-.hobby-item:hover{
-    transform:translateY(-5px);
-    border-color:var(--border-strong);
     box-shadow:var(--shadow);
+    transform-origin:center center;
+    transition:transform .8s cubic-bezier(.25,1,.5,1), opacity .8s ease, filter .8s ease;
+    opacity:0;
+    pointer-events:none;
 }
 
-.hobby-item a{ display:block; }
+/* Without JS the first slide still shows, rather than an empty stage */
+.cf-slide:first-child{ opacity:1; z-index:30; }
 
-.hobby-item img{
+.cf-slide img{
     width:100%;
-    aspect-ratio:3/4;
+    height:100%;
     object-fit:cover;
     display:block;
 }
 
-.hobby-item figcaption{
-    padding:12px;
+.cf-slide figcaption{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:36px 16px 16px;
     text-align:center;
-    font-size:13px;
+    font-size:14.5px;
     font-weight:700;
-    color:var(--text-soft);
+    color:#fff;
+    background:linear-gradient(180deg, transparent, rgba(0,0,0,.78));
+    opacity:0;
+    transition:opacity .5s ease;
 }
+
+.cf-slide[data-pos="0"]{
+    transform:translateX(0) scale(1) rotateY(0deg);
+    opacity:1;
+    z-index:30;
+    pointer-events:auto;
+    box-shadow:var(--shadow-lg);
+}
+
+.cf-slide[data-pos="0"] figcaption{ opacity:1; }
+
+.cf-slide[data-pos="1"],
+.cf-slide[data-pos="-1"]{
+    opacity:.62;
+    z-index:20;
+    filter:brightness(.8);
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+.cf-slide[data-pos="1"]{ transform:translateX(clamp(140px, 19vw, 250px)) scale(.84) rotateY(-24deg); }
+.cf-slide[data-pos="-1"]{ transform:translateX(calc(-1 * clamp(140px, 19vw, 250px))) scale(.84) rotateY(24deg); }
+
+.cf-slide[data-pos="2"],
+.cf-slide[data-pos="-2"]{
+    opacity:.3;
+    z-index:10;
+    filter:brightness(.6) blur(1px);
+}
+
+.cf-slide[data-pos="2"]{ transform:translateX(clamp(240px, 32vw, 430px)) scale(.68) rotateY(-38deg); }
+.cf-slide[data-pos="-2"]{ transform:translateX(calc(-1 * clamp(240px, 32vw, 430px))) scale(.68) rotateY(38deg); }
+
+.cf-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    margin-top:clamp(20px, 3vw, 34px);
+}
+
+.cf-arrow{
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    flex:0 0 auto;
+    border-radius:50%;
+    border:1px solid var(--border-strong);
+    background:var(--surface);
+    color:var(--accent);
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease, transform .25s ease;
+}
+
+.cf-arrow:hover{
+    background:var(--accent);
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+.cf-dots{ display:flex; gap:9px; }
+
+.cf-dot{
+    width:9px;
+    height:9px;
+    padding:0;
+    border:none;
+    border-radius:50%;
+    background:var(--border-strong);
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease;
+}
+
+.cf-dot.active{ background:var(--accent); transform:scale(1.35); }
 
 /* =========================================================
    LINKEDIN INSIGHTS
@@ -1378,147 +1546,6 @@ nav.scrolled{
 
 .footer-linkedin:hover{ transform:translateY(-3px); border-color:var(--border-strong); }
 
-/* =========================================================
-   CV MODAL
-========================================================= */
-.cv-modal-backdrop{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(8,18,14,.62);
-    backdrop-filter:blur(10px);
-    transition:opacity .3s ease;
-}
-
-.cv-modal-backdrop.hidden{
-    opacity:0;
-    pointer-events:none;
-}
-
-.cv-modal-box{
-    width:100%;
-    max-width:500px;
-    position:relative;
-    padding:36px 30px;
-    border-radius:var(--r-xl);
-    background:var(--surface);
-    border:1px solid var(--border-strong);
-    box-shadow:var(--shadow-lg);
-    transition:transform .35s var(--ease);
-}
-
-.cv-modal-backdrop.hidden .cv-modal-box{ transform:translateY(24px) scale(.97); }
-
-.cv-modal-close{
-    position:absolute;
-    top:18px;
-    right:18px;
-    width:34px;
-    height:34px;
-    display:grid;
-    place-items:center;
-    border:none;
-    border-radius:50%;
-    background:var(--surface-2);
-    color:var(--text);
-    font-size:15px;
-    cursor:pointer;
-    transition:background .25s ease;
-}
-
-.cv-modal-close:hover{ background:var(--border); }
-
-.cv-modal-header{ text-align:center; margin-bottom:24px; }
-
-.cv-modal-icon{
-    width:52px;
-    height:52px;
-    margin:0 auto 14px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    background:color-mix(in srgb, var(--accent) 14%, transparent);
-    color:var(--accent);
-    font-size:22px;
-}
-
-.cv-modal-header h3{ font-size:23px; margin-bottom:8px; }
-
-.cv-modal-header p{ color:var(--text-soft); font-size:14.5px; }
-
-.cv-form{ display:flex; flex-direction:column; gap:16px; }
-
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.form-group{ display:flex; flex-direction:column; gap:6px; min-width:0; }
-
-.form-group label{
-    font-size:13px;
-    font-weight:700;
-    color:var(--text-soft);
-}
-
-.form-group input{
-    width:100%;
-    padding:13px 15px;
-    border:1px solid var(--border);
-    border-radius:var(--r-sm);
-    background:var(--surface-2);
-    color:var(--text);
-    font-family:inherit;
-    font-size:15px;
-    transition:border-color .2s ease, box-shadow .2s ease;
-}
-
-.form-group input:focus{
-    outline:none;
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
-}
-
-.button--submit{ width:100%; margin-top:6px; }
-
-.form-disclaimer{
-    text-align:center;
-    color:var(--text-muted);
-    font-size:12.5px;
-    line-height:1.5;
-}
-
-.cv-success{ text-align:center; animation:fadeUp .4s ease; }
-
-.success-icon{
-    width:56px;
-    height:56px;
-    margin:0 auto 14px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    background:color-mix(in srgb, var(--accent) 16%, transparent);
-    color:var(--accent);
-    font-size:26px;
-}
-
-.cv-success h4{ font-size:21px; margin-bottom:8px; }
-
-.cv-success p{ color:var(--text-soft); font-size:14.5px; margin-bottom:20px; }
-
-.hidden{ display:none; }
-.cv-modal-backdrop.hidden{ display:flex; }
-
-@keyframes fadeUp{
-    from{ opacity:0; transform:translateY(10px); }
-    to{ opacity:1; transform:translateY(0); }
-}
-
 /* ---------- Scroll reveal ---------- */
 .reveal{
     opacity:0;
@@ -1676,6 +1703,21 @@ nav.scrolled{
 
 .adv-dot.active{ background:var(--accent); transform:scale(1.35); }
 
+/* On a laptop all six advantages are visible at once as a 3x2 grid;
+   below that they fall back to the swipeable carousel. */
+@media (min-width: 901px){
+    .adv-track{
+        display:grid;
+        grid-template-columns:repeat(3, minmax(0,1fr));
+        gap:22px;
+        transform:none !important;
+    }
+
+    .adv-page{ display:contents; }
+
+    .adv-nav{ display:none; }
+}
+
 .adv-card{
     padding:28px 26px;
     border-radius:var(--r-xl);
@@ -1739,21 +1781,64 @@ nav.scrolled{
     box-shadow:var(--shadow);
 }
 
+/* SPOTLIGHT GLOW — a cursor-tracked radial highlight on the card blocks.
+   Adapted from a 21st.dev React component (see reference/21st-dev-effects/)
+   into vanilla CSS + JS, using the site's own accent/gold instead of the
+   original's rainbow hue rotation. --mx/--my are set per card in script.js. */
+.adv-card,
+.res-card{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+}
+
+.adv-card::before,
+.res-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    border-radius:inherit;
+    background:radial-gradient(
+        260px circle at var(--mx, 50%) var(--my, 50%),
+        color-mix(in srgb, var(--spot) 24%, transparent),
+        transparent 68%
+    );
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+}
+
+.adv-card{ --spot:var(--accent); }
+.res-card{ --spot:var(--gold); }
+
+.adv-card:hover::before,
+.res-card:hover::before{ opacity:1; }
+
+/* Wide wordmarks (GHG Protocol, B Impact) shrink to nothing in a near-square
+   box, so the plate is deliberately landscape and tightly padded. */
 .res-logo{
+    --plate-w:76px;
+    --plate-h:46px;
+    --plate-p:5px;
+
     flex:0 0 auto;
     display:grid;
     place-items:center;
-    width:60px;
-    height:44px;
-    padding:6px;
+    width:var(--plate-w);
+    height:var(--plate-h);
+    padding:var(--plate-p);
     border-radius:11px;
     background:#fff;
     overflow:hidden;
 }
 
+/* Bounded in px, not percentages: as a grid item a percentage max-height
+   resolves against an indefinite track, so square marks (GRI, ESRS) overflow
+   the plate and get clipped instead of letterboxing inside it. */
 .res-logo img{
-    max-width:100%;
-    max-height:100%;
+    max-width:calc(var(--plate-w) - var(--plate-p) * 2);
+    max-height:calc(var(--plate-h) - var(--plate-p) * 2);
     object-fit:contain;
     display:block;
 }
@@ -1853,7 +1938,25 @@ nav.scrolled{
     .adv-page{ grid-template-columns:1fr 1fr; }
 }
 
-@media (max-width: 1140px){
+@media (max-width: 900px){
+    /* In the burger panel the dropdowns become plain nested lists */
+    .nav-drop-menu{
+        position:static;
+        min-width:0;
+        padding:2px 0 6px 14px;
+        background:transparent;
+        border:none;
+        box-shadow:none;
+        opacity:1;
+        visibility:visible;
+        transform:none;
+    }
+
+    .nav-drop-menu a{ font-size:14.5px; }
+
+    .nav-drop::after,
+    .nav-drop-top::after{ display:none; }
+
     .nav-links{
         position:absolute;
         top:calc(100% + 10px);
@@ -1908,7 +2011,6 @@ nav.scrolled{
 
     .timeline-logo{ width:54px; height:54px; }
 
-    .hobby-strip{ grid-template-columns:1fr 1fr; gap:14px; }
 
     .accordion-head{ gap:14px; padding:18px 16px; }
 
@@ -1920,7 +2022,6 @@ nav.scrolled{
 
     .accordion-item.open .accordion-body-inner{ padding-bottom:20px; }
 
-    .form-row{ grid-template-columns:1fr; }
 }
 
 @media (max-width: 480px){
@@ -1939,5 +2040,15 @@ nav.scrolled{
         animation-iteration-count:1 !important;
         transition-duration:.01ms !important;
         scroll-behavior:auto !important;
+    }
+}
+
+/* Forced-colors modes strip the gradient background but keep the transparent
+   text fill, which would erase these headings — paint them solid instead. */
+@media (forced-colors: active){
+    .logo, .hero h1, .sus-hero-content h1{
+        background:none;
+        -webkit-text-fill-color:currentColor;
+        color:CanvasText;
     }
 }
