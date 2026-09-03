@@ -81,12 +81,12 @@ or serve the folder with any static file server.
 - **The sustainability hero's right-hand visual is a video** (`.sus-hero-visual` →
   `.sus-video-card`) — it replaced a small animated SVG chart (the `.spark-*` classes; deleted,
   don't resurrect them for a similar chart elsewhere without rebuilding from scratch). Autoplays
-  muted+looped — required for autoplay to work at all — with a click-to-unmute button
-  (`#sus-video-mute`, swapping two SVG icons via `data-muted`, same pattern as the theme toggle's
-  sun/moon swap). script.js pauses it outright under `prefers-reduced-motion`, and otherwise
-  pauses/resumes it via `IntersectionObserver` so it's not decoding off-screen. `.sus-video`'s CSS
-  background is a light gradient rather than a flat fill — it's what shows before the poster/video
-  paints, and a flat box reads as broken rather than loading.
+  muted+looped; `muted` is what makes autoplay legal at all, and the file has **no audio track**,
+  so don't add an unmute control — it would be a button that does nothing. script.js pauses it
+  outright under `prefers-reduced-motion`, and otherwise pauses/resumes it via
+  `IntersectionObserver` so it's not decoding off-screen. `.sus-video`'s CSS background is a light
+  gradient rather than a flat fill — it's what shows before the first frame paints, and a flat box
+  reads as broken rather than loading.
 - **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
   `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
   with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post
@@ -124,6 +124,12 @@ page look broken — both have bitten more than once:
   too late) — the reveal script has a reduced-motion path that reveals everything up front.
 - **Missing logos/images.** `loading="lazy"` images below the fold never load for a full-page
   capture. Flip them eager in an init script before asserting anything about them.
+
+- **The hero video will not play here.** Playwright ships the open-source Chromium build, which
+  has no proprietary codecs: `canPlayType('video/mp4; codecs="avc1.42E01E"')` returns `''` and the
+  H.264 file fails to load with a bare "load error". That is the test browser, not the file —
+  verify the MP4 by parsing its atoms (`moov`/`trak`/`stsd`) in Python instead, and don't try to
+  grab a poster frame via canvas here, it can't decode one.
 
 Verify behaviour by querying the DOM (`naturalWidth`, computed styles, `aria-expanded`) rather
 than by eyeballing a screenshot — that is what caught the `.res-logo` clipping above.
