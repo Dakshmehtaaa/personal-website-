@@ -1469,25 +1469,35 @@ section > .section-head + *,
 }
 
 .insight-image{
+    position:relative;
     overflow:hidden;
     border-radius:var(--r-md);
     border:1px solid var(--border);
     background:#fff;
     margin-bottom:16px;
     aspect-ratio:16/10;
-    display:grid;
-    place-items:center;
 }
 
+/* Absolutely positioned, not max-width/max-height: a percentage max-height
+   doesn't resolve against this box's aspect-ratio-derived height, so taller
+   screenshots rendered past the frame and got cropped by overflow:hidden
+   (the same trap as .res-logo). inset:0 resolves against a definite box, so
+   every post letterboxes inside the same frame instead. */
 .insight-image img{
-    max-width:100%;
-    max-height:100%;
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
     object-fit:contain;
     display:block;
 }
 
 /* Always visible, so a card still reads well if the embed is blocked */
+/* Grows to absorb the height difference between cards, so the image frames
+   and the link below them line up across the row instead of each sitting
+   wherever its own snippet happens to end (4 lines vs 5). */
 .insight-snippet{
+    flex:1 1 auto;
     color:var(--text-soft);
     font-size:14.5px;
     line-height:1.7;
