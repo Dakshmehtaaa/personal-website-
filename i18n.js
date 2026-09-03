@@ -179,6 +179,9 @@ window.TRANSLATIONS = {
         'ct.based': 'Basé à',
 
         'footer.note': 'RSE · ESG · Gestion de projets durables',
+        'footer.blurb': "Gestion de projets RSE, ESG et durabilité — transformer les engagements en preuves qui résistent à l'examen.",
+        'footer.explore': 'Explorer',
+        'footer.social': 'Réseaux',
 
         'sus.hero.eyebrow': "Pour les dirigeants d'entreprise",
         'sus.hero.title': "Faites de la durabilité<br>votre avantage stratégique.",
