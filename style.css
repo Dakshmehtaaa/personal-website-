@@ -1704,32 +1704,6 @@ section > .section-head + *,
     background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 16%, transparent), var(--surface-2) 60%);
 }
 
-.sus-video-mute{
-    position:absolute;
-    right:18px;
-    bottom:18px;
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    border:1px solid rgba(255,255,255,.35);
-    background:rgba(10,20,17,.45);
-    color:#fff;
-    backdrop-filter:blur(6px);
-    -webkit-backdrop-filter:blur(6px);
-    cursor:pointer;
-    transition:background .25s ease, transform .25s ease;
-}
-
-.sus-video-mute:hover{ background:rgba(10,20,17,.65); transform:scale(1.06); }
-
-.sus-video-mute svg{ width:20px; height:20px; }
-
-.sus-video-mute-icon{ display:none; }
-.sus-video-mute[data-muted="true"] .sus-video-mute-icon--off{ display:block; }
-.sus-video-mute[data-muted="false"] .sus-video-mute-icon--on{ display:block; }
-
 /* advantages */
 .adv-carousel{
     max-width:var(--maxw);
