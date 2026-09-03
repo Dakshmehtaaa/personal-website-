@@ -1665,9 +1665,11 @@ section > .section-head + *,
     max-width:var(--maxw);
     margin:0 auto;
     display:grid;
-    grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+    /* The visual side gets the larger share — it used to be the smaller one,
+       which left the video looking undersized next to the headline. */
+    grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
     align-items:center;
-    gap:clamp(32px, 6vw, 72px);
+    gap:clamp(32px, 5vw, 60px);
 }
 
 .sus-hero-content h1{
@@ -1679,13 +1681,19 @@ section > .section-head + *,
     -webkit-text-fill-color:transparent;
 }
 
-.sus-hero-visual{ display:flex; justify-content:center; }
+/* width:100% matters: below 1080px the container sets justify-items:center,
+   which shrink-wraps this grid item, and the card's width:100% would then
+   resolve against the video's intrinsic size instead of the column. */
+.sus-hero-visual{ display:flex; justify-content:center; width:100%; }
 
 /* hero video — replaces what used to be a small animated SVG chart here */
 .sus-video-card{
     position:relative;
     width:100%;
-    max-width:480px;
+    /* High enough that it never binds in the two-column hero (the column is
+       narrower than this) — it only tames the single-column layout below
+       1080px, where the card would otherwise run the full content width. */
+    max-width:680px;
     overflow:hidden;
     border-radius:var(--r-xl);
     background:var(--surface-2);

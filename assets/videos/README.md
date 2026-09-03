@@ -7,5 +7,8 @@ covering the six advantage cards, opening on the spark line and closing on
 
 Replacing it: keep the same filename and a 16:9 ratio (`.sus-video` is
 `aspect-ratio:16/9` with `object-fit:cover`, so another ratio gets cropped).
-The card renders up to 480px wide, so 1280x720 or better exports crisper on
-high-DPI screens than the current 600px-wide source.
+
+**Worth re-exporting larger.** The card renders ~653px wide on a desktop hero
+and up to 680px, so this 600px-wide source is already being upscaled slightly
+at 1x and roughly 2x short on a high-DPI screen. A 1280x720 export would drop
+straight in and look noticeably sharper.
