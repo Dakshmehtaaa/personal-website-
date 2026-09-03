@@ -1469,25 +1469,35 @@ section > .section-head + *,
 }
 
 .insight-image{
+    position:relative;
     overflow:hidden;
     border-radius:var(--r-md);
     border:1px solid var(--border);
     background:#fff;
     margin-bottom:16px;
     aspect-ratio:16/10;
-    display:grid;
-    place-items:center;
 }
 
+/* Absolutely positioned, not max-width/max-height: a percentage max-height
+   doesn't resolve against this box's aspect-ratio-derived height, so taller
+   screenshots rendered past the frame and got cropped by overflow:hidden
+   (the same trap as .res-logo). inset:0 resolves against a definite box, so
+   every post letterboxes inside the same frame instead. */
 .insight-image img{
-    max-width:100%;
-    max-height:100%;
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
     object-fit:contain;
     display:block;
 }
 
 /* Always visible, so a card still reads well if the embed is blocked */
+/* Grows to absorb the height difference between cards, so the image frames
+   and the link below them line up across the row instead of each sitting
+   wherever its own snippet happens to end (4 lines vs 5). */
 .insight-snippet{
+    flex:1 1 auto;
     color:var(--text-soft);
     font-size:14.5px;
     line-height:1.7;
@@ -1607,39 +1617,78 @@ section > .section-head + *,
 }
 
 .site-footer{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
     max-width:var(--maxw);
     margin:0 auto;
-    padding:32px var(--gutter) 48px;
+    padding:clamp(44px, 5vw, 68px) var(--gutter) 36px;
     border-top:1px solid var(--border);
     color:var(--text-muted);
     font-size:13.5px;
 }
 
-.footer-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.footer-linkedin{
+.footer-main{
     display:grid;
-    place-items:center;
-    width:30px;
-    height:30px;
-    border-radius:9px;
-    background:var(--surface-2);
-    border:1px solid var(--border);
-    transition:transform .25s ease, border-color .25s ease;
+    grid-template-columns:minmax(0,1.5fr) repeat(3, minmax(0,1fr));
+    gap:clamp(28px, 4vw, 56px);
+    margin-bottom:clamp(34px, 4vw, 48px);
 }
 
-.footer-linkedin img{ width:18px; height:18px; border-radius:4px; display:block; }
+.footer-logo{
+    margin-bottom:12px;
+    font-size:19px;
+    font-weight:800;
+    letter-spacing:-.02em;
+    background:linear-gradient(120deg, var(--text), var(--accent));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-.footer-linkedin:hover{ transform:translateY(-3px); border-color:var(--border-strong); }
+.footer-blurb{
+    max-width:36ch;
+    color:var(--text-soft);
+    font-size:14px;
+    line-height:1.7;
+}
+
+.footer-col h2{
+    margin-bottom:16px;
+    color:var(--text);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+}
+
+.footer-col ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.footer-col a{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    color:var(--text-soft);
+    font-size:14px;
+    text-decoration:none;
+    transition:color .25s ease, transform .25s ease;
+}
+
+.footer-col a:hover{ color:var(--accent); transform:translateX(3px); }
+
+.footer-col a svg{ flex:0 0 auto; width:16px; height:16px; }
+
+.footer-bottom{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding-top:26px;
+    border-top:1px solid var(--border);
+}
 
 /* ---------- Scroll reveal ---------- */
 .reveal{
@@ -2015,6 +2064,8 @@ section > .section-head + *,
 }
 
 @media (max-width: 900px){
+    .footer-main{ grid-template-columns:1fr 1fr; }
+
     /* In the burger panel the dropdowns become plain nested lists */
     .nav-drop-menu{
         position:static;
@@ -2069,6 +2120,10 @@ section > .section-head + *,
 @media (max-width: 760px){
     html{ scroll-padding-top:84px; }
 
+    .footer-main{ grid-template-columns:1fr; }
+
+    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:8px; }
+
     .logo{ font-size:17.5px; }
 
     .insights-grid{ grid-template-columns:1fr; }
@@ -2120,7 +2175,7 @@ section > .section-head + *,
 /* Forced-colors modes strip the gradient background but keep the transparent
    text fill, which would erase these headings — paint them solid instead. */
 @media (forced-colors: active){
-    .logo, .hero h1, .sus-hero-content h1{
+    .logo, .hero h1, .sus-hero-content h1, .footer-logo{
         background:none;
         -webkit-text-fill-color:currentColor;
         color:CanvasText;
