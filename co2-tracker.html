@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7faf8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0c1512" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="description" content="A free, lightweight GHG Protocol screening calculator — estimate Scope 1, 2 and 3 emissions in your browser. Beta.">
+
+    <!-- Deliberately unlisted while this is in beta: reachable from the footer,
+         but kept out of search results and out of sitemap.xml. Drop the noindex
+         and add the URL to sitemap.xml when it graduates. -->
+    <meta name="robots" content="noindex, follow">
+
+    <title>CO₂ Tracker (Beta) | Daksh Mehta</title>
+
+    <link rel="canonical" href="https://dakshmehtaaa.github.io/personal-website-/co2-tracker.html">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Daksh Mehta">
+    <meta property="og:title" content="CO₂ Tracker (Beta) — a free GHG Protocol screening calculator">
+    <meta property="og:description" content="Estimate Scope 1, 2 and 3 emissions in your browser. Nothing is uploaded — every number stays on your device.">
+    <meta property="og:url" content="https://dakshmehtaaa.github.io/personal-website-/co2-tracker.html">
+    <meta property="og:image" content="https://dakshmehtaaa.github.io/personal-website-/assets/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Daksh Mehta — turning sustainability commitments into measurable impact.">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="style.css?v=33">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+
+                var l = localStorage.getItem('lang');
+                if (!l) l = (navigator.language || 'en').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
+                document.documentElement.setAttribute('lang', l);
+            } catch (e) { /* storage blocked — fall back to defaults */ }
+            document.documentElement.setAttribute('data-intro', 'skip');
+        })();
+    </script>
+
+</head>
+
+<body>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="site-nav">
+
+    <a class="logo" href="index.html#top">Daksh Mehta</a>
+
+    <ul class="nav-links" id="nav-links">
+
+        <li class="nav-drop">
+            <a href="index.html#about" class="nav-drop-top" data-i18n="nav.aboutMe">About Me</a>
+            <ul class="nav-drop-menu">
+                <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                <li><a href="index.html#experience" data-i18n="nav.experience">Experience</a></li>
+                <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+                <li><a href="index.html#insights" data-i18n="nav.insights">Insights</a></li>
+                <li><a href="hobbies.html" data-i18n="nav.hobbies">Hobbies</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-drop">
+            <a href="why-sustainability-matters.html" class="nav-drop-top" data-i18n="nav.why">For Companies</a>
+            <ul class="nav-drop-menu">
+                <li><a href="why-sustainability-matters.html#advantages" data-i18n="nav.businessCase">The business case</a></li>
+                <li><a href="why-sustainability-matters.html#resources" data-i18n="nav.resources">Free resources</a></li>
+            </ul>
+        </li>
+
+        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+
+    </ul>
+
+    <div class="nav-right">
+
+        <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-btn" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch theme" title="Switch theme">
+            <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">☀</span>
+            <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">☾</span>
+        </button>
+
+        <a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="me noopener noreferrer"
+           class="nav-linkedin" aria-label="LinkedIn profile">
+            <img src="assets/linkedin-icon-2.svg" alt="" width="34" height="34">
+        </a>
+
+        <button type="button" class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+    </div>
+
+</nav>
+
+<!-- Scroll-spy rail: hidden over the hero, fades in once you scroll past it -->
+<nav class="side-index" id="side-index" aria-label="Page sections">
+    <a href="#scopes"><span class="side-index-dot" aria-hidden="true"></span><span class="side-index-label" data-i18n="co2.nav.scopes">The three scopes</span></a>
+    <a href="#calculator"><span class="side-index-dot" aria-hidden="true"></span><span class="side-index-label" data-i18n="co2.nav.calculator">Calculator</span></a>
+    <a href="#method"><span class="side-index-dot" aria-hidden="true"></span><span class="side-index-label" data-i18n="co2.nav.method">Method &amp; factors</span></a>
+    <a href="#contact"><span class="side-index-dot" aria-hidden="true"></span><span class="side-index-label" data-i18n="nav.contact">Contact</span></a>
+</nav>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+
+<section class="co2-hero" id="top">
+
+    <div class="co2-hero-inner">
+
+        <p class="co2-beta-badge">
+            <span class="co2-beta-dot" aria-hidden="true"></span>
+            <span data-i18n="co2.hero.badge">Beta — work in progress</span>
+        </p>
+
+        <h1 data-i18n="co2.hero.title">A light, free CO₂ tracker</h1>
+
+        <p class="co2-hero-lede" data-i18n="co2.hero.lede">A screening-level greenhouse gas calculator built on the GHG Protocol's three scopes. Put in what you already know — meter readings, fuel bills, travel, spend — and get a first picture of where your footprint sits. It runs entirely in your browser: nothing is uploaded, nothing is stored on a server.</p>
+
+        <div class="co2-hero-cta">
+            <a href="#calculator" class="button" data-i18n="co2.hero.cta1">Start calculating ↓</a>
+            <a href="#scopes" class="button button--ghost" data-i18n="co2.hero.cta2">What are the scopes?</a>
+        </div>
+
+        <ul class="co2-hero-facts">
+            <li><strong data-i18n="co2.hero.fact1s">Private by design</strong><span data-i18n="co2.hero.fact1">No account, no upload. Your figures stay on this device.</span></li>
+            <li><strong data-i18n="co2.hero.fact2s">Every factor shown</strong><span data-i18n="co2.hero.fact2">The full emission-factor table and its sources are on this page.</span></li>
+            <li><strong data-i18n="co2.hero.fact3s">Exportable</strong><span data-i18n="co2.hero.fact3">Download a CSV of every line, or print the summary to PDF.</span></li>
+        </ul>
+
+    </div>
+
+</section>
+
+<!-- ================= WHAT THE SCOPES ARE ================= -->
+
+<section id="scopes" class="co2-scopes-section">
+
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="co2.scopes.kicker">The basics</p>
+        <h2 data-i18n="co2.scopes.title">Scope 1, 2 and 3 — in plain language</h2>
+        <p class="section-sub" data-i18n="co2.scopes.sub">The GHG Protocol splits a company's emissions into three buckets. The split isn't about how big the emissions are — it's about who controls the source.</p>
+    </div>
+
+    <div class="co2-scope-cards">
+
+        <article class="co2-scope-card co2-scope-card--s1">
+            <span class="co2-scope-tag">Scope 1</span>
+            <h3 data-i18n="co2.scopes.s1.title">What you burn</h3>
+            <p data-i18n="co2.scopes.s1.body">Direct emissions from sources you own or control: the gas boiler in your building, the diesel in your own vans, refrigerant leaking out of your air conditioning. If it comes out of a chimney or a tailpipe you're responsible for, it's Scope 1.</p>
+            <p class="co2-scope-eg"><strong data-i18n="co2.scopes.egLabel">Typical lines:</strong> <span data-i18n="co2.scopes.s1.eg">natural gas, heating oil, LPG, company-owned vehicles, refrigerant top-ups.</span></p>
+        </article>
+
+        <article class="co2-scope-card co2-scope-card--s2">
+            <span class="co2-scope-tag">Scope 2</span>
+            <h3 data-i18n="co2.scopes.s2.title">What you buy as energy</h3>
+            <p data-i18n="co2.scopes.s2.body">Indirect emissions from the electricity, heat, steam or cooling you purchase. You don't burn anything on site — someone else does, on your behalf. Which is why the number depends enormously on your country's grid: the same kilowatt-hour is roughly twelve times more carbon-intensive in Poland than in France.</p>
+            <p class="co2-scope-eg"><strong data-i18n="co2.scopes.egLabel">Typical lines:</strong> <span data-i18n="co2.scopes.s2.eg">purchased electricity, district heating and cooling.</span></p>
+        </article>
+
+        <article class="co2-scope-card co2-scope-card--s3">
+            <span class="co2-scope-tag">Scope 3</span>
+            <h3 data-i18n="co2.scopes.s3.title">Everything else in your value chain</h3>
+            <p data-i18n="co2.scopes.s3.body">The fifteen categories upstream and downstream of you — purchased goods and services, business travel, commuting, waste, transport, use of sold products. For most service companies this is 70–90% of the total, and it's the hardest to measure, which is exactly why screening estimates are useful before you invest in precision.</p>
+            <p class="co2-scope-eg"><strong data-i18n="co2.scopes.egLabel">Typical lines:</strong> <span data-i18n="co2.scopes.s3.eg">business travel, commuting, waste, water, purchased goods and services.</span></p>
+        </article>
+
+    </div>
+
+    <p class="panel-note" data-i18n="co2.scopes.note">This tool covers Scope 1 and Scope 2 in full, and the Scope 3 categories most companies can estimate from data they already hold: purchased goods and services (1), fuel- and energy-related activities (3), waste (5), business travel (6) and commuting (7). The remaining categories need supplier-specific or product-level data and are out of scope for a screening tool.</p>
+
+</section>
+
+<!-- ================= CALCULATOR ================= -->
+
+<section id="calculator" class="co2-calc-section">
+
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="co2.calc.kicker">The calculator</p>
+        <h2 data-i18n="co2.calc.title">Build your screening inventory</h2>
+        <p class="section-sub" data-i18n="co2.calc.sub">Fill in what you have and leave the rest blank — a partial answer is still a useful one. Everything updates as you type, and your entries are saved in this browser so you can come back to them.</p>
+    </div>
+
+    <form class="co2-calc" id="co2-calc" autocomplete="off" novalidate>
+
+        <div class="co2-calc-grid">
+
+            <!-- ---------- inputs ---------- -->
+            <div class="co2-calc-inputs">
+
+                <!-- org context -->
+                <fieldset class="co2-panel co2-panel--org">
+
+                    <legend data-i18n="co2.org.legend">Your organisation</legend>
+
+                    <p class="co2-panel-note" data-i18n="co2.org.note">Optional — used only for the reporting label and the intensity ratios. It never leaves this page.</p>
+
+                    <div class="co2-org-grid">
+
+                        <div class="co2-field">
+                            <label for="org-name" data-i18n="co2.org.name">Organisation</label>
+                            <input type="text" id="org-name" maxlength="80" placeholder="—">
+                        </div>
+
+                        <div class="co2-field">
+                            <label for="org-year" data-i18n="co2.org.year">Reporting year</label>
+                            <input type="number" id="org-year" min="2000" max="2100" step="1" placeholder="2026" inputmode="numeric">
+                        </div>
+
+                        <div class="co2-field">
+                            <label for="org-staff" data-i18n="co2.org.staff">Employees (FTE)</label>
+                            <input type="number" id="org-staff" min="0" step="any" placeholder="0" inputmode="decimal">
+                        </div>
+
+                        <div class="co2-field">
+                            <label for="org-revenue" data-i18n="co2.org.revenue">Revenue (€ million)</label>
+                            <input type="number" id="org-revenue" min="0" step="any" placeholder="0" inputmode="decimal">
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <!-- ---------- SCOPE 1 ---------- -->
+                <details class="co2-panel co2-panel--scope" data-scope="1" open>
+
+                    <summary>
+                        <span class="co2-panel-title">
+                            <span class="co2-swatch co2-swatch--s1" aria-hidden="true"></span>
+                            <span>
+                                <strong>Scope 1</strong>
+                                <em data-i18n="co2.s1.legend">Direct — fuel you burn</em>
+                            </span>
+                        </span>
+                        <span class="co2-panel-total" data-scope-total="1">0 kg</span>
+                    </summary>
+
+                    <div class="co2-panel-body">
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s1-gas">
+                                <span data-i18n="co2.s1.gas">Natural gas</span>
+                                <small data-i18n="co2.s1.gas.h">Heating and hot water, from your meter or bills (gross CV)</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s1-gas" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-fuel="1" data-factor="0.18231" data-unit="kWh"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">kWh</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-gas">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s1-oil">
+                                <span data-i18n="co2.s1.oil">Heating oil (gas oil)</span>
+                                <small data-i18n="co2.s1.oil.h">Litres delivered over the year</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s1-oil" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-fuel="1" data-factor="2.75776" data-unit="L"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">L</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-oil">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s1-lpg">
+                                <span data-i18n="co2.s1.lpg">LPG</span>
+                                <small data-i18n="co2.s1.lpg.h">Bottled or bulk propane / butane</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s1-lpg" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-fuel="1" data-factor="1.55713" data-unit="L"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">L</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-lpg">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s1-diesel">
+                                <span data-i18n="co2.s1.diesel">Fleet diesel</span>
+                                <small data-i18n="co2.s1.diesel.h">Vehicles you own or lease — litres at the pump</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s1-diesel" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-fuel="1" data-factor="2.58354" data-unit="L"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">L</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-diesel">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s1-petrol">
+                                <span data-i18n="co2.s1.petrol">Fleet petrol</span>
+                                <small data-i18n="co2.s1.petrol.h">Vehicles you own or lease — litres at the pump</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s1-petrol" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-fuel="1" data-factor="2.07543" data-unit="L"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">L</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-petrol">0 kg</output>
+                        </div>
+
+                        <div class="co2-row co2-row--picker">
+                            <label class="co2-row-label" for="s1-refrig">
+                                <span data-i18n="co2.s1.refrig">Refrigerant top-up</span>
+                                <small data-i18n="co2.s1.refrig.h">Kilograms recharged into air-con or chillers — that is the leak</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <select id="s1-refrig-type" class="co2-select" aria-label="Refrigerant type"
+                                        data-factor-for="s1-refrig">
+                                    <option value="2088" data-label="R-410A">R-410A</option>
+                                    <option value="1430" data-label="R-134a">R-134a</option>
+                                    <option value="675" data-label="R-32">R-32</option>
+                                    <option value="1774" data-label="R-407C">R-407C</option>
+                                    <option value="3922" data-label="R-404A">R-404A</option>
+                                </select>
+                                <input type="number" id="s1-refrig" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="1" data-factor="2088" data-unit="kg"
+                                       data-source="IPCC AR5 GWP₁₀₀">
+                                <span class="co2-unit">kg</span>
+                            </span>
+                            <output class="co2-row-out" for="s1-refrig">0 kg</output>
+                        </div>
+
+                    </div>
+
+                </details>
+
+                <!-- ---------- SCOPE 2 ---------- -->
+                <details class="co2-panel co2-panel--scope" data-scope="2" open>
+
+                    <summary>
+                        <span class="co2-panel-title">
+                            <span class="co2-swatch co2-swatch--s2" aria-hidden="true"></span>
+                            <span>
+                                <strong>Scope 2</strong>
+                                <em data-i18n="co2.s2.legend">Indirect — energy you purchase</em>
+                            </span>
+                        </span>
+                        <span class="co2-panel-total" data-scope-total="2">0 kg</span>
+                    </summary>
+
+                    <div class="co2-panel-body">
+
+                        <div class="co2-row co2-row--picker">
+                            <label class="co2-row-label" for="s2-elec">
+                                <span data-i18n="co2.s2.elec">Purchased electricity</span>
+                                <small data-i18n="co2.s2.elec.h">Location-based. Pick your grid, or enter your supplier's own factor.</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <select id="s2-grid" class="co2-select" aria-label="Electricity grid"
+                                        data-factor-for="s2-elec">
+                                    <optgroup label="Europe">
+                                        <option value="0.056" data-label="France" selected>France</option>
+                                        <option value="0.130" data-label="Belgium">Belgium</option>
+                                        <option value="0.350" data-label="Germany">Germany</option>
+                                        <option value="0.290" data-label="Ireland">Ireland</option>
+                                        <option value="0.280" data-label="Italy">Italy</option>
+                                        <option value="0.270" data-label="Netherlands">Netherlands</option>
+                                        <option value="0.030" data-label="Norway">Norway</option>
+                                        <option value="0.620" data-label="Poland">Poland</option>
+                                        <option value="0.140" data-label="Portugal">Portugal</option>
+                                        <option value="0.150" data-label="Spain">Spain</option>
+                                        <option value="0.025" data-label="Sweden">Sweden</option>
+                                        <option value="0.177" data-label="United Kingdom">United Kingdom</option>
+                                        <option value="0.230" data-label="EU-27 average">EU-27 average</option>
+                                    </optgroup>
+                                    <optgroup label="Rest of world">
+                                        <option value="0.550" data-label="Australia">Australia</option>
+                                        <option value="0.100" data-label="Brazil">Brazil</option>
+                                        <option value="0.120" data-label="Canada">Canada</option>
+                                        <option value="0.550" data-label="China">China</option>
+                                        <option value="0.710" data-label="India">India</option>
+                                        <option value="0.470" data-label="Japan">Japan</option>
+                                        <option value="0.400" data-label="Singapore">Singapore</option>
+                                        <option value="0.400" data-label="United Arab Emirates">United Arab Emirates</option>
+                                        <option value="0.370" data-label="United States">United States</option>
+                                    </optgroup>
+                                    <option value="custom" data-label="Custom factor" data-i18n="co2.s2.custom">Custom factor…</option>
+                                </select>
+                                <input type="number" id="s2-elec" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="2" data-elec="1" data-factor="0.056" data-unit="kWh"
+                                       data-source="National grid average, location-based">
+                                <span class="co2-unit">kWh</span>
+                            </span>
+                            <output class="co2-row-out" for="s2-elec">0 kg</output>
+                        </div>
+
+                        <div class="co2-row co2-row--custom" id="s2-custom-row" hidden>
+                            <label class="co2-row-label" for="s2-custom">
+                                <span data-i18n="co2.s2.customLabel">Your supplier's factor</span>
+                                <small data-i18n="co2.s2.customHint">Usually printed on the bill or in the annual residual-mix statement</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s2-custom" min="0" step="any" placeholder="0.000" inputmode="decimal">
+                                <span class="co2-unit">kgCO₂e/kWh</span>
+                            </span>
+                            <output class="co2-row-out">—</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s2-heat">
+                                <span data-i18n="co2.s2.heat">District heating / steam</span>
+                                <small data-i18n="co2.s2.heat.h">Heat or cooling delivered by a network rather than burnt on site</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s2-heat" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="2" data-factor="0.17" data-unit="kWh"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">kWh</span>
+                            </span>
+                            <output class="co2-row-out" for="s2-heat">0 kg</output>
+                        </div>
+
+                    </div>
+
+                </details>
+
+                <!-- ---------- SCOPE 3 ---------- -->
+                <details class="co2-panel co2-panel--scope" data-scope="3" open>
+
+                    <summary>
+                        <span class="co2-panel-title">
+                            <span class="co2-swatch co2-swatch--s3" aria-hidden="true"></span>
+                            <span>
+                                <strong>Scope 3</strong>
+                                <em data-i18n="co2.s3.legend">Value chain — selected categories</em>
+                            </span>
+                        </span>
+                        <span class="co2-panel-total" data-scope-total="3">0 kg</span>
+                    </summary>
+
+                    <div class="co2-panel-body">
+
+                        <h4 class="co2-subhead" data-i18n="co2.s3.travel">Category 6 — Business travel</h4>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-car">
+                                <span data-i18n="co2.s3.car">Car (not your fleet)</span>
+                                <small data-i18n="co2.s3.car.h">Personal or hire cars used for work — kilometres</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-car" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.17" data-unit="km"
+                                       data-source="DEFRA/DESNZ 2025 — average car">
+                                <span class="co2-unit">km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-car">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-rail">
+                                <span data-i18n="co2.s3.rail">Rail</span>
+                                <small data-i18n="co2.s3.rail.h">Passenger-kilometres — one person, one kilometre</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-rail" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.035" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025 — national rail">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-rail">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-bus">
+                                <span data-i18n="co2.s3.bus">Bus and coach</span>
+                                <small data-i18n="co2.s3.bus.h">Passenger-kilometres</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-bus" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.10" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-bus">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-air-dom">
+                                <span data-i18n="co2.s3.airDom">Flights — domestic</span>
+                                <small data-i18n="co2.s3.air.h">Passenger-kilometres, economy, including radiative forcing</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-air-dom" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.246" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025 — incl. RF">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-air-dom">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-air-short">
+                                <span data-i18n="co2.s3.airShort">Flights — short-haul</span>
+                                <small data-i18n="co2.s3.airShort.h">Under about 3,700 km — economy, including radiative forcing</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-air-short" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.126" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025 — incl. RF">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-air-short">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-air-long">
+                                <span data-i18n="co2.s3.airLong">Flights — long-haul</span>
+                                <small data-i18n="co2.s3.airLong.h">Over about 3,700 km — economy, including radiative forcing</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-air-long" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.117" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025 — incl. RF">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-air-long">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-hotel">
+                                <span data-i18n="co2.s3.hotel">Hotel nights</span>
+                                <small data-i18n="co2.s3.hotel.h">Room-nights across the year</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-hotel" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="10.4" data-unit="nights"
+                                       data-source="DEFRA/DESNZ 2025 — hotel stay">
+                                <span class="co2-unit" data-i18n="co2.unit.nights">nights</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-hotel">0 kg</output>
+                        </div>
+
+                        <h4 class="co2-subhead" data-i18n="co2.s3.commute">Category 7 — Employee commuting</h4>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-commute-car">
+                                <span data-i18n="co2.s3.commuteCar">Commuting by car</span>
+                                <small data-i18n="co2.s3.commuteCar.h">Total kilometres for all staff, all year — e.g. 40 people × 220 days × 20 km</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-commute-car" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.17" data-unit="km"
+                                       data-source="DEFRA/DESNZ 2025 — average car">
+                                <span class="co2-unit">km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-commute-car">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-commute-pt">
+                                <span data-i18n="co2.s3.commutePt">Commuting by public transport</span>
+                                <small data-i18n="co2.s3.commutePt.h">Total passenger-kilometres — metro, tram, bus and train blended</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-commute-pt" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.045" data-unit="p.km"
+                                       data-source="DEFRA/DESNZ 2025 — blended rail/bus">
+                                <span class="co2-unit">p.km</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-commute-pt">0 kg</output>
+                        </div>
+
+                        <h4 class="co2-subhead" data-i18n="co2.s3.waste">Category 5 — Waste and water</h4>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-landfill">
+                                <span data-i18n="co2.s3.landfill">Waste to landfill</span>
+                                <small data-i18n="co2.s3.landfill.h">Tonnes of mixed commercial waste</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-landfill" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="446.2" data-unit="t"
+                                       data-source="DEFRA/DESNZ 2025 — C&amp;I waste">
+                                <span class="co2-unit">t</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-landfill">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-recycled">
+                                <span data-i18n="co2.s3.recycled">Waste recycled or recovered</span>
+                                <small data-i18n="co2.s3.recycled.h">Tonnes — recycling, composting or energy recovery</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-recycled" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="21.3" data-unit="t"
+                                       data-source="DEFRA/DESNZ 2025 — C&amp;I waste">
+                                <span class="co2-unit">t</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-recycled">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-water">
+                                <span data-i18n="co2.s3.water">Water supplied and treated</span>
+                                <small data-i18n="co2.s3.water.h">Cubic metres — supply and wastewater treatment combined</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-water" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.449" data-unit="m³"
+                                       data-source="DEFRA/DESNZ 2025 — supply 0.177 + treatment 0.272">
+                                <span class="co2-unit">m³</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-water">0 kg</output>
+                        </div>
+
+                        <h4 class="co2-subhead" data-i18n="co2.s3.spend">Category 1 — Purchased goods and services</h4>
+
+                        <p class="co2-panel-note co2-panel-note--warn" data-i18n="co2.s3.spendNote">Spend-based screening. This is the roughest method in the GHG Protocol — treat it as an order of magnitude, not a measurement. Replace it with supplier data as soon as you have any.</p>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-services">
+                                <span data-i18n="co2.s3.services">Professional and business services</span>
+                                <small data-i18n="co2.s3.services.h">Consulting, legal, audit, agencies, insurance</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-services" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.10" data-unit="€"
+                                       data-source="EEIO screening range">
+                                <span class="co2-unit">€</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-services">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-it">
+                                <span data-i18n="co2.s3.it">IT hardware and electronics</span>
+                                <small data-i18n="co2.s3.it.h">Laptops, phones, servers, screens</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-it" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.30" data-unit="€"
+                                       data-source="EEIO screening range">
+                                <span class="co2-unit">€</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-it">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-food">
+                                <span data-i18n="co2.s3.food">Food, catering and hospitality</span>
+                                <small data-i18n="co2.s3.food.h">Canteen, events, client entertaining</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-food" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.60" data-unit="€"
+                                       data-source="EEIO screening range">
+                                <span class="co2-unit">€</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-food">0 kg</output>
+                        </div>
+
+                        <div class="co2-row">
+                            <label class="co2-row-label" for="s3-other">
+                                <span data-i18n="co2.s3.other">Other goods and services</span>
+                                <small data-i18n="co2.s3.other.h">Everything else you buy — a catch-all average</small>
+                            </label>
+                            <span class="co2-row-input">
+                                <input type="number" id="s3-other" min="0" step="any" placeholder="0" inputmode="decimal"
+                                       data-scope="3" data-factor="0.25" data-unit="€"
+                                       data-source="EEIO screening range">
+                                <span class="co2-unit">€</span>
+                            </span>
+                            <output class="co2-row-out" for="s3-other">0 kg</output>
+                        </div>
+
+                        <h4 class="co2-subhead" data-i18n="co2.s3.wtt">Category 3 — Fuel- and energy-related activities</h4>
+
+                        <label class="co2-check" for="s3-wtt">
+                            <input type="checkbox" id="s3-wtt">
+                            <span>
+                                <strong data-i18n="co2.s3.wttLabel">Add upstream energy emissions</strong>
+                                <small data-i18n="co2.s3.wttHint">Extracting, refining and delivering the fuel and electricity above, plus grid losses. Adds roughly 19% of your Scope 1 fuels and 21% of your electricity.</small>
+                            </span>
+                            <output class="co2-row-out" id="s3-wtt-out">0 kg</output>
+                        </label>
+
+                    </div>
+
+                </details>
+
+            </div>
+
+            <!-- ---------- results ---------- -->
+            <aside class="co2-results" aria-labelledby="co2-results-title">
+
+                <div class="co2-results-inner">
+
+                    <h3 id="co2-results-title" data-i18n="co2.res.title">Your screening footprint</h3>
+
+                    <p class="co2-total-value"><span id="co2-total">0.00</span> <span class="co2-total-unit">tCO₂e</span></p>
+                    <p class="co2-total-label" id="co2-total-label" data-i18n="co2.res.totalLabel">across Scope 1, 2 and 3</p>
+
+                    <div class="co2-bar" id="co2-bar" role="img" aria-label="Share of total by scope">
+                        <span class="co2-bar-seg co2-bar-seg--s1" data-bar="1"></span>
+                        <span class="co2-bar-seg co2-bar-seg--s2" data-bar="2"></span>
+                        <span class="co2-bar-seg co2-bar-seg--s3" data-bar="3"></span>
+                        <span class="co2-bar-empty" id="co2-bar-empty"></span>
+                    </div>
+
+                    <ul class="co2-legend">
+                        <li>
+                            <span class="co2-swatch co2-swatch--s1" aria-hidden="true"></span>
+                            <span class="co2-legend-name">Scope 1</span>
+                            <span class="co2-legend-val" data-legend="1">0.00 t</span>
+                            <span class="co2-legend-pct" data-legend-pct="1">—</span>
+                        </li>
+                        <li>
+                            <span class="co2-swatch co2-swatch--s2" aria-hidden="true"></span>
+                            <span class="co2-legend-name">Scope 2</span>
+                            <span class="co2-legend-val" data-legend="2">0.00 t</span>
+                            <span class="co2-legend-pct" data-legend-pct="2">—</span>
+                        </li>
+                        <li>
+                            <span class="co2-swatch co2-swatch--s3" aria-hidden="true"></span>
+                            <span class="co2-legend-name">Scope 3</span>
+                            <span class="co2-legend-val" data-legend="3">0.00 t</span>
+                            <span class="co2-legend-pct" data-legend-pct="3">—</span>
+                        </li>
+                    </ul>
+
+                    <div class="co2-intensity" id="co2-intensity" hidden>
+                        <h4 data-i18n="co2.res.intensity">Intensity</h4>
+                        <p class="co2-intensity-row" id="co2-int-staff" hidden>
+                            <span data-i18n="co2.res.perStaff">per employee</span>
+                            <strong id="co2-int-staff-val">—</strong>
+                        </p>
+                        <p class="co2-intensity-row" id="co2-int-rev" hidden>
+                            <span data-i18n="co2.res.perRev">per € million of revenue</span>
+                            <strong id="co2-int-rev-val">—</strong>
+                        </p>
+                    </div>
+
+                    <div class="co2-top" id="co2-top" hidden>
+                        <h4 data-i18n="co2.res.top">Biggest contributors</h4>
+                        <ol id="co2-top-list"></ol>
+                    </div>
+
+                    <div class="co2-equiv" id="co2-equiv" hidden>
+                        <h4 data-i18n="co2.res.equiv">Roughly equivalent to</h4>
+                        <ul id="co2-equiv-list"></ul>
+                    </div>
+
+                    <div class="co2-actions">
+                        <button type="button" class="button co2-action" id="co2-csv" data-i18n="co2.res.csv">Download CSV</button>
+                        <button type="button" class="button button--ghost co2-action" id="co2-print" data-i18n="co2.res.print">Print / save PDF</button>
+                        <button type="button" class="co2-reset" id="co2-reset" data-i18n="co2.res.reset">Clear everything</button>
+                    </div>
+
+                    <p class="co2-saved" id="co2-saved" data-i18n="co2.res.saved">Saved in this browser only.</p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </form>
+
+</section>
+
+<!-- ================= METHOD ================= -->
+
+<section id="method" class="co2-method-section">
+
+    <div class="section-head">
+        <p class="section-kicker" data-i18n="co2.method.kicker">Method</p>
+        <h2 data-i18n="co2.method.title">How this works, and what it isn't</h2>
+        <p class="section-sub" data-i18n="co2.method.sub">Every number above is activity data multiplied by a published emission factor. There is no model, no black box, and nothing you can't check.</p>
+    </div>
+
+    <div class="co2-method-grid">
+
+        <article class="co2-method-card">
+            <h3 data-i18n="co2.method.c1.t">The arithmetic</h3>
+            <p data-i18n="co2.method.c1.b">Emissions = activity data × emission factor. 10,000 kWh of gas × 0.18231 kgCO₂e/kWh = 1,823 kgCO₂e. That's the whole calculation, repeated per line and summed by scope. Results are shown in tonnes of CO₂ equivalent, which folds methane, nitrous oxide and refrigerants into a single comparable unit using their 100-year global warming potentials.</p>
+        </article>
+
+        <article class="co2-method-card">
+            <h3 data-i18n="co2.method.c2.t">Location-based Scope 2</h3>
+            <p data-i18n="co2.method.c2.b">Electricity here uses the average carbon intensity of the grid you sit on. If you buy a green tariff or hold guarantees of origin, the GHG Protocol also wants a market-based figure, which can be far lower — this tool doesn't calculate that. Report both if you disclose formally.</p>
+        </article>
+
+        <article class="co2-method-card">
+            <h3 data-i18n="co2.method.c3.t">What it is not</h3>
+            <p data-i18n="co2.method.c3.b">Not an audit-grade inventory, and not a substitute for one. Screening tools like this are for finding the 20% of lines that drive 80% of the footprint, so you know where to spend real measurement effort. For CSRD, CDP or SBTi submissions you need organisational boundaries, base-year rules, verified activity data and the factor set your assurance provider accepts.</p>
+        </article>
+
+        <article class="co2-method-card">
+            <h3 data-i18n="co2.method.c4.t">Where the factors come from</h3>
+            <p data-i18n="co2.method.c4.b">Fuels, transport, waste and water use the UK Government's greenhouse gas conversion factors, which are free, well documented and widely used outside the UK too. Refrigerants use IPCC global warming potentials. Grid intensities are rounded national averages. Spend-based factors are environmentally-extended input-output screening ranges — deliberately blunt.</p>
+        </article>
+
+    </div>
+
+    <details class="co2-factors" id="co2-factors">
+
+        <summary>
+            <span data-i18n="co2.method.tableTitle">Every factor used on this page</span>
+            <span class="co2-factors-hint" data-i18n="co2.method.tableHint">open the full table</span>
+        </summary>
+
+        <div class="co2-factors-body">
+
+            <div class="co2-table-scroll">
+                <table class="co2-table" id="co2-factor-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="co2.table.scope">Scope</th>
+                            <th data-i18n="co2.table.activity">Activity</th>
+                            <th data-i18n="co2.table.factor">Factor</th>
+                            <th data-i18n="co2.table.unit">Per unit</th>
+                            <th data-i18n="co2.table.source">Source</th>
+                        </tr>
+                    </thead>
+                    <tbody id="co2-factor-body">
+                        <tr><td colspan="5" data-i18n="co2.table.js">Enable JavaScript to see the factor table.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="co2-factors-note">
+                <strong data-i18n="co2.method.libLabel">Factor library v1</strong>
+                <span data-i18n="co2.method.libNote">— compiled September 2026. Factors are rounded for a screening tool and will drift as the underlying datasets are republished each year. Check them against the primary source before using any figure in a disclosure.</span>
+            </p>
+
+            <ul class="co2-sources">
+                <li><a href="https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting" target="_blank" rel="noopener noreferrer">UK Government GHG conversion factors for company reporting (DESNZ / Defra)</a></li>
+                <li><a href="https://ghgprotocol.org/corporate-standard" target="_blank" rel="noopener noreferrer">GHG Protocol — Corporate Accounting and Reporting Standard</a></li>
+                <li><a href="https://ghgprotocol.org/corporate-value-chain-scope-3-standard" target="_blank" rel="noopener noreferrer">GHG Protocol — Corporate Value Chain (Scope 3) Standard</a></li>
+                <li><a href="https://base-empreinte.ademe.fr/" target="_blank" rel="noopener noreferrer">ADEME — Base Empreinte® (French emission factor database)</a></li>
+                <li><a href="https://www.ipcc.ch/report/ar5/wg1/" target="_blank" rel="noopener noreferrer">IPCC AR5 — global warming potentials for refrigerants</a></li>
+            </ul>
+
+        </div>
+
+    </details>
+
+    <p class="co2-disclaimer">
+        <strong data-i18n="co2.disclaimer.t">Beta, and honest about it.</strong>
+        <span data-i18n="co2.disclaimer.b">This is a personal side project, offered free and without warranty. The results are indicative estimates, not verified emissions data, and they carry the uncertainty of every factor behind them — wide for spend-based lines, narrow for metered fuel. Don't publish a number from this page without checking it.</span>
+    </p>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section id="contact" class="contact-section">
+
+    <div class="contact-card">
+
+        <p class="section-kicker" data-i18n="co2.cta.kicker">Next step</p>
+
+        <h2 data-i18n="co2.cta.title">Need the real version of this?</h2>
+
+        <p class="contact-lede" data-i18n="co2.cta.lede">A screening estimate is where a carbon inventory starts, not where it ends. If you want the audit-grade one — boundaries set properly, activity data collected at source, factors your assurance provider will accept, and a reduction plan attached to it — that's the work I do.</p>
+
+        <div class="co2-cta-buttons">
+            <a href="mailto:Dakshmehta077@gmail.com" class="button" data-i18n="co2.cta.email">Email me</a>
+            <a href="why-sustainability-matters.html#resources" class="button button--ghost" data-i18n="co2.cta.res">Free resources ↓</a>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-main">
+
+        <div class="footer-brand">
+            <p class="footer-logo">Daksh Mehta</p>
+            <p class="footer-blurb" data-i18n="footer.blurb">CSR, ESG and sustainability project management — turning commitments into evidence that stands up to scrutiny.</p>
+        </div>
+
+        <nav class="footer-col" aria-label="Site sections">
+            <h2 data-i18n="footer.explore">Explore</h2>
+            <ul>
+                <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                <li><a href="index.html#experience" data-i18n="nav.experience">Experience</a></li>
+                <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+                <li><a href="index.html#insights" data-i18n="nav.insights">Insights</a></li>
+                <li><a href="hobbies.html" data-i18n="nav.hobbies">Hobbies</a></li>
+            </ul>
+        </nav>
+
+        <nav class="footer-col" aria-label="For companies">
+            <h2 data-i18n="nav.why">For Companies</h2>
+            <ul>
+                <li><a href="why-sustainability-matters.html#advantages" data-i18n="nav.businessCase">The business case</a></li>
+                <li><a href="why-sustainability-matters.html#resources" data-i18n="nav.resources">Free resources</a></li>
+                <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
+                <li><a href="co2-tracker.html" class="footer-beta active"><span data-i18n="footer.co2">CO₂ Tracker</span><span class="footer-beta-tag">Beta</span></a></li>
+            </ul>
+        </nav>
+
+        <nav class="footer-col footer-col--social" aria-label="Social profiles">
+            <h2 data-i18n="footer.social">Social</h2>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/mehtadaksh/" target="_blank" rel="me noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg><span>LinkedIn</span></a></li>
+                <li><a href="https://x.com/Daksh99969" target="_blank" rel="me noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26L22.83 21.75h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg><span>X</span></a></li>
+                <li><a href="https://www.instagram.com/_dakshhhh__/" target="_blank" rel="me noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="2.75" y="2.75" width="18.5" height="18.5" rx="5.25"/><circle cx="12" cy="12" r="4.25"/><circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a></li>
+                <li><a href="https://www.facebook.com/daksh.mehta.108" target="_blank" rel="me noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.9 3.78-3.9 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg><span>Facebook</span></a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© <span id="year">2026</span> Daksh Mehta</p>
+        <p data-i18n="footer.note">CSR · ESG · Sustainability project management</p>
+    </div>
+
+</footer>
+
+<script src="i18n.js?v=28"></script>
+<script src="script.js?v=30"></script>
+
+</body>
+
+</html>

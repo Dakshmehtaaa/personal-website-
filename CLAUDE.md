@@ -11,6 +11,10 @@ or serve the folder with any static file server.
   sustainability strategy, aimed at companies. Shares the same nav/footer shell, style.css and
   script.js as index.html.
 - `hobbies.html` — chess / fitness / travel, in a 3D coverflow carousel.
+- `co2-tracker.html` — a free GHG Protocol screening calculator (Scope 1/2/3), marked BETA.
+  **Deliberately unlisted**: linked only from the footer's "For Companies" column, carries
+  `<meta name="robots" content="noindex, follow">` and is absent from `sitemap.xml`. To graduate
+  it out of beta, drop the noindex, add it to the sitemap, and remove the `.footer-beta-tag` span.
 - `404.html` — GitHub Pages serves this for any missing path. **Its asset links are
   root-relative (`/personal-website-/…`) on purpose**: relative URLs would resolve against the
   requested path, not this file's location, and break on any nested 404.
@@ -95,8 +99,30 @@ or serve the folder with any static file server.
   back for a new post — every LinkedIn post's iframe embed height is different (whatever LinkedIn
   assigned it), so mixing it with `.insight-image` cards makes the row visibly uneven; get a
   screenshot of the post from the user instead and add it the same way as the others.
+- **Never put `reveal` in the markup.** The scroll-reveal IIFE in script.js owns that class: it
+  adds `.reveal` to a hardcoded selector list, and under `prefers-reduced-motion` it adds
+  `.revealed` *without* `.reveal` so nothing can get stuck invisible. Hand-writing
+  `class="... reveal"` defeats that — the element is `opacity:0` from CSS and nothing ever
+  reveals it. To animate a new component, add its selector to that list instead. (This shipped
+  as three blank card rows on the CO₂ tracker before a screenshot caught it.)
+- **`[hidden]{display:none!important}` lives in the reset** and must stay there. The UA's own
+  `[hidden]` rule is the lowest specificity there is, so any component that sets its own
+  `display` (a grid row, a flex line) silently ignores the attribute — which is how
+  `#s2-custom-row` and `.co2-intensity-row` were both visible while carrying `hidden`.
+- **The CO₂ tracker's emission factors live in the HTML, not in JS.** Each input carries
+  `data-factor` / `data-unit` / `data-source`, the calculator reads them, and the methodology
+  table at the bottom of the page is *generated* from the same attributes. There is deliberately
+  no second copy of any number — to change a factor, change the attribute. Two rows take their
+  factor from a `<select>` instead (electricity grid, refrigerant GWP); `syncGrid()` and
+  `syncRefrigerant()` write the chosen value back into `data-factor` so everything downstream
+  still reads one attribute.
+- **Factors are screening-grade and dated, and the page says so.** They were compiled Sept 2026
+  from DEFRA/DESNZ conversion factors, IPCC AR5 GWPs and rounded national grid intensities.
+  gov.uk is `EGRESS_BLOCKED` here so they could not be re-derived from the primary workbook —
+  if you revise them, do it from the real source, and keep the "Factor library v1" note and the
+  `co2-disclaimer` block honest about vintage and uncertainty.
 - **The site URL is hardcoded** as `https://dakshmehtaaa.github.io/personal-website-/` in the
-  canonical/`og:` tags of all three pages, in `sitemap.xml`, `robots.txt`, the JSON-LD block at
+  canonical/`og:` tags of all four pages, in `sitemap.xml`, `robots.txt`, the JSON-LD block at
   the end of `index.html`, and in `404.html`'s root-relative paths. Renaming the repo or adding a
   custom domain means updating all of those together.
 

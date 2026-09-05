@@ -24,7 +24,29 @@ browsers restrict on `file://` URLs.
 | `index.html` | The main single-page site: hero, about, experience, portfolio, insights, contact |
 | `why-sustainability-matters.html` | The business case for sustainability strategy, aimed at companies, plus free resources |
 | `hobbies.html` | Chess, fitness and travel, in a 3D coverflow carousel |
+| `co2-tracker.html` | **Beta.** A free GHG Protocol screening calculator — Scope 1, 2 and 3 |
 | `404.html` | Not-found page (GitHub Pages serves it for any missing path) |
+
+### The CO₂ tracker
+
+A screening-level greenhouse gas calculator that runs entirely client-side — no account, no
+network calls, no data leaving the browser. Entries are kept in `localStorage` and can be exported
+as CSV or printed to PDF.
+
+It covers Scope 1 (natural gas, heating oil, LPG, fleet fuel, refrigerant leakage), Scope 2
+(purchased electricity with a per-country grid factor or your supplier's own, plus district heat)
+and the Scope 3 categories most companies can estimate from data they already hold: purchased
+goods and services (1), fuel- and energy-related activities (3), waste and water (5), business
+travel (6) and commuting (7).
+
+Every emission factor lives on its own input as `data-factor` / `data-unit` / `data-source`, and
+the methodology table on the page is generated from those attributes — so the factors shown to the
+reader and the factors used in the maths cannot drift apart. They are screening-grade and dated
+(DEFRA/DESNZ conversion factors, IPCC AR5 GWPs, rounded national grid intensities), and the page
+says so plainly: it is not an audit-grade inventory.
+
+The page is deliberately unlisted while in beta — reachable from the footer, `noindex`, and absent
+from `sitemap.xml`.
 
 ## How it's put together
 
