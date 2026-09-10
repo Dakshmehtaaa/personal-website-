@@ -64,3 +64,29 @@ from `sitemap.xml`.
 
 Contributor conventions — portfolio entry structure, i18n parity, the intro-animation scope — are
 in `CLAUDE.md`.
+
+## Editorial redesign
+
+The main site now uses the approved About beta theme: DM Sans and Instrument Serif,
+warm paper, forest green, generous spacing and restrained motion. The original
+`about-me-beta.html` remains available as the reference.
+
+- `editorial-base.css`: shared visual foundation from the beta.
+- `editorial.css`: readable sizing, responsive layouts, original-colour logo plates,
+  company page and styles for the existing portfolio, gallery and calculator.
+- `editorial.js`: shared navigation, EN/FR switching, theme and video playback.
+- `editorial-copy.js`: French translations for the concise revised content.
+
+On the four updated pages, `data-beta-i18n` is handled by `editorial.js`, which also
+loads the existing `i18n.js` dictionary. Keep new keys translated in
+`editorial-copy.js`. Existing portfolio downloads, calculator factors and logic,
+CSV/print actions and the hobbies gallery are preserved.
+
+The company video has a play/pause control, pauses off-screen and in background
+tabs, and respects reduced-motion preferences. Company logos retain their source
+colours and aspect ratios on neutral plates; they identify work experience, not
+client endorsements.
+
+GitHub Pages continues to serve the root files unchanged. For the private Sites
+preview only, run `node prepare-preview.mjs` to stage public assets in `dist/`;
+this adapts the 404 paths for the preview origin and excludes source documentation.
