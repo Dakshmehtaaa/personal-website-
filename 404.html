@@ -17,18 +17,20 @@
          relative URLs would resolve against the requested path, not this one. -->
     <link rel="icon" href="/personal-website-/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/personal-website-/apple-touch-icon.png">
-    <link rel="stylesheet" href="/personal-website-/style.css?v=25">
+    <link rel="stylesheet" href="/personal-website-/style.css?v=34">
+<link rel="stylesheet" href="/personal-website-/editorial-base.css?v=1">
+<link rel="stylesheet" href="/personal-website-/editorial.css?v=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&display=swap"
         rel="stylesheet">
 
     <script>
         (function () {
             try {
                 var t = localStorage.getItem('theme');
-                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                if (!t) t = 'light';
                 document.documentElement.setAttribute('data-theme', t);
             } catch (e) { /* storage blocked — fall back to defaults */ }
             document.documentElement.setAttribute('data-intro', 'skip');
