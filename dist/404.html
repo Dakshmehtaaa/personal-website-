@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7faf8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0c1512" media="(prefers-color-scheme: dark)">
+
+    <meta name="robots" content="noindex">
+    <meta name="description" content="This page doesn't exist.">
+
+    <title>Page not found | Daksh Mehta</title>
+
+    <!-- Root-relative: GitHub Pages serves this file for any missing path, and
+         relative URLs would resolve against the requested path, not this one. -->
+    <link rel="icon" href="/personal-website-/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/personal-website-/apple-touch-icon.png">
+    <link rel="stylesheet" href="/personal-website-/style.css?v=25">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) { /* storage blocked — fall back to defaults */ }
+            document.documentElement.setAttribute('data-intro', 'skip');
+        })();
+    </script>
+
+    <style>
+        .nf{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:18px;
+            text-align:center;
+            padding:40px 24px;
+        }
+        .nf-code{
+            font-size:clamp(72px, 16vw, 150px);
+            font-weight:800;
+            line-height:1;
+            letter-spacing:-.04em;
+            background:linear-gradient(120deg, var(--text) 10%, var(--accent) 70%, var(--gold) 100%);
+            -webkit-background-clip:text;
+            background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        .nf h1{ font-size:clamp(24px, 3.4vw, 34px); }
+        .nf p{ color:var(--text-soft); max-width:44ch; }
+        .nf-actions{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:8px; }
+
+        @media (forced-colors: active){
+            .nf-code{ background:none; -webkit-text-fill-color:currentColor; color:CanvasText; }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<main class="nf">
+
+    <p class="nf-code" aria-hidden="true">404</p>
+
+    <h1>This page doesn't exist.</h1>
+
+    <p>The link may be out of date, or the address slightly off. Everything is still one click away.</p>
+
+    <div class="nf-actions">
+        <a href="/personal-website-/" class="button">Back to the homepage</a>
+        <a href="/personal-website-/why-sustainability-matters.html" class="button button--ghost">For companies</a>
+    </div>
+
+</main>
+
+</body>
+
+</html>

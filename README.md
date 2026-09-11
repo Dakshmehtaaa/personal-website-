@@ -1,6 +1,6 @@
-# Daksh Mehta — personal website
+# Mehta Impact Studio - consulting website
 
-Portfolio site for Daksh Mehta, CSR / ESG / sustainability project manager based in Paris.
+Consulting and portfolio site for Daksh Mehta, a CSR / ESG / sustainability professional based in Paris. The company name is intentionally marked as a working name.
 
 **Live:** https://dakshmehtaaa.github.io/personal-website-/
 
@@ -21,7 +21,9 @@ browsers restrict on `file://` URLs.
 
 | File | What it is |
 | --- | --- |
-| `index.html` | The main single-page site: hero, about, experience, portfolio, insights, contact |
+| `index.html` | The main bilingual consulting site: services, market rationale, approach, experience and contact |
+| `consulting.css` | The homepage visual system and responsive layout |
+| `consulting.js` | Homepage language, theme, mobile navigation and reveal behaviour |
 | `why-sustainability-matters.html` | The business case for sustainability strategy, aimed at companies, plus free resources |
 | `hobbies.html` | Chess, fitness and travel, in a 3D coverflow carousel |
 | `co2-tracker.html` | **Beta.** A free GHG Protocol screening calculator — Scope 1, 2 and 3 |
