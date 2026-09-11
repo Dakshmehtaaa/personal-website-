@@ -346,3 +346,95 @@
     new MutationObserver(update).observe(document.documentElement, { attributeFilter: ['lang'] });
     sync();
 })();
+
+// Scroll transforms are progressive enhancements. Copy is never hidden.
+(function () {
+    const root = document.documentElement;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const wide = matchMedia('(min-width: 901px) and (min-height: 680px)');
+    const fine = matchMedia('(hover: hover) and (pointer: fine)');
+    const cards = [...document.querySelectorAll('.journey-card')];
+    const links = [...document.querySelectorAll('.journey-nav a')];
+    const scenes = [...document.querySelectorAll('.story-scene')];
+    const hobby = document.querySelector('.hobby-spread');
+    const photos = [...document.querySelectorAll('.spread-photo')];
+    const spread = document.querySelector('.spread-cards');
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    let frame = 0;
+    const render = () => {
+        frame = 0;
+        if (reduce.matches) return;
+        const height = innerHeight;
+        const boxes = cards.map(card => card.getBoundingClientRect());
+        let active = 0;
+        boxes.forEach((box, index) => { if (box.top < height * .5) active = index; });
+        cards.forEach((card, index) => {
+            const distance = boxes[index + 1] ? boxes[index + 1].top - 160 : height;
+            const covered = clamp(1 - distance / 320);
+            card.style.setProperty('--card-scale', String(1 - covered * .035));
+            card.style.setProperty('--entry-rotate', `${clamp((boxes[index].top - height * .65) / height) * 6}deg`);
+        });
+        links.forEach((link, index) => {
+            link.classList.toggle('is-active', index === active);
+            if (index === active) link.setAttribute('aria-current', 'step');
+            else link.removeAttribute('aria-current');
+        });
+        scenes.forEach(scene => {
+            const box = scene.getBoundingClientRect();
+            const arriving = clamp((box.top - height * .35) / (height * .65));
+            scene.style.setProperty('--scene-rotate', `${arriving * 9}deg`);
+            scene.style.setProperty('--scene-y', `${arriving * 22}px`);
+            scene.style.setProperty('--diagram-rise', `${-arriving * 12}px`);
+            scene.style.setProperty('--diagram-turn', `${arriving * -14}deg`);
+        });
+        if (hobby && spread && wide.matches) {
+            const box = hobby.getBoundingClientRect();
+            const progress = clamp((104 - box.top) / Math.max(1, box.height - height));
+            const p = clamp((progress - .04) / .72);
+            const eased = p * p * (3 - 2 * p);
+            const width = spread.clientWidth, sh = spread.clientHeight;
+            const rotations = [-13, 9, -7, 12, -4, 6];
+            photos.forEach((photo, index) => {
+                const col = index % 3 - 1, row = index < 3 ? -1 : 1;
+                photo.style.setProperty('--spread-x', `${col * width * .29 * eased + (index - 2.5) * 7 * (1 - eased)}px`);
+                photo.style.setProperty('--spread-y', `${row * sh * .265 * eased + (index - 2.5) * 5 * (1 - eased)}px`);
+                photo.style.setProperty('--spread-rotate', `${rotations[index] * (1 - eased) + col * 1.5 * eased}deg`);
+                photo.style.setProperty('--spread-scale', String(.86 + .14 * eased));
+            });
+        }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+    const configure = () => {
+        root.classList.toggle('motion-ready', !reduce.matches);
+        schedule();
+    };
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+    addEventListener('load', schedule, { once: true });
+    reduce.addEventListener('change', configure);
+    wide.addEventListener('change', schedule);
+    configure();
+    document.querySelectorAll('.project-cover').forEach(cover => {
+        cover.addEventListener('pointermove', event => {
+            if (reduce.matches || !fine.matches) return;
+            const box = cover.getBoundingClientRect();
+            cover.style.setProperty('--tilt-x', `${(0.5 - (event.clientY - box.top) / box.height) * 4}deg`);
+            cover.style.setProperty('--tilt-y', `${((event.clientX - box.left) / box.width - 0.5) * 5}deg`);
+        });
+        cover.addEventListener('pointerleave', () => {
+            cover.style.setProperty('--tilt-x', '0deg');
+            cover.style.setProperty('--tilt-y', '0deg');
+        });
+    });
+    // Deep links still open a project if it sits inside the additional-work disclosure.
+    const revealProject = () => {
+        let target;
+        try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch { return; }
+        if (!target?.matches('.work-card')) return;
+        const parent = target.closest('.more-work');
+        if (parent) parent.open = true;
+        target.open = true;
+    };
+    addEventListener('hashchange', revealProject);
+    revealProject();
+})();

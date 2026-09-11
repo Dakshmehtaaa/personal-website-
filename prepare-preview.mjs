@@ -4,7 +4,7 @@ const directory = new URL('.', import.meta.url).pathname;
 const output = join(directory, 'dist');
 await mkdir(output, { recursive: true });
 const pages = ['index.html', 'why-sustainability-matters.html', 'hobbies.html', 'co2-tracker.html', 'about-me-beta.html', '404.html'];
-const resources = ['style.css', 'script.js', 'i18n.js', 'editorial-base.css', 'editorial.css', 'editorial.js', 'editorial-copy.js', 'about-me-beta.css', 'about-me-beta.js', 'favicon.svg', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'];
+const resources = ['style.css', 'script.js', 'carbon-core.js', 'i18n.js', 'editorial-base.css', 'editorial.css', 'narrative.css', 'editorial.js', 'editorial-copy.js', 'about-me-beta.css', 'about-me-beta.js', 'favicon.svg', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'];
 for (const file of [...pages, ...resources]) await cp(join(directory, file), join(output, file));
 async function assets(source, destination) {
   await mkdir(destination, { recursive: true });

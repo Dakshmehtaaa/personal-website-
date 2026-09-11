@@ -1,0 +1,318 @@
+{
+  "source": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+  "file": "ghg-conversion-factors-2026-flat-format-revised.xlsx",
+  "version": "1.2",
+  "selected_rows": [
+    {
+      "input": "s1-gas",
+      "source_row": "1_100_1004_6_1",
+      "factor": 0.18231,
+      "unit": "kWh (Gross CV)",
+      "description": [
+        "Fuels",
+        "Gaseous fuels",
+        "Natural gas",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s1-oil",
+      "source_row": "1_101_1010_8_1",
+      "factor": 2.54016,
+      "unit": "litres",
+      "description": [
+        "Fuels",
+        "Liquid fuels",
+        "Burning oil",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s1-lpg",
+      "source_row": "1_100_1003_8_1",
+      "factor": 1.55713,
+      "unit": "litres",
+      "description": [
+        "Fuels",
+        "Gaseous fuels",
+        "LPG",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s1-diesel",
+      "source_row": "1_101_1011_8_1",
+      "factor": 2.58354,
+      "unit": "litres",
+      "description": [
+        "Fuels",
+        "Liquid fuels",
+        "Diesel (average biofuel blend)",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s1-petrol",
+      "source_row": "1_101_1017_8_1",
+      "factor": 2.075,
+      "unit": "litres",
+      "description": [
+        "Fuels",
+        "Liquid fuels",
+        "Petrol (average biofuel blend)",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s2-heat",
+      "source_row": "10_401_4003_5_1",
+      "factor": 0.17529,
+      "unit": "kWh",
+      "description": [
+        "Heat and steam",
+        "Heat and steam",
+        "District heat and steam",
+        "kWh",
+        null
+      ]
+    },
+    {
+      "input": "s3-car",
+      "source_row": "25_301_3074_4_1",
+      "factor": 0.16591,
+      "unit": "km",
+      "description": [
+        "Business travel- land",
+        "Cars (by size)",
+        "Average car",
+        null,
+        "Unknown"
+      ]
+    },
+    {
+      "input": "s3-rail",
+      "source_row": "25_315_3147_11_1",
+      "factor": 0.03092,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- land",
+        "Rail",
+        "National rail",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s3-bus",
+      "source_row": "25_314_3145_11_1",
+      "factor": 0.10151,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- land",
+        "Bus",
+        "Average local bus",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s3-air-dom",
+      "source_row": "21_316_3161_11_1",
+      "factor": 0.13552,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- air",
+        "Flights",
+        "Domestic, to/from UK",
+        "Average passenger",
+        "Without RF"
+      ]
+    },
+    {
+      "input": "s3-air-short",
+      "source_row": "21_316_3165_11_1",
+      "factor": 0.07435,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- air",
+        "Flights",
+        "Short-haul, to/from UK",
+        "Economy class",
+        "Without RF"
+      ]
+    },
+    {
+      "input": "s3-air-long",
+      "source_row": "21_316_3171_11_1",
+      "factor": 0.06926,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- air",
+        "Flights",
+        "Long-haul, to/from UK",
+        "Economy class",
+        "Without RF"
+      ]
+    },
+    {
+      "input": "s3-hotel",
+      "source_row": "29_600_4016_13_1",
+      "factor": 6.7,
+      "unit": "Room per night",
+      "description": [
+        "Hotel stay",
+        "Hotel stay",
+        "France",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s3-commute-car",
+      "source_row": "25_301_3074_4_1",
+      "factor": 0.16591,
+      "unit": "km",
+      "description": [
+        "Business travel- land",
+        "Cars (by size)",
+        "Average car",
+        null,
+        "Unknown"
+      ]
+    },
+    {
+      "input": "s3-commute-pt",
+      "source_row": "25_315_3147_11_1",
+      "factor": 0.03092,
+      "unit": "passenger.km",
+      "description": [
+        "Business travel- land",
+        "Rail",
+        "National rail",
+        null,
+        null
+      ]
+    },
+    {
+      "input": "s3-landfill",
+      "source_row": "20_507_5313_15_1",
+      "factor": 520.58023,
+      "unit": "tonnes",
+      "description": [
+        "Waste disposal",
+        "Refuse",
+        "Commercial and industrial waste",
+        null,
+        "Landfill"
+      ]
+    },
+    {
+      "input": "s3-recycled",
+      "source_row": "20_507_5310_15_1",
+      "factor": 4.65358,
+      "unit": "tonnes",
+      "description": [
+        "Waste disposal",
+        "Refuse",
+        "Commercial and industrial waste",
+        null,
+        "Closed-loop"
+      ]
+    }
+  ],
+  "additional_factors": [
+    {
+      "input": "s1-gas",
+      "source_rows": [
+        "11_100_1004_6_1"
+      ],
+      "factor": 0.03021,
+      "kind": "data-wtt-source"
+    },
+    {
+      "input": "s1-oil",
+      "source_rows": [
+        "11_101_1010_8_1"
+      ],
+      "factor": 0.53078,
+      "kind": "data-wtt-source"
+    },
+    {
+      "input": "s1-lpg",
+      "source_rows": [
+        "11_100_1003_8_1"
+      ],
+      "factor": 0.18551,
+      "kind": "data-wtt-source"
+    },
+    {
+      "input": "s1-diesel",
+      "source_rows": [
+        "11_101_1011_8_1"
+      ],
+      "factor": 0.61101,
+      "kind": "data-wtt-source"
+    },
+    {
+      "input": "s1-petrol",
+      "source_rows": [
+        "11_101_1017_8_1"
+      ],
+      "factor": 0.58094,
+      "kind": "data-wtt-source"
+    },
+    {
+      "input": "R-410A",
+      "source_rows": [
+        "3_201_2156_3_1"
+      ],
+      "factor": 1924.0,
+      "kind": "data-source"
+    },
+    {
+      "input": "R-134a",
+      "source_rows": [
+        "3_200_2024_3_1"
+      ],
+      "factor": 1300.0,
+      "kind": "data-source"
+    },
+    {
+      "input": "R-32",
+      "source_rows": [
+        "3_200_2012_3_1"
+      ],
+      "factor": 677.0,
+      "kind": "data-source"
+    },
+    {
+      "input": "R-407C",
+      "source_rows": [
+        "3_201_2135_3_1"
+      ],
+      "factor": 1624.0,
+      "kind": "data-source"
+    },
+    {
+      "input": "R-404A",
+      "source_rows": [
+        "3_201_2120_3_1"
+      ],
+      "factor": 3943.0,
+      "kind": "data-source"
+    },
+    {
+      "input": "United Kingdom",
+      "source_rows": [
+        "7_400_4000_5_1"
+      ],
+      "factor": 0.13096,
+      "kind": "data-source"
+    }
+  ]
+}

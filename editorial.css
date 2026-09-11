@@ -36,3 +36,10 @@ body:has(.beta-header){padding-top:0}button,input,select{font-family:inherit}but
  html:not(.beta-menu-ready) #beta-nav-links{position:static;order:3;width:100%;border:0;padding:0;display:flex}
  html:not(.beta-menu-ready) .beta-hero{padding-top:30px}
 }
+/* Revision: quiet copy, shorter measures, visible content before all effects. */
+.beta-hero h1.refined-headline{font-size:clamp(40px,4.1vw,64px);max-width:16ch;line-height:1.12;letter-spacing:-.04em}
+.beta-hero h1.refined-headline>span{letter-spacing:-.04em}.beta-hero h1.refined-headline>em{display:block;font-size:1.13em;line-height:1.1;margin-top:8px}
+.beta-hero-intro{max-width:36ch}.beta-about-copy>p{max-width:42ch}.beta-beyond-copy h2{color:var(--ink)}
+.beta-reveal-ready .beta-reveal,.beta-reveal,.reveal{opacity:1!important;visibility:visible!important}
+.beta-beyond-copy .beta-text-link{margin-top:22px}.beta-contact{padding-block:66px}.beta-contact h2{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(48px,6vw,80px)}
+@media(max-width:680px){.beta-hero h1.refined-headline{font-size:clamp(39px,9.4vw,55px);max-width:17ch}.beta-hero h1.refined-headline>em{display:block;font-size:1.1em}.beta-beyond-copy h2{font-size:48px}}
