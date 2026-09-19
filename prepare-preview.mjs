@@ -16,6 +16,8 @@ async function assets(source, destination) {
   }
 }
 await assets(join(directory, 'assets'), join(output, 'assets'));
+await mkdir(join(output, 'concepts'), { recursive: true });
+for (const file of ['index.html', 'noir.html', 'grid.html', 'canopy.html', 'signal.html', 'atelier.html', 'concepts.css', 'concepts.js']) await cp(join(directory, 'concepts', file), join(output, 'concepts', file));
 const notFound = join(output, '404.html');
 await writeFile(notFound, (await readFile(notFound, 'utf8')).replaceAll('/personal-website-/', '/'));
 console.log('Public site assets staged.');

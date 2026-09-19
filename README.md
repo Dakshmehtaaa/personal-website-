@@ -104,3 +104,13 @@ The user-supplied React/GSAP cinematic-scroll and Motion photo-spread examples i
 movement. Their effects are adapted to the existing vanilla-JavaScript site without introducing
 a framework. Text remains visible before JavaScript loads; reduced-motion and narrow-screen
 layouts keep the content in a readable document flow.
+
+## Five design directions
+
+`concepts/index.html` compares Noir, Grid, Canopy, Signal and Atelier. Each is a complete
+portfolio with all 11 projects, four experience entries, company resources, video, hobbies,
+LinkedIn posts and contact links. They share content but use different layouts and motion.
+`node concepts/build.mjs` regenerates the pages from `concepts/content.json`; presentation
+and progressive interactions live in `concepts.css` and `concepts.js`. The comparison dock,
+language control and motion pause work across the five directions. The original homepage
+and screening calculator remain accessible.
