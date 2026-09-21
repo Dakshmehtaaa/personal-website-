@@ -1,4 +1,4 @@
-# Daksh Mehta — personal website
+# Daksh Mehta Studio
 
 Portfolio site for Daksh Mehta, CSR / ESG / sustainability project manager based in Paris.
 
@@ -114,3 +114,15 @@ LinkedIn posts and contact links. They share content but use different layouts a
 and progressive interactions live in `concepts.css` and `concepts.js`. The comparison dock,
 language control and motion pause work across the five directions. The original homepage
 and screening calculator remain accessible.
+
+## Studio launch
+
+The main website uses the approved green editorial draft. A portrait cutout sits above
+an arched backdrop. Three skill pillars share one illustration style. Dataiku, Thales
+and CEVA feature in story cards; other experience and schools use a logo strip.
+Projects open in projects.html. Hobbies appear expanded without scroll gating, and
+company resources include short descriptions. Framework names describe the work,
+not personal certification.
+
+Studio layers: studio-home.css/js, studio-home-copy.js, studio-pages.css/js,
+studio-pages-copy.js, and studio-gallery.css. Images live in assets/studio/.
