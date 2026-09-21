@@ -50,7 +50,7 @@ excluded rather than treated as confirmed zero. Upstream fuels use individual ac
 factors, not a percentage uplift.
 
 Factors and source labels live on form inputs and generate the visible factor table.
-`carbon-core.js` computes the inventory, including auditable separate upstream lines.
+`js/carbon-core.js` computes the inventory, including auditable separate upstream lines.
 Run `node --test tests/carbon-core.test.cjs` for the calculation regression checks.
 
 The page is deliberately unlisted while in beta — reachable from the footer, `noindex`, and absent
@@ -58,13 +58,14 @@ from `sitemap.xml`.
 
 ## Repository map
 
-GitHub Pages serves the files at the repository root. Keep public HTML files and
-their linked CSS and JavaScript here; moving them changes published URLs.
+GitHub Pages serves the public HTML files at the repository root. CSS and JavaScript
+are grouped by type, with page links updated to their new paths.
 
 | Location | Purpose |
 | --- | --- |
 | Root `*.html` | Public pages and the retained About beta reference |
-| Root `*.css` and `*.js` | Shared code, editorial theme, studio pages and calculator |
+| `css/` | Shared styling, editorial theme and studio pages |
+| `js/` | Site interactions, translations and calculator |
 | `assets/` | Published images, logos, video and downloads |
 | `concepts/` | Five alternate portfolio designs and shared content |
 | `reference/` | Design references and calculator factor audit |
@@ -76,12 +77,12 @@ local page links. Run `node concepts/build.mjs` after editing `concepts/content.
 
 ## How it's put together
 
-- **`style.css`** — shared original styling, still loaded by the public pages. The
+- **`css/style.css`** — shared original styling, still loaded by the public pages. The
   editorial and studio CSS files add the current design on top.
-- **`script.js`** — small vanilla-JS IIFEs, one per feature (theme toggle, language switch, nav,
+- **`js/script.js`** — small vanilla-JS IIFEs, one per feature (theme toggle, language switch, nav,
   intro animation, portfolio accordion, carousels, scroll reveal). Each returns early if its
   element is absent, so the same file is safe to include on every page.
-- **`i18n.js`** — French translations keyed by `data-i18n`. English lives in the HTML markup and is
+- **`js/i18n.js`** — French translations keyed by `data-i18n`. English lives in the HTML markup and is
   captured at runtime as the fallback, so every `data-i18n` added to a page needs a matching entry
   in the `fr` dictionary.
 - **`assets/`** — logos, the CV PDF, hobby photos, Notion project exports.
@@ -97,12 +98,12 @@ The main site now uses the approved About beta theme: DM Sans and Instrument Ser
 warm paper, forest green, generous spacing and restrained motion. The original
 `about-me-beta.html` remains available as the reference.
 
-- `editorial-base.css`: shared visual foundation from the beta.
-- `editorial.css`: readable sizing, responsive layouts, original-colour logo plates,
+- `css/editorial-base.css`: shared visual foundation from the beta.
+- `css/editorial.css`: readable sizing, responsive layouts, original-colour logo plates,
   company page and styles for the existing portfolio, gallery and calculator.
-- `editorial.js`: shared navigation, EN/FR switching, theme and video playback.
-- `editorial-copy.js`: French translations for the concise revised content.
-- `narrative.css`: dimensional journey cards, visual project covers, a distinct LinkedIn
+- `js/editorial.js`: shared navigation, EN/FR switching, theme and video playback.
+- `js/editorial-copy.js`: French translations for the concise revised content.
+- `css/narrative.css`: dimensional journey cards, visual project covers, a distinct LinkedIn
   gallery, wide company video and hobby photo spread.
 
 On the four updated pages, `data-beta-i18n` is handled by `editorial.js`, which also
@@ -143,5 +144,5 @@ Projects open in projects.html. Hobbies appear expanded without scroll gating, a
 company resources include short descriptions. Framework names describe the work,
 not personal certification.
 
-Studio layers: studio-home.css/js, studio-home-copy.js, studio-pages.css/js,
-studio-pages-copy.js, and studio-gallery.css. Images live in assets/studio/.
+Studio layers live in `css/` and `js/`: `studio-home-*`, `studio-pages-*`,
+and `studio-gallery.css`. Images live in `assets/studio/`.

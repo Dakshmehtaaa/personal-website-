@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
-const { computeInventory } = require('../carbon-core.js');
+const { computeInventory } = require('../js/carbon-core.js');
 const markup = readFileSync(join(__dirname, '../co2-tracker.html'), 'utf8');
 const inputs = [...markup.matchAll(/<input\b[^>]*>/g)].map(match =>
     Object.fromEntries([...match[0].matchAll(/([\w-]+)="([^"]*)"/g)].map(attribute => [attribute[1], attribute[2]]))

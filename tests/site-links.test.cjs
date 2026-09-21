@@ -29,3 +29,19 @@ test('published pages do not link to missing local files', () => {
   }
   assert.deepEqual(missing, []);
 });
+
+test('stylesheets do not reference missing local assets', () => {
+  const missing = [];
+  const cssDir = join(root, 'css');
+  for (const name of readdirSync(cssDir).filter((file) => file.endsWith('.css'))) {
+    const stylesheet = join(cssDir, name);
+    const css = readFileSync(stylesheet, 'utf8');
+    for (const [, quoted, bare] of css.matchAll(/url\(\s*(?:["']([^"']+)["']|([^)]*?))\s*\)/gi)) {
+      const raw = (quoted || bare || '').trim();
+      if (!raw || /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(raw)) continue;
+      const target = resolve(cssDir, decodeURIComponent(raw.split(/[?#]/, 1)[0]));
+      if (!existsSync(target) || !statSync(target).isFile()) missing.push(`${name}: ${raw}`);
+    }
+  }
+  assert.deepEqual(missing, []);
+});

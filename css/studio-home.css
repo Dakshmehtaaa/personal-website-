@@ -38,7 +38,7 @@
 .studio-pillars-heading>p:last-child{color:var(--muted);font-size:.95rem}
 .studio-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .studio-pillar{min-width:0;border:1px solid var(--line);border-radius:var(--studio-radius);background:color-mix(in srgb,var(--soft) 54%,var(--paper));overflow:hidden}
-.studio-pillar-art{aspect-ratio:1/1;background-image:url("assets/studio/pillars.png");background-size:300% 100%;background-repeat:no-repeat;background-position:0 0;border-bottom:1px solid var(--line)}
+.studio-pillar-art{aspect-ratio:1/1;background-image:url("../assets/studio/pillars.png");background-size:300% 100%;background-repeat:no-repeat;background-position:0 0;border-bottom:1px solid var(--line)}
 .studio-pillar--automation .studio-pillar-art{background-position:50% 0}
 .studio-pillar--reporting .studio-pillar-art{background-position:100% 0}
 .studio-pillar-copy{padding:22px 22px 26px}

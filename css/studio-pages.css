@@ -41,7 +41,7 @@
   min-height: 240px;
   border-radius: 3px;
   background-color: var(--soft);
-  background-image: url("assets/studio/pillars.png");
+  background-image: url("../assets/studio/pillars.png");
   background-repeat: no-repeat;
   background-size: 300% 100%;
   box-shadow: 0 18px 40px rgba(38, 59, 50, .1);
