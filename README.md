@@ -22,6 +22,7 @@ browsers restrict on `file://` URLs.
 | File | What it is |
 | --- | --- |
 | `index.html` | The main single-page site: hero, about, experience, portfolio, insights, contact |
+| `projects.html` | Full project gallery |
 | `why-sustainability-matters.html` | The business case for sustainability strategy, aimed at companies, plus free resources |
 | `hobbies.html` | Chess, fitness and travel, in a scroll-driven photo spread |
 | `co2-tracker.html` | **Beta.** A free GHG Protocol screening calculator — Scope 1, 2 and 3 |
@@ -55,10 +56,28 @@ Run `node --test tests/carbon-core.test.cjs` for the calculation regression chec
 The page is deliberately unlisted while in beta — reachable from the footer, `noindex`, and absent
 from `sitemap.xml`.
 
+## Repository map
+
+GitHub Pages serves the files at the repository root. Keep public HTML files and
+their linked CSS and JavaScript here; moving them changes published URLs.
+
+| Location | Purpose |
+| --- | --- |
+| Root `*.html` | Public pages and the retained About beta reference |
+| Root `*.css` and `*.js` | Shared code, editorial theme, studio pages and calculator |
+| `assets/` | Published images, logos, video and downloads |
+| `concepts/` | Five alternate portfolio designs and shared content |
+| `reference/` | Design references and calculator factor audit |
+| `tests/` | Site-link and calculator checks |
+| `prepare-preview.mjs` | Stages a private preview in ignored `dist/` |
+
+Run `node --test tests/*.test.cjs` after changes. This checks calculator math and
+local page links. Run `node concepts/build.mjs` after editing `concepts/content.json`.
+
 ## How it's put together
 
-- **`style.css`** — all styling in one file, in commented sections that mirror the HTML. Colors,
-  radii and shadows are CSS custom properties on `:root` and `:root[data-theme="dark"]`.
+- **`style.css`** — shared original styling, still loaded by the public pages. The
+  editorial and studio CSS files add the current design on top.
 - **`script.js`** — small vanilla-JS IIFEs, one per feature (theme toggle, language switch, nav,
   intro animation, portfolio accordion, carousels, scroll reveal). Each returns early if its
   element is absent, so the same file is safe to include on every page.
@@ -66,8 +85,8 @@ from `sitemap.xml`.
   captured at runtime as the fallback, so every `data-i18n` added to a page needs a matching entry
   in the `fr` dictionary.
 - **`assets/`** — logos, the CV PDF, hobby photos, Notion project exports.
-- **`reference/`** — original React sources for the two 21st.dev effects adapted here (spotlight
-  card, coverflow carousel), kept for reference only; nothing imports them.
+- **`reference/`** — original effect sources plus the calculator factor audit;
+  nothing imports the effect sources.
 
 Contributor conventions — portfolio entry structure, i18n parity, the intro-animation scope — are
 in `CLAUDE.md`.
