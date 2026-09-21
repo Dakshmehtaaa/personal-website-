@@ -663,18 +663,6 @@
 
     const STORAGE_KEY = 'co2-tracker-v1';
 
-    /* Upstream (well-to-tank) shares for Scope 3 category 3. Derived from the
-       DEFRA/DESNZ WTT factors against their combustion counterparts: gas is
-       ~19%, diesel ~24%, and for electricity WTT plus grid losses is ~21%. */
-    const WTT_FUEL = 0.19;
-    const WTT_ELEC = 0.21;
-
-    /* Equivalence anchors, both taken from factors already used on this page:
-       a Paris–New York return in economy is ~11,680 p.km at 0.117 kgCO₂e,
-       and a car is 0.17 kgCO₂e per km. */
-    const KG_PER_FLIGHT = 11680 * 0.117;
-    const KG_PER_CAR_KM = 0.17;
-
     const dictionary = window.TRANSLATIONS || {};
 
     const t = (key, fallback) => {
@@ -729,7 +717,7 @@
         return fmt(kg, 0) + ' kg';
     };
 
-    // Factors span five orders of magnitude (0.025 to 3922), so pick the
+    // Factors span several orders of magnitude, so pick the
     // decimals from the value rather than padding everything to a fixed width.
     const factorText = value => {
         const rounded = Math.round(value * 1e5) / 1e5;
@@ -740,11 +728,6 @@
     const amount = element => {
         const value = parseFloat(element.value);
         return Number.isFinite(value) && value > 0 ? value : 0;
-    };
-
-    const factorOf = input => {
-        const value = parseFloat(input.dataset.factor);
-        return Number.isFinite(value) ? value : 0;
     };
 
     const labelOf = input => {
@@ -759,7 +742,10 @@
 
         if (!gridSelect || !elecInput) return;
 
+        if (!gridSelect.value) gridSelect.value = 'custom';
         const custom = gridSelect.value === 'custom';
+        const sourceRow = document.getElementById('s2-source-row');
+        if (sourceRow) sourceRow.hidden = !custom;
         const option = gridSelect.options[gridSelect.selectedIndex];
         const name = option ? (option.dataset.label || option.textContent.trim()) : '';
 
@@ -767,11 +753,14 @@
 
         if (custom) {
             const own = customInput ? parseFloat(customInput.value) : NaN;
-            elecInput.dataset.factor = Number.isFinite(own) && own >= 0 ? String(own) : '0';
-            elecInput.dataset.source = t('co2.src.supplier', 'Supplier-specific factor');
+            const citation = (document.getElementById('s2-custom-source')?.value || '').trim();
+            elecInput.dataset.factor = Number.isFinite(own) && own >= 0 && citation ? String(own) : '';
+            elecInput.dataset.source = citation || 'Published grid factor required';
+            delete elecInput.dataset.sourceUrl;
         } else {
             elecInput.dataset.factor = gridSelect.value;
-            elecInput.dataset.source = name + ' — ' + t('co2.src.grid', 'grid average, location-based');
+            elecInput.dataset.source = option.dataset.source || name;
+            elecInput.dataset.sourceUrl = 'https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026';
         }
 
     };
@@ -779,72 +768,61 @@
     const syncRefrigerant = () => {
 
         if (!refrigSelect || !refrigInput) return;
+        if (!refrigSelect.value) refrigSelect.selectedIndex = 0;
 
         const option = refrigSelect.options[refrigSelect.selectedIndex];
         const name = option ? (option.dataset.label || option.textContent.trim()) : '';
 
         refrigInput.dataset.factor = refrigSelect.value;
-        refrigInput.dataset.source = 'IPCC AR5 GWP₁₀₀ — ' + name;
+        refrigInput.dataset.source = option.dataset.source || ('DESNZ 2026 — ' + name);
 
     };
 
     /* ---------- the calculation ---------- */
 
-    const compute = () => {
-
-        const totals = { 1: 0, 2: 0, 3: 0 };
-        const lines = [];
-
-        let fuelKg = 0;
-        let elecKg = 0;
-
-        rows.forEach(input => {
-
-            const quantity = amount(input);
-            const factor = factorOf(input);
-            const kg = quantity * factor;
-            const scope = input.dataset.scope;
-
-            totals[scope] += kg;
-
-            if (input.dataset.fuel === '1') fuelKg += kg;
-            if (input.dataset.elec === '1') elecKg += kg;
-
-            const output = form.querySelector('output[for="' + input.id + '"]');
-
-            if (output) {
-                output.textContent = mass(kg);
-                output.dataset.active = kg > 0 ? '1' : '0';
-            }
-
-            if (kg > 0) lines.push({ scope: scope, name: labelOf(input), quantity: quantity, unit: input.dataset.unit || '', factor: factor, kg: kg, source: input.dataset.source || '' });
-
+    const syncCustomFactors = () => {
+        form.querySelectorAll('[data-factor-edit]').forEach(field => {
+            const input = document.getElementById(field.dataset.factorEdit);
+            const source = document.getElementById(field.dataset.factorEdit + '-source');
+            const factor = parseFloat(field.value);
+            input.dataset.factor = Number.isFinite(factor) && factor >= 0 && source.value.trim() ? String(factor) : '';
+            input.dataset.source = source.value.trim() || 'Published spend factor required';
         });
+    };
 
-        // Scope 3, category 3 — upstream of everything counted above
-        const wttKg = wttCheck && wttCheck.checked ? (fuelKg * WTT_FUEL + elecKg * WTT_ELEC) : 0;
-
-        totals[3] += wttKg;
-
-        if (wttOut) {
-            wttOut.textContent = mass(wttKg);
-            wttOut.dataset.active = wttKg > 0 ? '1' : '0';
+    const compute = () => {
+        syncGrid();
+        syncCustomFactors();
+        const activities = rows.map(input => ({
+            id: input.id, scope: input.dataset.scope, name: labelOf(input),
+            quantity: amount(input), factor: parseFloat(input.dataset.factor),
+            unit: input.dataset.unit || '', source: input.dataset.source || '',
+            wtt: parseFloat(input.dataset.wtt), wttSource: input.dataset.wttSource || ''
+        }));
+        const result = window.CarbonCore.computeInventory(activities, !!wttCheck?.checked);
+        const isFrench = document.documentElement.lang === 'fr';
+        rows.forEach(input => {
+            const output = form.querySelector('output[for="' + input.id + '"]');
+            const invalid = result.missing.includes(input.id);
+            if (output) {
+                output.textContent = invalid ? (isFrench ? 'Facteur requis' : 'Factor needed') : mass(amount(input) * (parseFloat(input.dataset.factor) || 0));
+                output.dataset.active = amount(input) > 0 ? '1' : '0';
+            }
+            input.setAttribute('aria-invalid', String(invalid));
+        });
+        if (wttOut) wttOut.textContent = mass(result.upstreamKg);
+        const quality = document.getElementById('co2-quality');
+        if (quality) {
+            quality.textContent = result.missing.length
+                ? (isFrench ? 'Sous-total incomplet : ajoutez les facteurs et leurs sources.' : 'Incomplete subtotal: add the missing factors and their sources.')
+                : (isFrench ? 'Activités renseignées uniquement · estimation partielle' : 'Entered activities only · partial estimate');
+            quality.classList.toggle('is-incomplete', !!result.missing.length);
         }
-
-        if (wttKg > 0) {
-            lines.push({
-                scope: '3',
-                name: t('co2.line.wtt', 'Upstream fuel and energy (WTT + grid losses)'),
-                quantity: null,
-                unit: '',
-                factor: null,
-                kg: wttKg,
-                source: 'DEFRA/DESNZ 2025 — WTT and T&D'
-            });
-        }
-
-        return { totals: totals, lines: lines, grand: totals[1] + totals[2] + totals[3] };
-
+        ['co2-csv', 'co2-print'].forEach(id => {
+            const button = document.getElementById(id);
+            if (button) button.disabled = !!result.missing.length;
+        });
+        return result;
     };
 
     /* ---------- rendering ---------- */
@@ -873,29 +851,6 @@
             item.append(name, value);
             topList.append(item);
 
-        });
-
-    };
-
-    const renderEquivalents = grand => {
-
-        if (!equivBox || !equivList) return;
-
-        equivBox.hidden = grand <= 0;
-
-        if (grand <= 0) return;
-
-        const items = [
-            fmt(grand / KG_PER_FLIGHT, 0) + ' ' + t('co2.eq.flights', 'return Paris–New York flights, in economy'),
-            fmt(grand / KG_PER_CAR_KM, 0) + ' ' + t('co2.eq.km', 'kilometres driven in an average car')
-        ];
-
-        equivList.textContent = '';
-
-        items.forEach(text => {
-            const item = document.createElement('li');
-            item.textContent = text;
-            equivList.append(item);
         });
 
     };
@@ -959,7 +914,6 @@
 
         renderIntensity(grand);
         renderTop(result.lines);
-        renderEquivalents(grand);
 
         return result;
 
@@ -989,7 +943,7 @@
 
             const cells = [
                 labelOf(input),
-                factorText(factorOf(input)),
+                Number.isFinite(parseFloat(input.dataset.factor)) ? factorText(parseFloat(input.dataset.factor)) : '—',
                 'kgCO₂e / ' + (input.dataset.unit || ''),
                 input.dataset.source || ''
             ];
@@ -1006,30 +960,15 @@
 
         });
 
-        const tr = document.createElement('tr');
-        const scopeCell = document.createElement('td');
-        const swatch = document.createElement('span');
-        const scopeWrap = document.createElement('span');
-
-        swatch.className = 'co2-swatch co2-swatch--s3';
-        scopeWrap.className = 'co2-table-scope';
-        scopeWrap.append(swatch, document.createTextNode(' 3'));
-        scopeCell.append(scopeWrap);
-        tr.append(scopeCell);
-
-        [
-            t('co2.line.wtt', 'Upstream fuel and energy (WTT + grid losses)'),
-            fmt(WTT_FUEL * 100, 0) + '% / ' + fmt(WTT_ELEC * 100, 0) + '%',
-            t('co2.table.uplift', 'of Scope 1 fuels / Scope 2 electricity'),
-            'DEFRA/DESNZ 2025 — WTT and T&D'
-        ].forEach(text => {
-            const td = document.createElement('td');
-            td.textContent = text;
-            tr.append(td);
+        rows.filter(input => input.dataset.wtt).forEach(input => {
+            const tr = document.createElement('tr');
+            ['3', labelOf(input) + ' · upstream', input.dataset.wtt, 'kgCO₂e / ' + input.dataset.unit, input.dataset.wttSource].forEach(value => {
+                const td = document.createElement('td');
+                td.textContent = value;
+                tr.append(td);
+            });
+            factorBody.append(tr);
         });
-
-        factorBody.append(tr);
-
     };
 
     /* ---------- persistence ---------- */
@@ -1059,6 +998,10 @@
 
         if (!state || typeof state !== 'object') return;
 
+        // Earlier saved selections stored AR4 values; retain the gas identity.
+        const previousRefrigerants = { '2088': '1924', '1430': '1300', '675': '677', '1774': '1624', '3922': '3943' };
+        if (previousRefrigerants[state['s1-refrig-type']]) state['s1-refrig-type'] = previousRefrigerants[state['s1-refrig-type']];
+
         stored().forEach(field => {
 
             if (!field.id || !(field.id in state)) return;
@@ -1079,6 +1022,7 @@
     const downloadCsv = () => {
 
         const result = render();
+        if (result.missing.length) return;
 
         const name = (document.getElementById('org-name') || {}).value || '';
         const year = (document.getElementById('org-year') || {}).value || '';
@@ -1088,7 +1032,9 @@
             ['Organisation', name],
             ['Reporting year', year],
             ['Generated', new Date().toISOString().slice(0, 10)],
-            ['Basis', 'GHG Protocol scopes. Location-based Scope 2. Indicative screening estimate, not audit-grade.'],
+            ['Basis', 'GHG Protocol scope structure; partial coverage; location-based Scope 2 only; not certified or assured.'],
+            ['Factors', 'DESNZ 2026 v1.2; UK proxies except France hotel; cited custom grid and spend factors.'],
+            ['Coverage', 'Entered activities only. Blank activities are excluded, not confirmed zero. Flights exclude non-CO2 radiative forcing.'],
             [],
             ['Scope', 'Activity', 'Quantity', 'Unit', 'Factor (kgCO2e/unit)', 'kgCO2e', 'tCO2e', 'Source']
         ];
@@ -1137,7 +1083,8 @@
 
     form.addEventListener('input', event => {
 
-        if (event.target === customInput) {
+        if (event.target === customInput || event.target.id === 's2-custom-source' || event.target.matches('[data-factor-edit]') || event.target.id.endsWith('-source')) {
+            syncCustomFactors();
             syncGrid();
             renderFactorTable();
         }
@@ -1209,6 +1156,7 @@
 
             syncGrid();
             syncRefrigerant();
+            syncCustomFactors();
             renderFactorTable();
             render();
 
@@ -1220,6 +1168,7 @@
     new MutationObserver(() => {
         syncGrid();
         syncRefrigerant();
+        syncCustomFactors();
         renderFactorTable();
         render();
     }).observe(document.documentElement, { attributeFilter: ['lang'] });
@@ -1227,6 +1176,7 @@
     restore();
     syncGrid();
     syncRefrigerant();
+    syncCustomFactors();
     renderFactorTable();
     render();
 

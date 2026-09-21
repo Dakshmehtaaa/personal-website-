@@ -1,0 +1,432 @@
+{
+  "projects": [
+    {
+      "id": "proj-01",
+      "title": "SustainSwap",
+      "image": "assets/notion/covers/Pitch_deck_SustainSwap.png",
+      "type": {
+        "en": "Start-up Pitch | EN",
+        "fr": "Start-up Pitch | EN"
+      },
+      "body": {
+        "en": "A student marketplace for second-hand items, with campus collection, refurbishment and delivery. The plan covers pricing, logistics and launch.",
+        "fr": "Une plateforme de seconde main entre étudiants, avec collecte sur campus, remise en état et livraison. Le plan couvre les prix, la logistique et le lancement."
+      },
+      "links": [
+        {
+          "href": "assets/notion/presentations/Pitch_deck_SustainSwap.pdf",
+          "label": "↓ Download pitch deck · 4.4 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/presentations/Pitch_deck_SustainSwap.pdf",
+          "label": "View in browser",
+          "download": false
+        },
+        {
+          "href": "assets/notion/special-projects/SustainSwap.png",
+          "label": "Poster",
+          "download": false
+        },
+        {
+          "href": "assets/notion/special-projects/SustainSwap_demo.mov",
+          "label": "Demo video",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-03",
+      "title": "Green ETF · BNP Paribas",
+      "image": "assets/notion/covers/Green_ETF_BNP_Paribas.png",
+      "type": {
+        "en": "Investment Analysis | EN",
+        "fr": "Investment Analysis | EN"
+      },
+      "body": {
+        "en": "An investment analysis of the BNP Paribas circular-economy ETF: holdings, performance and sustainability criteria.",
+        "fr": "Une analyse du fonds indiciel économie circulaire de BNP Paribas : portefeuille, performance et critères de durabilité."
+      },
+      "links": [
+        {
+          "href": "assets/notion/presentations/Green_ETF_BNP_Paribas.pdf",
+          "label": "↓ Download analysis · 0.8 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/presentations/Green_ETF_BNP_Paribas.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-04",
+      "title": "Trade & climate",
+      "image": "assets/notion/covers/Innovation_international_trade.png",
+      "type": {
+        "en": "Research Paper | EN",
+        "fr": "Research Paper | EN"
+      },
+      "body": {
+        "en": "Research into lower-emission freight, port operations and supply-chain design.",
+        "fr": "Une étude du transport de marchandises, des opérations portuaires et des chaînes logistiques à plus faibles émissions."
+      },
+      "links": [
+        {
+          "href": "assets/notion/presentations/Innovation_international_trade.pdf",
+          "label": "↓ Download paper · 1.1 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/presentations/Innovation_international_trade.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-05",
+      "title": "SHEIN · EU strategy",
+      "image": "assets/notion/covers/Shein_EU_strategy.png",
+      "type": {
+        "en": "Strategy Deck | EN",
+        "fr": "Strategy Deck | EN"
+      },
+      "body": {
+        "en": "Alternative scenarios for SHEIN in Europe, exploring how regulation and changing expectations could shape its strategy.",
+        "fr": "Des scénarios pour SHEIN en Europe, explorant les effets possibles de la réglementation et des attentes sur sa stratégie."
+      },
+      "links": [
+        {
+          "href": "assets/notion/presentations/Shein_EU_strategy.pdf",
+          "label": "↓ Download deck · 4.4 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/presentations/Shein_EU_strategy.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-02",
+      "title": "FREITAG",
+      "image": null,
+      "type": {
+        "en": "Value Chain Analysis | EN",
+        "fr": "Value Chain Analysis | EN"
+      },
+      "body": {
+        "en": "An analysis of FREITAG’s circular value chain, from reclaimed materials to repair and resale.",
+        "fr": "Une analyse de la chaîne de valeur circulaire de FREITAG, des matériaux récupérés à la réparation et à la revente."
+      },
+      "links": [
+        {
+          "href": "https://pitch.com/public/661428a4-a1e7-497e-bdc3-8a4d059c2bde/b6b04baa-869f-41af-a9d9-cda1511e1682",
+          "label": "View presentation ↗",
+          "download": false
+        },
+        {
+          "href": "https://www.figma.com/file/ojunkCqeKDSm2wDNcFbv8N?node-id=0-1&type=whiteboard",
+          "label": "Open FigJam board ↗",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-06",
+      "title": "Child labour in Bolivia",
+      "image": null,
+      "type": {
+        "en": "Case Study | EN",
+        "fr": "Case Study | EN"
+      },
+      "body": {
+        "en": "A case study of child labour in Bolivia, examining economic pressures, public policy and enforcement.",
+        "fr": "Une étude du travail des enfants en Bolivie, des pressions économiques, des politiques publiques et de leur application."
+      },
+      "links": [
+        {
+          "href": "https://www.canva.com/design/DAFwGIwxxp8/qiT4Rs7eLCvrGxvxck9Ung/view",
+          "label": "View presentation ↗",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-07",
+      "title": "Back Market · Service quality",
+      "image": null,
+      "type": {
+        "en": "Data Analysis | EN",
+        "fr": "Data Analysis | EN"
+      },
+      "body": {
+        "en": "An Excel analysis of post-sale service quality at Back Market, identifying patterns and areas for improvement.",
+        "fr": "Une analyse Excel de la qualité du service après-vente chez Back Market, pour identifier des tendances et des pistes d’amélioration."
+      },
+      "links": [
+        {
+          "href": "https://drive.google.com/file/d/12UGXc28VMVYewpSJ6W9g9pP57_Pdfhop/view",
+          "label": "Open workbook ↗",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-08",
+      "title": "Intel · Data Center Manager",
+      "image": null,
+      "type": {
+        "en": "SWOT Analysis | EN",
+        "fr": "SWOT Analysis | EN"
+      },
+      "body": {
+        "en": "A SWOT analysis of Intel Data Center Manager, looking at energy management and commercial positioning.",
+        "fr": "Une analyse SWOT d’Intel Data Center Manager, portant sur la gestion de l’énergie et le positionnement commercial."
+      },
+      "links": [
+        {
+          "href": "https://www.canva.com/design/DAFyHvwtEtE/mtJn-yLGLVZjaBWHSWJMBQ/view",
+          "label": "View presentation ↗",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-09",
+      "title": "Amazon & Samsung",
+      "image": "assets/notion/covers/Strategy_implementation.png",
+      "type": {
+        "en": "Case Study | EN",
+        "fr": "Case Study | EN"
+      },
+      "body": {
+        "en": "Six factors in strategy implementation, explored through Samsung and Amazon case studies.",
+        "fr": "Six facteurs de mise en œuvre stratégique, étudiés à travers les cas de Samsung et Amazon."
+      },
+      "links": [
+        {
+          "href": "assets/notion/presentations/Strategy_implementation.pdf",
+          "label": "↓ Download deck · 1.8 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/presentations/Strategy_implementation.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-10",
+      "title": "Restaurant Bharati",
+      "image": "assets/notion/covers/Menu_Card.png",
+      "type": {
+        "en": "Graphic Design | EN",
+        "fr": "Graphic Design | EN"
+      },
+      "body": {
+        "en": "An eight-page menu for Restaurant Bharati, covering layout, typography and print-ready artwork.",
+        "fr": "Un menu de huit pages pour le Restaurant Bharati : mise en page, typographie et fichiers prêts à imprimer."
+      },
+      "links": [
+        {
+          "href": "assets/notion/graphic-design/Menu_Card.pdf",
+          "label": "↓ Download design · 4.7 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/graphic-design/Menu_Card.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    },
+    {
+      "id": "proj-11",
+      "title": "Dessert menu",
+      "image": "assets/notion/covers/Dessert_card_FR.png",
+      "type": {
+        "en": "Graphic Design | FR",
+        "fr": "Graphic Design | FR"
+      },
+      "body": {
+        "en": "A French dessert menu for Restaurant Bharati, adapting the same visual style to a smaller format.",
+        "fr": "Une carte des desserts en français pour le Restaurant Bharati, adaptant le même style visuel à un format plus compact."
+      },
+      "links": [
+        {
+          "href": "assets/notion/graphic-design/Dessert_card_FR.pdf",
+          "label": "↓ Download design · 0.4 MB",
+          "download": true
+        },
+        {
+          "href": "assets/notion/graphic-design/Dessert_card_FR.pdf",
+          "label": "View in browser",
+          "download": false
+        }
+      ]
+    }
+  ],
+  "jobs": [
+    {
+      "name": "Dataiku",
+      "logo": "assets/logos/Dataiku.svg",
+      "date": {
+        "en": "2025 — Present",
+        "fr": "2025 — Aujourd’hui"
+      },
+      "role": {
+        "en": "Sustainability & Social Impact Apprentice",
+        "fr": "Alternant Durabilité et Impact Social"
+      },
+      "body": {
+        "en": "Supporting ESG reporting, supplier engagement and AI for Good.",
+        "fr": "Appui au reporting ESG, à l’engagement fournisseurs et au programme AI for Good."
+      },
+      "city": "Paris, FR"
+    },
+    {
+      "name": "Thales",
+      "logo": "assets/logos/Thales_Logo.svg.svg",
+      "date": {
+        "en": "Mar — Aug 2025",
+        "fr": "Mars — Août 2025"
+      },
+      "role": {
+        "en": "CSR Consultant Intern",
+        "fr": "Consultant RSE — Stage"
+      },
+      "body": {
+        "en": "Helping the Purchasing team organise and automate responsible procurement.",
+        "fr": "Appui aux équipes Achats pour structurer et automatiser les achats responsables."
+      },
+      "city": "Gémenos, FR"
+    },
+    {
+      "name": "CEVA Logistics",
+      "logo": "assets/logos/CEVA.svg",
+      "date": {
+        "en": "Apr — Oct 2024",
+        "fr": "Avr. — Oct. 2024"
+      },
+      "role": {
+        "en": "CSR Customer Desk Intern",
+        "fr": "Chargé de relation client RSE — Stage"
+      },
+      "body": {
+        "en": "Contributing to CDP, EcoVadis and customer sustainability reporting.",
+        "fr": "Contribution au CDP, à EcoVadis et au reporting de durabilité des clients."
+      },
+      "city": "Marseille, FR"
+    },
+    {
+      "name": "Back Market",
+      "logo": "assets/logos/Back_market.svg",
+      "date": {
+        "en": "Jul — Dec 2022",
+        "fr": "Juil. — Déc. 2022"
+      },
+      "role": {
+        "en": "Process Manager Intern",
+        "fr": "Process Manager — Stage"
+      },
+      "body": {
+        "en": "Using Excel and SQL to support customer service operations.",
+        "fr": "Utilisation d’Excel et SQL pour accompagner les opérations du service client."
+      },
+      "city": "Bordeaux, FR"
+    }
+  ],
+  "posts": [
+    {
+      "href": "https://www.linkedin.com/feed/update/urn:li:activity:7200042921897639938/",
+      "image": "assets/insights/ron-carbon-footprint.jpeg",
+      "title": {
+        "en": "Everyday habits. Everyday impact.",
+        "fr": "Habitudes du quotidien et impact."
+      }
+    },
+    {
+      "href": "https://www.linkedin.com/feed/update/urn:li:activity:7207298248997269504/",
+      "image": "assets/insights/ceva-logistics.jpeg",
+      "title": {
+        "en": "Sustainability at CEVA Logistics",
+        "fr": "La durabilité chez CEVA Logistics"
+      }
+    },
+    {
+      "href": "https://www.linkedin.com/posts/mehtadaksh_sustainability-climatechange-ghg-activity-7205848676588515328-BCAx",
+      "image": "assets/insights/coffee-carbon.jpeg",
+      "title": {
+        "en": "From bean to cup",
+        "fr": "Du grain à la tasse"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "href": "https://ghgprotocol.org/",
+      "logo": "assets/logos/resources/ghg-protocol.webp",
+      "name": "GHG Protocol"
+    },
+    {
+      "href": "https://sciencebasedtargets.org/",
+      "logo": "assets/logos/resources/sbti.webp",
+      "name": "SBTi"
+    },
+    {
+      "href": "https://www.cdp.net/en/disclose/how-to-disclose",
+      "logo": "assets/logos/resources/cdp.webp",
+      "name": "CDP"
+    },
+    {
+      "href": "https://www.globalreporting.org/standards/",
+      "logo": "assets/logos/resources/gri.webp",
+      "name": "GRI Standards"
+    },
+    {
+      "href": "https://unglobalcompact.org/join-us",
+      "logo": null,
+      "name": "UN Global Compact"
+    },
+    {
+      "href": "https://www.efrag.org/en/sustainability-reporting",
+      "logo": "assets/logos/resources/esrs.webp",
+      "name": "EFRAG · ESRS"
+    },
+    {
+      "href": "https://ec.europa.eu/sustainable-finance-taxonomy/",
+      "logo": "assets/logos/resources/eu-taxonomy.webp",
+      "name": "EU Taxonomy Compass"
+    },
+    {
+      "href": "https://bcorporation.eu/become-a-b-corp/b-impact-assessment/",
+      "logo": "assets/logos/resources/b-impact-assessment.png",
+      "name": "B Impact Assessment"
+    }
+  ],
+  "video": "assets/videos/for-companies.mp4",
+  "email": "mailto:Dakshmehta077@gmail.com",
+  "education": [
+    {
+      "name": "INSEEC · Paris",
+      "degree": {
+        "en": "MSc International Business Management · Project Management",
+        "fr": "MSc International Business Management · Gestion de projet"
+      },
+      "date": "2025 — Present"
+    },
+    {
+      "name": "KEDGE Business School · Bordeaux",
+      "degree": {
+        "en": "Master in Management · Sustainability",
+        "fr": "Master in Management · Durabilité"
+      },
+      "date": "2021 — 2025"
+    }
+  ]
+}
