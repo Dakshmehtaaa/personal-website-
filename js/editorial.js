@@ -302,50 +302,6 @@
     updateScrollState();
 })();
 
-// Respect deliberate pauses, motion preferences and tab visibility independently.
-(function () {
-    const video = document.getElementById('company-video');
-    const toggle = document.getElementById('film-toggle');
-    if (!video || !toggle) return;
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let wantsPlayback = !motion.matches;
-    let visible = true;
-    const french = () => document.documentElement.lang === 'fr';
-    const update = () => {
-        toggle.textContent = french() ? (video.paused ? 'Lire la vidéo' : 'Mettre en pause') : (video.paused ? 'Play video' : 'Pause video');
-        toggle.setAttribute('aria-label', toggle.textContent);
-        video.setAttribute('aria-label', french() ? 'Six bénéfices de la durabilité pour les entreprises' : 'Six business benefits of sustainability');
-    };
-    const sync = () => {
-        if (wantsPlayback && visible && !document.hidden) video.play().catch(update);
-        else video.pause();
-        update();
-    };
-    toggle.hidden = false;
-    video.controls = false;
-    toggle.addEventListener('click', () => {
-        wantsPlayback = video.paused;
-        sync();
-    });
-    video.addEventListener('play', update);
-    video.addEventListener('pause', update);
-    const failed = () => {
-        document.getElementById('film-fallback').hidden = false;
-        toggle.hidden = true;
-        video.controls = true;
-    };
-    video.addEventListener('error', failed);
-    video.querySelector('source').addEventListener('error', failed);
-    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-        visible = entries[0].isIntersecting;
-        sync();
-    }, { threshold: 0.2 }).observe(video);
-    document.addEventListener('visibilitychange', sync);
-    const motionChanged = () => { wantsPlayback = !motion.matches; sync(); };
-    if (motion.addEventListener) motion.addEventListener('change', motionChanged);
-    new MutationObserver(update).observe(document.documentElement, { attributeFilter: ['lang'] });
-    sync();
-})();
 
 // Scroll transforms are progressive enhancements. Copy is never hidden.
 (function () {
