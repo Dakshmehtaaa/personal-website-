@@ -1,10 +1,43 @@
 /* Daksh Mehta Studio homepage. Scoped so the shared site pages keep their editorial styles. */
 .studio-page{--studio-radius:18px;--studio-radius-sm:12px;--studio-shadow:0 22px 60px color-mix(in srgb,var(--ink) 10%,transparent)}
-.studio-page .beta-header{z-index:30}
+.studio-page .beta-header{z-index:30;transition:background .35s,border-color .35s,color .35s}
+/* studio-home.js adds .studio-top-dark to <html> while the navy hero is in
+   view, so the sticky bar sits on it as glass rather than as a cream slab. */
+.studio-page.studio-top-dark .beta-header{background:#09182ab8;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom-color:#a8d2f52e;color:#eef3fa}
+.studio-page.studio-top-dark .beta-header::after{background:#8fc5f2}
+.studio-page.studio-top-dark .beta-monogram>span{color:#8fc5f2}
+.studio-page.studio-top-dark .beta-language>span,.studio-page.studio-top-dark .beta-language button{color:#a9bed5}
+.studio-page.studio-top-dark .beta-language button[aria-pressed="true"]{color:#eef3fa}
+.studio-page.studio-top-dark #beta-theme-toggle{border-color:#a8d2f547}
+.studio-page.studio-top-dark #beta-menu-toggle>span{background:#eef3fa}
 .studio-brand{font-weight:600}
-.studio-hero{padding-top:34px;overflow:visible}
+/* The hero is a full-bleed navy band with the WebGL wave behind it
+   (js/studio-hero-shader.js). Redefining the editorial tokens on the section
+   re-skins every descendant in one place instead of overriding each rule:
+   the buttons, eyebrow dot, orbits, arch and caption all read from them. */
+.studio-hero{position:relative;isolation:isolate;overflow:hidden;padding-top:0;--paper:#09182a;--ink:#eef3fa;--muted:#a9bed5;--green:#8fc5f2;--line:#2b4763;--soft:#122a44;--portrait:#12283f;--accent:#a8d2f5;background:var(--paper);color:var(--ink)}
+.studio-hero-inner{position:relative;z-index:2;padding-top:34px}
+.studio-hero-stage{position:absolute;inset:0;z-index:0;pointer-events:none;background:#09182a}
+#studio-hero-canvas{display:block;width:100%;height:100%}
+/* Shown when WebGL is unavailable or the shader fails to compile. */
+.studio-hero-stage.is-fallback{background:radial-gradient(118% 78% at 63% 54%,#31719f 0%,#17395c 36%,#09182a 74%)}
+.studio-hero-stage.is-fallback>#studio-hero-canvas{display:none}
+/* Keeps the headline readable: dark over the copy column, open over the
+   portrait where the wave is meant to be seen, closing to solid at the join
+   with the next (light) section. */
+.studio-hero-veil{position:absolute;inset:0;background:linear-gradient(97deg,#071322fa 0%,#071322f0 22%,#071322a8 38%,#0713223d 56%,#07132200 78%,#07132212 100%)}
+.studio-hero-veil::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#09182a99 0%,#09182a1a 20%,#09182a1a 72%,#09182a 100%)}
+/* The legacy stylesheet still ships h1,h2,h3,h4{color:var(--text)}, which is a
+   direct match and so beats the colour the hero section passes down by
+   inheritance. Without this the headline renders in the light theme's ink on
+   the navy band and is all but invisible. */
+.studio-hero h1,.studio-hero h2,.studio-hero h3{color:var(--ink)}
+.studio-hero h1 em{color:var(--green)}
+.studio-hero .beta-button{box-shadow:0 10px 28px #0000004d}
+.studio-hero .beta-button:hover{box-shadow:0 14px 34px #00000059}
+.studio-hero .studio-portrait-caption{background:#10304d;box-shadow:0 18px 44px #00000059;border:1px solid #ffffff1f}
 .studio-hero-top,.studio-hero-foot{display:flex;align-items:center;justify-content:space-between;gap:24px}
-.studio-hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);align-items:center;gap:58px;padding-block:42px 34px}
+.studio-hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);align-items:center;gap:58px;padding-block:34px 26px}
 .studio-kicker{color:var(--green);font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;font-weight:650;margin-bottom:20px}
 .studio-hero h1{font-size:clamp(48px,5.2vw,80px);line-height:1.02;letter-spacing:-.055em;max-width:11ch}
 .studio-hero h1 span,.studio-hero h1 em{display:block}
@@ -12,18 +45,17 @@
 .studio-hero-intro{max-width:39ch;color:var(--muted);font-size:1.08rem;line-height:1.75;margin-top:28px}
 .studio-hero-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:28px}
 .studio-hero-foot{border-top:1px solid var(--line);padding-block:20px;color:var(--muted);font-size:.78rem}
-.studio-portrait-scene{position:relative;min-height:590px;isolation:isolate;overflow:visible;padding:0 6px 34px}
-.studio-portrait-art{position:relative;min-height:555px;overflow:visible;transform:perspective(900px) rotateX(var(--studio-tilt-x,0deg)) rotateY(var(--studio-tilt-y,0deg));transition:transform .35s ease}
-.studio-portrait-arch{position:absolute;z-index:1;left:11%;right:11%;bottom:2%;height:76%;border:1px solid color-mix(in srgb,var(--green) 28%,var(--line));border-bottom:0;border-radius:50% 50% 12px 12px;background:linear-gradient(160deg,color-mix(in srgb,var(--soft) 78%,white),var(--soft));box-shadow:inset 0 0 0 14px color-mix(in srgb,var(--paper) 32%,transparent),12px 16px 0 color-mix(in srgb,var(--green) 11%,transparent)}
-.studio-portrait-arch span{position:absolute;right:13%;top:16%;font:400 clamp(3rem,7vw,6rem)/1 "Instrument Serif",Georgia,serif;color:color-mix(in srgb,var(--green) 20%,transparent)}
-.studio-portrait-cutout{position:absolute;z-index:2;left:50%;bottom:0;width:min(76%,390px);max-width:none;height:auto;transform:translateX(-50%);filter:drop-shadow(0 18px 20px color-mix(in srgb,var(--ink) 18%,transparent));object-fit:contain}
-.studio-portrait-orbit{position:absolute;z-index:0;border:1px solid var(--line);border-radius:50%;pointer-events:none}
+.studio-portrait-scene{position:relative;min-height:520px;isolation:isolate;overflow:visible;padding:0 6px 22px}
+.studio-portrait-art{position:relative;min-height:490px;overflow:visible;transform:perspective(900px) rotateX(var(--studio-tilt-x,0deg)) rotateY(var(--studio-tilt-y,0deg));transition:transform .35s ease}
+.studio-portrait-arch{position:absolute;z-index:1;left:11%;right:11%;bottom:2%;height:76%;border:1px solid #a8d2f53d;border-bottom:0;border-radius:50% 50% 12px 12px;background:linear-gradient(160deg,#ffffff1c,#ffffff0a 55%,#07132226);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:inset 0 0 0 14px #ffffff08,12px 16px 0 #a8d2f512}
+.studio-portrait-cutout{position:absolute;z-index:2;left:50%;bottom:-4%;width:min(88%,438px);max-width:none;height:auto;transform:translateX(-50%);filter:drop-shadow(0 18px 20px color-mix(in srgb,var(--ink) 18%,transparent));object-fit:contain}
+.studio-portrait-orbit{position:absolute;z-index:0;border:1px solid #a8d2f52e;border-radius:50%;pointer-events:none}
 .studio-portrait-orbit--one{inset:9% -4% 9%;transform:rotate(22deg)}
 .studio-portrait-orbit--two{inset:15% -11% 13%;transform:rotate(-31deg)}
 .studio-portrait-star{position:absolute;z-index:3;right:2%;top:6%;font-size:4.4rem;line-height:1;color:var(--green);animation:studio-spin 34s linear infinite}
-.studio-portrait-caption{position:relative;z-index:4;width:82%;margin:-42px auto 0;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;background:#304b3b;color:#f5f3eb;border-radius:var(--studio-radius-sm);box-shadow:10px 12px 0 color-mix(in srgb,var(--green) 14%,transparent)}
+.studio-portrait-caption{position:relative;z-index:4;width:82%;margin:-42px auto 0;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;background:#1b3c58;color:#f4f6fa;border-radius:var(--studio-radius-sm);box-shadow:10px 12px 0 color-mix(in srgb,var(--green) 14%,transparent)}
 .studio-portrait-caption strong{display:block;font:400 1.9rem/1.05 "Instrument Serif",Georgia,serif}
-.studio-portrait-caption div span{display:block;margin-top:7px;color:#d4dfd1;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.studio-portrait-caption div span{display:block;margin-top:7px;color:#c3d3e4;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
 .studio-portrait-caption>span{font-size:1.7rem}
 .studio-section{padding-block:104px}
 .studio-about{padding-top:116px}
@@ -38,7 +70,7 @@
 .studio-pillars-heading>p:last-child{color:var(--muted);font-size:.95rem}
 .studio-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .studio-pillar{min-width:0;border:1px solid var(--line);border-radius:var(--studio-radius);background:color-mix(in srgb,var(--soft) 54%,var(--paper));overflow:hidden}
-.studio-pillar-art{aspect-ratio:1/1;background-image:url("../assets/studio/pillars.png");background-size:300% 100%;background-repeat:no-repeat;background-position:0 0;border-bottom:1px solid var(--line)}
+.studio-pillar-art{aspect-ratio:1/1;background-image:url("../assets/studio/pillars.png?v=2");background-size:300% 100%;background-repeat:no-repeat;background-position:0 0;border-bottom:1px solid var(--line)}
 .studio-pillar--automation .studio-pillar-art{background-position:50% 0}
 .studio-pillar--reporting .studio-pillar-art{background-position:100% 0}
 .studio-pillar-copy{padding:22px 22px 26px}
@@ -46,9 +78,25 @@
 .studio-pillar h3{font-size:1.38rem;line-height:1.15;letter-spacing:-.025em;margin-top:18px}
 .studio-pillar-copy>p:not(.studio-pillar-index):not(.studio-pillar-note){font-size:.92rem;line-height:1.68;color:var(--muted);margin-top:14px}
 .studio-pillar-note{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-top:21px}
-.studio-framework-marks{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.studio-framework-marks span{border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted);font-size:.69rem}.studio-framework-marks .studio-framework-mark{width:48px;height:30px;padding:3px;border-radius:6px;background:#fff;display:grid;place-items:center}.studio-framework-mark img{width:100%;height:100%;object-fit:contain}
-.studio-more{margin-top:22px;color:var(--muted);font:400 1.7rem/1.1 "Instrument Serif",Georgia,serif}
+/* Every mark in assets/logos has a transparent background, so the white
+   plates these used to sit on were drawing a box for no reason. Marks are
+   tinted down to sit with the type and go full colour on hover.
+   Heights are fixed px, never a percentage: --square is the near-square ISO
+   globe, which needs more height than a wordmark to match it optically. */
+.studio-framework-marks{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.studio-framework-mark{display:flex;align-items:center}
+.studio-framework-mark img{width:auto;height:25px;max-width:120px;object-fit:contain;filter:grayscale(1) opacity(.72);transition:filter .35s}
+.studio-framework-mark--square img{height:34px}
+.studio-framework-mark--wide img{height:20px}
+.studio-pillar:hover .studio-framework-mark img{filter:grayscale(0) opacity(1)}
+:root[data-theme="dark"] .studio-framework-mark img{filter:brightness(0) invert(1) opacity(.68)}
+:root[data-theme="dark"] .studio-pillar:hover .studio-framework-mark img{filter:brightness(0) invert(1) opacity(1)}
+.studio-more{margin-top:46px;padding-top:40px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.studio-more-line{color:var(--ink);font:400 clamp(2rem,3.4vw,2.9rem)/1.05 "Instrument Serif",Georgia,serif;letter-spacing:-.02em}
+.studio-more-sub{max-width:46ch;color:var(--muted);font-size:.98rem;line-height:1.7}
+.studio-more-cta{margin-top:12px;display:inline-flex;align-items:center;gap:26px;padding:17px 30px;border-radius:999px;background:var(--green);color:var(--paper);font-size:.9rem;font-weight:550;transition:transform .22s,box-shadow .22s}
+.studio-more-cta:hover{transform:translateY(-3px);box-shadow:0 12px 30px color-mix(in srgb,var(--green) 30%,transparent)}
+.studio-more-cta>span:last-child{font-size:1.15rem;line-height:1}
 .studio-experience{background:var(--soft);border-block:1px solid var(--line)}
 .studio-section-heading{display:flex;justify-content:space-between;align-items:end;gap:42px;margin-bottom:40px}
 .studio-section-heading>p,.studio-section-heading>div>p{max-width:35ch;color:var(--muted);line-height:1.75}
@@ -59,42 +107,58 @@
 .studio-experience-switch.is-active{display:none}
 .studio-experience-switch.is-left{grid-column:1}
 .studio-experience-switch.is-right{grid-column:3}
-.studio-switch-logo{width:100%;height:70px;display:grid;place-items:center;background:#fff;border-radius:9px;padding:12px}
-.studio-switch-logo img{width:100%;height:100%;object-fit:contain}
+.studio-switch-logo{width:100%;height:62px;display:grid;place-items:center;padding:0 6px}
+.studio-switch-logo img{width:100%;height:100%;object-fit:contain;filter:grayscale(1) opacity(.5);transition:filter .35s}
+.studio-experience-switch:hover .studio-switch-logo img{filter:grayscale(0) opacity(1)}
+:root[data-theme="dark"] .studio-switch-logo img{filter:brightness(0) invert(1) opacity(.55)}
+:root[data-theme="dark"] .studio-experience-switch:hover .studio-switch-logo img{filter:brightness(0) invert(1) opacity(1)}
 .studio-switch-name{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-align:center}
 .studio-experience-story{grid-column:2;grid-row:1;min-height:360px;padding:34px 42px;border-radius:var(--studio-radius);background:var(--paper);border:1px solid var(--line);box-shadow:var(--studio-shadow);display:grid;grid-template-columns:minmax(150px,.6fr) minmax(0,1.45fr);grid-template-rows:auto auto 1fr;column-gap:40px;align-items:start}
 .studio-story-top{grid-column:2;display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:.78rem;padding-top:3px}
-.studio-story-logo{grid-column:1;grid-row:1/4;align-self:center;display:grid;place-items:center;min-height:150px;padding:20px;background:#fff;border-radius:12px}
-.studio-story-logo img{width:100%;max-height:90px;object-fit:contain}
+.studio-story-logo{grid-column:1;grid-row:1/4;align-self:center;display:grid;place-items:center;min-height:150px;padding:10px 20px}
+.studio-story-logo img{width:100%;max-height:78px;object-fit:contain;transition:filter .35s}
+:root[data-theme="dark"] .studio-story-logo img{filter:brightness(0) invert(1)}
 .studio-story-company{grid-column:2;color:var(--green);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-top:40px}
 .studio-story-role{grid-column:2;font-size:clamp(1.65rem,2.5vw,2.7rem);line-height:1.08;letter-spacing:-.04em;margin-top:10px}
 .studio-story-body{grid-column:2;color:var(--muted);font-size:1rem;line-height:1.75;margin-top:16px;max-width:48ch}
-.studio-proof-bar{display:flex;align-items:center;justify-content:space-between;gap:30px;border-top:1px solid var(--line);margin-top:44px;padding-top:26px}
-.studio-proof-bar>p{color:var(--muted);font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap}
-.studio-proof-logos{display:grid;grid-template-columns:repeat(6,minmax(80px,1fr));gap:10px;width:min(900px,100%)}
-.studio-proof-item{position:relative;min-height:68px;display:grid;place-items:center;padding:10px 14px;background:#fff;border:1px solid var(--line);border-radius:8px}
-.studio-proof-item img{width:100%;height:38px;object-fit:contain}
+.studio-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.studio-proof-bar{border-top:1px solid var(--line);margin-top:48px;padding-top:34px}
+.studio-proof-logos{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px 34px;width:100%;align-items:center}
+.studio-proof-item{position:relative;min-height:46px;display:grid;place-items:center}
+.studio-proof-item img{width:100%;height:32px;object-fit:contain;filter:grayscale(1) opacity(.46);transition:filter .35s,transform .35s}
+.studio-proof-item:hover img{filter:grayscale(0) opacity(1);transform:scale(1.07)}
+:root[data-theme="dark"] .studio-proof-item img{filter:brightness(0) invert(1) opacity(.5)}
+:root[data-theme="dark"] .studio-proof-item:hover img{filter:brightness(0) invert(1) opacity(1);transform:scale(1.07)}
 .studio-proof-item span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .studio-portfolio{padding-block:104px 78px}
 .studio-portfolio .studio-section-heading{margin-bottom:0}
 .studio-portfolio .studio-section-heading>div>p{margin-top:15px;font-size:1rem}
 .studio-gallery-button{display:inline-flex;align-items:center;gap:28px;padding:16px 20px;border:1px solid var(--green);border-radius:999px;color:var(--green);font-size:.87rem;white-space:nowrap;transition:background .2s,color .2s,transform .2s}
 .studio-gallery-button:hover{background:var(--green);color:var(--paper);transform:translateY(-2px)}
-.studio-beyond{background:#304b3b;color:#f4f2e8;--line:#5b7060;--muted:#c6d1c4}
-.studio-beyond .beta-section-label{color:#c6d1c4}
-.studio-beyond .beta-section-number,.studio-beyond h2 em{color:#d5e994}
+.studio-beyond{background:#1b3c58;color:#eef3f9;--line:#3f5c78;--muted:#b6c7d9}
+.studio-beyond .beta-section-label{color:#b6c7d9}
+.studio-beyond .beta-section-number,.studio-beyond h2 em{color:#a8d2f5}
 .studio-beyond-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:76px}
-.studio-beyond h2{color:#f4f2e8}
+.studio-beyond h2{color:#eef3f9}
 .studio-beyond-grid>div>p{max-width:35ch;color:var(--muted);line-height:1.8;margin-top:22px}
 .studio-beyond .beta-text-link{margin-top:23px;border-color:var(--line)}
-.studio-beyond-images{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
-.studio-beyond-images figure{position:relative;margin:0;background:var(--paper);padding:8px 8px 0;box-shadow:0 16px 28px #13271b40;color:#304b3b}.studio-beyond-images img{width:100%;aspect-ratio:3/4;object-fit:cover}.studio-beyond-images figcaption{padding:9px 2px 11px;font-size:.7rem;display:flex;justify-content:space-between}
-.studio-beyond-images figure:first-child{transform:rotate(-5deg);margin-top:-32px}.studio-beyond-images figure:last-child{transform:rotate(5deg);margin-top:40px}
+/* Printed-photo look kept; the 3:4 crop is what made this section run so
+   tall, so the plates are 4:5 and capped in width. */
+.studio-beyond-images{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;width:100%;max-width:540px;justify-self:end}
+.studio-beyond-images figure{position:relative;margin:0;background:#f6f8fc;padding:9px 9px 0;box-shadow:0 18px 34px #0b1e2f52;color:#1b3c58;transition:transform .35s}
+.studio-beyond-images img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+.studio-beyond-images figcaption{padding:10px 2px 12px;font-size:.7rem;display:flex;justify-content:space-between}
+.studio-beyond-images figure:first-child{transform:rotate(-4deg);margin-top:-16px}
+.studio-beyond-images figure:last-child{transform:rotate(4deg);margin-top:28px}
+.studio-beyond-images figure:hover{transform:rotate(0) translateY(-4px)}
 .studio-social{padding-bottom:92px}
 .studio-social .studio-section-heading{align-items:center}
 .studio-social-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 .studio-social-grid a{display:grid;grid-template-columns:1fr auto;gap:12px 15px;color:var(--ink);font-size:.95rem;line-height:1.35}
-.studio-social-grid img{grid-column:1/-1;aspect-ratio:16/10;width:100%;object-fit:cover;border:1px solid var(--line);border-radius:var(--studio-radius-sm)}
+/* contain, not cover: these three posts run from 1.50 to 2.07 aspect and a
+   cover crop was slicing the CEVA wordmark in half. */
+.studio-social-grid img{grid-column:1/-1;aspect-ratio:16/10;width:100%;height:auto;object-fit:contain;background:color-mix(in srgb,var(--soft) 70%,var(--paper));padding:12px;border:1px solid var(--line);border-radius:var(--studio-radius-sm);transition:transform .35s,border-color .35s}
+.studio-social-grid a:hover img{transform:translateY(-4px);border-color:var(--green)}
 .studio-social-grid a>span:nth-last-child(1){color:var(--green);font-size:1.25rem}
 .studio-contact{padding-block:105px 125px;border-top:1px solid var(--line);text-align:center;display:flex;align-items:center;flex-direction:column}
 .studio-contact>.beta-eyebrow{color:var(--green);margin-bottom:25px}
@@ -110,21 +174,22 @@
 .studio-footer-bottom{display:flex;justify-content:space-between;gap:24px;border-top:1px solid var(--line);padding-top:18px;margin-top:28px;color:var(--muted);font-size:.72rem}
 @keyframes studio-spin{to{transform:rotate(360deg)}}
 @media (max-width:1100px){
-  .studio-hero-grid{gap:34px}.studio-portrait-scene{min-height:530px}.studio-portrait-art{min-height:500px}
-  .studio-experience-story{padding-inline:28px;column-gap:25px}.studio-proof-bar{align-items:start;flex-direction:column}
+  .studio-hero-grid{gap:34px}.studio-portrait-scene{min-height:470px}.studio-portrait-art{min-height:445px}
+  .studio-experience-story{padding-inline:28px;column-gap:25px}
 }
 @media (max-width:860px){
   .studio-hero-grid{grid-template-columns:1fr;gap:30px}.studio-hero-copy{max-width:52ch}.studio-portrait-scene{width:min(100%,520px);justify-self:center}
   .studio-intro-grid,.studio-beyond-grid{grid-template-columns:1fr;gap:32px}.studio-pillars{grid-template-columns:1fr}.studio-pillar-art{aspect-ratio:1/1}
-  .studio-experience-layout{display:block}.studio-experience-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.studio-experience-switch,.studio-experience-switch.is-active{display:flex;min-height:132px;padding:10px}.studio-experience-switch.is-left,.studio-experience-switch.is-right{grid-column:auto}.studio-switch-logo{height:58px}.studio-experience-story{min-height:0;grid-template-columns:120px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-story-logo{grid-column:1;grid-row:1/5;min-height:115px;padding:14px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:2}.studio-story-company{margin-top:20px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(90px,1fr))}.studio-social-grid{gap:15px}
+  .studio-experience-layout{display:block}.studio-experience-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.studio-experience-switch,.studio-experience-switch.is-active{display:flex;min-height:132px;padding:10px}.studio-experience-switch.is-left,.studio-experience-switch.is-right{grid-column:auto}.studio-switch-logo{height:58px}.studio-experience-story{min-height:0;grid-template-columns:120px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-story-logo{grid-column:1;grid-row:1/5;min-height:115px;padding:14px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:2}.studio-story-company{margin-top:20px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
 }
+@media (max-width:680px){.studio-page.studio-top-dark #beta-nav-links{background:#09182af7;border-bottom-color:#a8d2f52e}}
 @media (max-width:620px){
-  .studio-hero{padding-top:26px}.studio-hero-top,.studio-hero-foot{align-items:flex-start;flex-direction:column;gap:9px}.studio-hero-grid{padding-block:32px 22px}.studio-hero h1{font-size:clamp(42px,11vw,60px);max-width:13ch}.studio-hero-intro{font-size:1rem}.studio-portrait-scene{min-height:470px;padding-inline:0}.studio-portrait-art{min-height:440px}.studio-portrait-arch{left:6%;right:6%;height:77%}.studio-portrait-cutout{width:80%}.studio-portrait-star{font-size:3.5rem;right:3%;top:3%}.studio-portrait-caption{width:90%;padding:15px 17px;margin-top:-36px}.studio-portrait-caption strong{font-size:1.65rem}.studio-section{padding-block:72px}.studio-about{padding-top:78px}.studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:clamp(42px,12vw,59px)}.studio-about-copy .studio-lede{font-size:1.3rem}.studio-pillars-heading{align-items:start;flex-direction:column;gap:12px;margin-top:54px}.studio-pillar-copy{padding:19px 18px 23px}.studio-pillar h3{font-size:1.28rem}.studio-section-heading{align-items:start;flex-direction:column;gap:20px}.studio-experience-tabs{gap:7px}.studio-experience-switch{min-height:104px;border-radius:12px;padding:7px;gap:9px}.studio-switch-logo{height:47px;padding:7px}.studio-experience-story{grid-template-columns:1fr;gap:0;padding:22px 18px}.studio-story-logo{grid-column:1;grid-row:auto;min-height:88px;width:100%;margin-bottom:20px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:1}.studio-story-top{font-size:.7rem}.studio-story-company{margin-top:20px}.studio-story-role{font-size:1.65rem}.studio-proof-logos{grid-template-columns:1fr;gap:8px}.studio-proof-item{min-height:58px}.studio-portfolio{padding-block:70px}.studio-gallery-button{width:100%;justify-content:space-between}.studio-beyond-images{gap:10px}.studio-social-grid{grid-template-columns:1fr;gap:30px}.studio-contact{padding-block:78px 88px}.studio-footer-main{grid-template-columns:1fr 1fr}.studio-footer-brand{grid-column:1/-1}.studio-footer-bottom{flex-direction:column;gap:8px}
+  .studio-hero-inner{padding-top:26px}.studio-more{margin-top:34px;padding-top:30px}.studio-more-cta{width:100%;justify-content:space-between}.studio-beyond-images{max-width:none;justify-self:stretch}.studio-hero-top,.studio-hero-foot{align-items:flex-start;flex-direction:column;gap:9px}.studio-hero-grid{padding-block:32px 22px}.studio-hero h1{font-size:clamp(42px,11vw,60px);max-width:13ch}.studio-hero-intro{font-size:1rem}.studio-portrait-scene{min-height:400px;padding-inline:0}.studio-portrait-art{min-height:378px}.studio-portrait-arch{left:6%;right:6%;height:77%}.studio-portrait-cutout{width:80%}.studio-portrait-star{font-size:3.5rem;right:3%;top:3%}.studio-portrait-caption{width:90%;padding:15px 17px;margin-top:-36px}.studio-portrait-caption strong{font-size:1.65rem}.studio-section{padding-block:72px}.studio-about{padding-top:78px}.studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:clamp(42px,12vw,59px)}.studio-about-copy .studio-lede{font-size:1.3rem}.studio-pillars-heading{align-items:start;flex-direction:column;gap:12px;margin-top:54px}.studio-pillar-copy{padding:19px 18px 23px}.studio-pillar h3{font-size:1.28rem}.studio-section-heading{align-items:start;flex-direction:column;gap:20px}.studio-experience-tabs{gap:7px}.studio-experience-switch{min-height:104px;border-radius:12px;padding:7px;gap:9px}.studio-switch-logo{height:47px;padding:7px}.studio-experience-story{grid-template-columns:1fr;gap:0;padding:22px 18px}.studio-story-logo{grid-column:1;grid-row:auto;min-height:88px;width:100%;margin-bottom:20px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:1}.studio-story-top{font-size:.7rem}.studio-story-company{margin-top:20px}.studio-story-role{font-size:1.65rem}.studio-proof-logos{gap:20px 22px}.studio-proof-item{min-height:40px}.studio-portfolio{padding-block:70px}.studio-gallery-button{width:100%;justify-content:space-between}.studio-beyond-images{gap:10px}.studio-social-grid{grid-template-columns:1fr;gap:30px}.studio-contact{padding-block:78px 88px}.studio-footer-main{grid-template-columns:1fr 1fr}.studio-footer-brand{grid-column:1/-1}.studio-footer-bottom{flex-direction:column;gap:8px}
 }
 @media (max-width:620px){.studio-proof-logos{grid-template-columns:repeat(2,minmax(90px,1fr));gap:8px}}
-.studio-hero h1{max-width:16ch}.studio-pillar-copy>p:not(.studio-pillar-index):not(.studio-pillar-note){font-size:1rem}.studio-pillar-note,.studio-framework-marks span,.studio-switch-name,.studio-beyond-images figcaption,.studio-portrait-caption div span,.studio-pillar-index,.studio-proof-bar>p,.studio-story-top,.studio-story-company,.studio-footer-bottom{font-size:.75rem}.studio-framework-mark img{max-height:24px}
+.studio-hero h1{max-width:16ch}.studio-pillar-copy>p:not(.studio-pillar-index):not(.studio-pillar-note){font-size:1rem}.studio-pillar-note,.studio-switch-name,.studio-beyond-images figcaption,.studio-portrait-caption div span,.studio-pillar-index,.studio-story-top,.studio-story-company,.studio-footer-bottom{font-size:.75rem}
 @media (max-width:620px){.studio-proof-logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){
   .studio-page *,.studio-page *::before,.studio-page *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
-  .studio-portrait-art{transform:none!important}.studio-portrait-star{animation:none!important}
+  .studio-portrait-art{transform:none!important}.studio-portrait-star{animation:none!important}.studio-beyond-images figure{transition:none}
 }
