@@ -85,12 +85,9 @@
    globe, which needs more height than a wordmark to match it optically. */
 .studio-framework-marks{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
 .studio-framework-mark{display:flex;align-items:center}
-.studio-framework-mark img{width:auto;height:25px;max-width:120px;object-fit:contain;filter:grayscale(1) opacity(.72);transition:filter .35s}
+.studio-framework-mark img{width:auto;height:25px;max-width:120px;object-fit:contain}
 .studio-framework-mark--square img{height:34px}
 .studio-framework-mark--wide img{height:20px}
-.studio-pillar:hover .studio-framework-mark img{filter:grayscale(0) opacity(1)}
-:root[data-theme="dark"] .studio-framework-mark img{filter:brightness(0) invert(1) opacity(.68)}
-:root[data-theme="dark"] .studio-pillar:hover .studio-framework-mark img{filter:brightness(0) invert(1) opacity(1)}
 .studio-more{margin-top:46px;padding-top:40px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
 .studio-more-line{color:var(--ink);font:400 clamp(2rem,3.4vw,2.9rem)/1.05 "Instrument Serif",Georgia,serif;letter-spacing:-.02em}
 .studio-more-sub{max-width:46ch;color:var(--muted);font-size:.98rem;line-height:1.7}
@@ -100,35 +97,61 @@
 .studio-experience{background:var(--soft);border-block:1px solid var(--line)}
 .studio-section-heading{display:flex;justify-content:space-between;align-items:end;gap:42px;margin-bottom:40px}
 .studio-section-heading>p,.studio-section-heading>div>p{max-width:35ch;color:var(--muted);line-height:1.75}
-.studio-experience-layout{display:grid;grid-template-columns:minmax(105px,.56fr) minmax(0,1.82fr) minmax(105px,.56fr);gap:18px;align-items:stretch}
-.studio-experience-tabs{display:contents}
-.studio-experience-switch{grid-row:1;min-height:230px;border:1px solid var(--line);border-radius:var(--studio-radius);background:var(--paper);color:var(--ink);cursor:pointer;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:transform .25s,border-color .25s,background .25s;box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 4%,transparent)}
-.studio-experience-switch:hover{transform:translateY(-4px);border-color:var(--green)}
-.studio-experience-switch.is-active{display:none}
-.studio-experience-switch.is-left{grid-column:1}
-.studio-experience-switch.is-right{grid-column:3}
-.studio-switch-logo{width:100%;height:62px;display:grid;place-items:center;padding:0 6px}
-.studio-switch-logo img{width:100%;height:100%;object-fit:contain;filter:grayscale(1) opacity(.5);transition:filter .35s}
-.studio-experience-switch:hover .studio-switch-logo img{filter:grayscale(0) opacity(1)}
-:root[data-theme="dark"] .studio-switch-logo img{filter:brightness(0) invert(1) opacity(.55)}
-:root[data-theme="dark"] .studio-experience-switch:hover .studio-switch-logo img{filter:brightness(0) invert(1) opacity(1)}
-.studio-switch-name{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-align:center}
-.studio-experience-story{grid-column:2;grid-row:1;min-height:360px;padding:34px 42px;border-radius:var(--studio-radius);background:var(--paper);border:1px solid var(--line);box-shadow:var(--studio-shadow);display:grid;grid-template-columns:minmax(150px,.6fr) minmax(0,1.45fr);grid-template-rows:auto auto 1fr;column-gap:40px;align-items:start}
-.studio-story-top{grid-column:2;display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:.78rem;padding-top:3px}
-.studio-story-logo{grid-column:1;grid-row:1/4;align-self:center;display:grid;place-items:center;min-height:150px;padding:10px 20px}
-.studio-story-logo img{width:100%;max-height:78px;object-fit:contain;transition:filter .35s}
-:root[data-theme="dark"] .studio-story-logo img{filter:brightness(0) invert(1)}
-.studio-story-company{grid-column:2;color:var(--green);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-top:40px}
-.studio-story-role{grid-column:2;font-size:clamp(1.65rem,2.5vw,2.7rem);line-height:1.08;letter-spacing:-.04em;margin-top:10px}
-.studio-story-body{grid-column:2;color:var(--muted);font-size:1rem;line-height:1.75;margin-top:16px;max-width:48ch}
+/* ---- Experience deck -------------------------------------------------------
+   Three identical cards share one grid: the middle slot is wide and shows the
+   full role, the two side slots are squares showing only the mark. Clicking a
+   side card reassigns the slots, and studio-home.js FLIPs every card from its
+   old box to its new one - so the card you clicked physically travels to the
+   centre, instead of content being swapped underneath a panel that never moves. */
+.studio-experience-deck{display:grid;grid-template-columns:minmax(0,214px) minmax(0,1fr) minmax(0,214px);gap:20px;align-items:center}
+.studio-xp-card{position:relative;grid-row:1;min-width:0;border:1px solid var(--line);border-radius:var(--studio-radius);background:var(--paper);transform-origin:top left;transition:border-color .25s,box-shadow .25s}
+.studio-xp-card.is-left{grid-column:1}
+.studio-xp-card.is-active{grid-column:2;z-index:2;box-shadow:var(--studio-shadow)}
+.studio-xp-card.is-right{grid-column:3}
+.studio-xp-card:not(.is-active){aspect-ratio:1;align-self:center;box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 4%,transparent)}
+.studio-xp-card:not(.is-active):hover{border-color:var(--green)}
+.studio-xp-card.is-moving{z-index:3}
+/* the square face - all a side card shows */
+.studio-xp-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:16px;border:0;border-radius:inherit;background:none;color:var(--ink);cursor:pointer;transition:opacity .3s,transform .3s}
+/* the face of the card arriving at the centre is being scaled by the FLIP,
+   so it clears fast rather than stretching in view while it travels */
+.studio-xp-card.is-active>.studio-xp-face{opacity:0;pointer-events:none;transform:scale(.94);transition:opacity .16s linear,transform .3s}
+.studio-xp-card:not(.is-active):hover>.studio-xp-face{transform:translateY(-3px)}
+.studio-xp-mark{width:100%;max-width:142px;height:54px;display:grid;place-items:center}
+.studio-xp-mark img{width:100%;height:100%;object-fit:contain}
+.studio-xp-name{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-align:center}
+/* the wide face: meta across the top, mark left, role right. Explicit rows and
+   margins only - the rule this replaces mixed a 1fr row with a row span that ran
+   past the end of its own template, which is what opened the gap under the title. */
+.studio-xp-detail{display:none;grid-template-columns:minmax(0,148px) minmax(0,1fr);column-gap:38px;align-content:center;min-height:292px;padding:32px 40px}
+.studio-xp-card.is-active>.studio-xp-detail{display:grid}
+.studio-xp-meta{grid-column:1/-1;display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:.75rem;margin-bottom:26px}
+.studio-xp-brand{grid-column:1;grid-row:2/5;align-self:center;display:grid;place-items:center;width:100%;height:84px}
+.studio-xp-brand img{width:100%;height:100%;object-fit:contain}
+.studio-xp-company{grid-column:2;grid-row:2;color:var(--green);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.studio-xp-role{grid-column:2;grid-row:3;font-size:clamp(1.6rem,2.4vw,2.5rem);line-height:1.08;letter-spacing:-.04em;margin-top:10px}
+.studio-xp-body{grid-column:2;grid-row:4;color:var(--muted);font-size:1rem;line-height:1.75;margin-top:16px;max-width:46ch}
+/* ---- Logo marks ------------------------------------------------------------
+   Marks are tinted back so a row of them reads as texture rather than as six
+   competing brands, and return to their real colours on hover or keyboard
+   focus. In dark mode they are white silhouettes, and several (Thales, Dataiku,
+   KEDGE) are near-black at full colour - so hovering adds a soft white halo
+   that follows the mark's own shape. No plate: nothing else on the page sits on
+   a box, and a white rectangle appearing behind one logo would break that. */
+.studio-proof-item img,.studio-framework-mark img,.studio-xp-mark img,.studio-xp-brand img{filter:grayscale(1) opacity(var(--mark-rest,.5));transition:filter .35s,transform .35s}
+.studio-proof-item:hover img,.studio-framework-mark:hover img,.studio-xp-mark:hover img,.studio-xp-brand:hover img,.studio-xp-face:focus-visible .studio-xp-mark img{filter:none}
+:root[data-theme="dark"] .studio-proof-item img,:root[data-theme="dark"] .studio-framework-mark img,:root[data-theme="dark"] .studio-xp-mark img,:root[data-theme="dark"] .studio-xp-brand img{filter:brightness(0) invert(1) opacity(var(--mark-rest-dark,.55))}
+:root[data-theme="dark"] .studio-proof-item:hover img,:root[data-theme="dark"] .studio-framework-mark:hover img,:root[data-theme="dark"] .studio-xp-mark:hover img,:root[data-theme="dark"] .studio-xp-brand:hover img,:root[data-theme="dark"] .studio-xp-face:focus-visible .studio-xp-mark img{filter:drop-shadow(0 0 4px #ffffffb8) drop-shadow(0 0 12px #ffffff5c)}
+.studio-framework-mark{--mark-rest:.72;--mark-rest-dark:.68}
+.studio-proof-item{--mark-rest:.46;--mark-rest-dark:.5}
+.studio-xp-mark{--mark-rest:.5;--mark-rest-dark:.55}
+.studio-xp-brand{--mark-rest:1;--mark-rest-dark:1}
+.studio-proof-item:hover img{transform:scale(1.06)}
 .studio-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .studio-proof-bar{border-top:1px solid var(--line);margin-top:48px;padding-top:34px}
 .studio-proof-logos{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px 34px;width:100%;align-items:center}
 .studio-proof-item{position:relative;min-height:46px;display:grid;place-items:center}
-.studio-proof-item img{width:100%;height:32px;object-fit:contain;filter:grayscale(1) opacity(.46);transition:filter .35s,transform .35s}
-.studio-proof-item:hover img{filter:grayscale(0) opacity(1);transform:scale(1.07)}
-:root[data-theme="dark"] .studio-proof-item img{filter:brightness(0) invert(1) opacity(.5)}
-:root[data-theme="dark"] .studio-proof-item:hover img{filter:brightness(0) invert(1) opacity(1);transform:scale(1.07)}
+.studio-proof-item img{width:100%;height:32px;object-fit:contain}
 .studio-proof-item span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .studio-portfolio{padding-block:104px 78px}
 .studio-portfolio .studio-section-heading{margin-bottom:0}
@@ -175,21 +198,21 @@
 @keyframes studio-spin{to{transform:rotate(360deg)}}
 @media (max-width:1100px){
   .studio-hero-grid{gap:34px}.studio-portrait-scene{min-height:470px}.studio-portrait-art{min-height:445px}
-  .studio-experience-story{padding-inline:28px;column-gap:25px}
+  .studio-experience-deck{grid-template-columns:minmax(0,168px) minmax(0,1fr) minmax(0,168px);gap:14px}.studio-xp-card.is-active>.studio-xp-detail{padding-inline:28px;column-gap:26px}
 }
 @media (max-width:860px){
   .studio-hero-grid{grid-template-columns:1fr;gap:30px}.studio-hero-copy{max-width:52ch}.studio-portrait-scene{width:min(100%,520px);justify-self:center}
   .studio-intro-grid,.studio-beyond-grid{grid-template-columns:1fr;gap:32px}.studio-pillars{grid-template-columns:1fr}.studio-pillar-art{aspect-ratio:1/1}
-  .studio-experience-layout{display:block}.studio-experience-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}.studio-experience-switch,.studio-experience-switch.is-active{display:flex;min-height:132px;padding:10px}.studio-experience-switch.is-left,.studio-experience-switch.is-right{grid-column:auto}.studio-switch-logo{height:58px}.studio-experience-story{min-height:0;grid-template-columns:120px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-story-logo{grid-column:1;grid-row:1/5;min-height:115px;padding:14px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:2}.studio-story-company{margin-top:20px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
+  .studio-experience-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.studio-xp-card,.studio-xp-card.is-left,.studio-xp-card.is-right{grid-column:auto;grid-row:1;aspect-ratio:1;align-self:stretch}.studio-xp-card.is-active{grid-column:1/-1;grid-row:2;aspect-ratio:auto;margin-top:4px}.studio-xp-card.is-active>.studio-xp-face{display:none}.studio-xp-mark{height:48px}.studio-xp-card.is-active>.studio-xp-detail{min-height:0;grid-template-columns:118px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-xp-brand{height:64px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
 }
 @media (max-width:680px){.studio-page.studio-top-dark #beta-nav-links{background:#09182af7;border-bottom-color:#a8d2f52e}}
 @media (max-width:620px){
-  .studio-hero-inner{padding-top:26px}.studio-more{margin-top:34px;padding-top:30px}.studio-more-cta{width:100%;justify-content:space-between}.studio-beyond-images{max-width:none;justify-self:stretch}.studio-hero-top,.studio-hero-foot{align-items:flex-start;flex-direction:column;gap:9px}.studio-hero-grid{padding-block:32px 22px}.studio-hero h1{font-size:clamp(42px,11vw,60px);max-width:13ch}.studio-hero-intro{font-size:1rem}.studio-portrait-scene{min-height:400px;padding-inline:0}.studio-portrait-art{min-height:378px}.studio-portrait-arch{left:6%;right:6%;height:77%}.studio-portrait-cutout{width:80%}.studio-portrait-star{font-size:3.5rem;right:3%;top:3%}.studio-portrait-caption{width:90%;padding:15px 17px;margin-top:-36px}.studio-portrait-caption strong{font-size:1.65rem}.studio-section{padding-block:72px}.studio-about{padding-top:78px}.studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:clamp(42px,12vw,59px)}.studio-about-copy .studio-lede{font-size:1.3rem}.studio-pillars-heading{align-items:start;flex-direction:column;gap:12px;margin-top:54px}.studio-pillar-copy{padding:19px 18px 23px}.studio-pillar h3{font-size:1.28rem}.studio-section-heading{align-items:start;flex-direction:column;gap:20px}.studio-experience-tabs{gap:7px}.studio-experience-switch{min-height:104px;border-radius:12px;padding:7px;gap:9px}.studio-switch-logo{height:47px;padding:7px}.studio-experience-story{grid-template-columns:1fr;gap:0;padding:22px 18px}.studio-story-logo{grid-column:1;grid-row:auto;min-height:88px;width:100%;margin-bottom:20px}.studio-story-top,.studio-story-company,.studio-story-role,.studio-story-body{grid-column:1}.studio-story-top{font-size:.7rem}.studio-story-company{margin-top:20px}.studio-story-role{font-size:1.65rem}.studio-proof-logos{gap:20px 22px}.studio-proof-item{min-height:40px}.studio-portfolio{padding-block:70px}.studio-gallery-button{width:100%;justify-content:space-between}.studio-beyond-images{gap:10px}.studio-social-grid{grid-template-columns:1fr;gap:30px}.studio-contact{padding-block:78px 88px}.studio-footer-main{grid-template-columns:1fr 1fr}.studio-footer-brand{grid-column:1/-1}.studio-footer-bottom{flex-direction:column;gap:8px}
+  .studio-hero-inner{padding-top:26px}.studio-more{margin-top:34px;padding-top:30px}.studio-more-cta{width:100%;justify-content:space-between}.studio-beyond-images{max-width:none;justify-self:stretch}.studio-hero-top,.studio-hero-foot{align-items:flex-start;flex-direction:column;gap:9px}.studio-hero-grid{padding-block:32px 22px}.studio-hero h1{font-size:clamp(42px,11vw,60px);max-width:13ch}.studio-hero-intro{font-size:1rem}.studio-portrait-scene{min-height:400px;padding-inline:0}.studio-portrait-art{min-height:378px}.studio-portrait-arch{left:6%;right:6%;height:77%}.studio-portrait-cutout{width:80%}.studio-portrait-star{font-size:3.5rem;right:3%;top:3%}.studio-portrait-caption{width:90%;padding:15px 17px;margin-top:-36px}.studio-portrait-caption strong{font-size:1.65rem}.studio-section{padding-block:72px}.studio-about{padding-top:78px}.studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:clamp(42px,12vw,59px)}.studio-about-copy .studio-lede{font-size:1.3rem}.studio-pillars-heading{align-items:start;flex-direction:column;gap:12px;margin-top:54px}.studio-pillar-copy{padding:19px 18px 23px}.studio-pillar h3{font-size:1.28rem}.studio-section-heading{align-items:start;flex-direction:column;gap:20px}.studio-experience-deck{gap:8px}.studio-xp-card{border-radius:12px}.studio-xp-face{gap:10px;padding:8px}.studio-xp-mark{height:38px}.studio-xp-name{font-size:.62rem;letter-spacing:.04em}.studio-xp-card.is-active>.studio-xp-detail{grid-template-columns:1fr;padding:22px 18px}.studio-xp-brand{grid-column:1;grid-row:auto;height:54px;justify-self:start;width:132px;margin-bottom:18px}.studio-xp-meta{margin-bottom:18px;font-size:.7rem}.studio-xp-company,.studio-xp-role,.studio-xp-body{grid-column:1;grid-row:auto}.studio-xp-role{font-size:1.65rem}.studio-proof-logos{gap:20px 22px}.studio-proof-item{min-height:40px}.studio-portfolio{padding-block:70px}.studio-gallery-button{width:100%;justify-content:space-between}.studio-beyond-images{gap:10px}.studio-social-grid{grid-template-columns:1fr;gap:30px}.studio-contact{padding-block:78px 88px}.studio-footer-main{grid-template-columns:1fr 1fr}.studio-footer-brand{grid-column:1/-1}.studio-footer-bottom{flex-direction:column;gap:8px}
 }
 @media (max-width:620px){.studio-proof-logos{grid-template-columns:repeat(2,minmax(90px,1fr));gap:8px}}
-.studio-hero h1{max-width:16ch}.studio-pillar-copy>p:not(.studio-pillar-index):not(.studio-pillar-note){font-size:1rem}.studio-pillar-note,.studio-switch-name,.studio-beyond-images figcaption,.studio-portrait-caption div span,.studio-pillar-index,.studio-story-top,.studio-story-company,.studio-footer-bottom{font-size:.75rem}
+.studio-hero h1{max-width:16ch}.studio-pillar-copy>p:not(.studio-pillar-index):not(.studio-pillar-note){font-size:1rem}.studio-pillar-note,.studio-xp-name,.studio-beyond-images figcaption,.studio-portrait-caption div span,.studio-pillar-index,.studio-xp-meta,.studio-xp-company,.studio-footer-bottom{font-size:.75rem}
 @media (max-width:620px){.studio-proof-logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){
   .studio-page *,.studio-page *::before,.studio-page *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
-  .studio-portrait-art{transform:none!important}.studio-portrait-star{animation:none!important}.studio-beyond-images figure{transition:none}
+  .studio-portrait-art{transform:none!important}.studio-portrait-star{animation:none!important}.studio-beyond-images figure{transition:none}.studio-xp-card,.studio-xp-face{transition:none!important}
 }

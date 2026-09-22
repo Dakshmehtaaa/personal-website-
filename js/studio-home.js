@@ -4,88 +4,90 @@
 
   const init = () => {
     const root = document.documentElement;
-    const buttons = [...document.querySelectorAll('.studio-experience-switch')];
-    const story = document.getElementById('studio-story');
-    const frenchMeta = {
-      dataiku: { date: '2025 — Aujourd’hui', location: 'Paris, France' },
-      thales: { date: 'Mars — Août 2025', location: 'Gémenos, France' },
-      ceva: { date: 'Avr. — Oct. 2024', location: 'Marseille, France' }
-    };
-    const english = {
-      dataiku: {
-        role: 'Sustainability & Social Impact Apprentice',
-        body: 'Supporting ESG reporting, supplier engagement and AI for Good.'
-      },
-      thales: {
-        role: 'CSR Consultant Intern',
-        body: 'Helping the Purchasing team organise and automate responsible procurement.'
-      },
-      ceva: {
-        role: 'CSR Customer Desk Intern',
-        body: 'Contributing to CDP, EcoVadis and customer sustainability reporting.'
-      }
-    };
+    /* ---- Experience deck ---------------------------------------------------
+       All three roles live in the markup; which slot each card occupies is just
+       a class. On a switch we measure every card before and after the class
+       change and play the difference back as a transform (FLIP), so the card
+       that was clicked visibly travels from the side into the centre rather
+       than the middle panel silently swapping its contents. */
+    const deck = document.querySelector('.studio-experience-deck');
+    if (deck) {
+      const cards = [...deck.querySelectorAll('.studio-xp-card')];
+      const faces = cards.map(card => card.querySelector('.studio-xp-face'));
+      const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const EASE = 'cubic-bezier(.22,1,.36,1)';
+      const DURATION = 620;
+      let active = Math.max(0, cards.findIndex(card => card.classList.contains('is-active')));
 
-    if (buttons.length && story) {
-      const date = story.querySelector('.studio-story-date');
-      const location = story.querySelector('.studio-story-location');
-      const logo = story.querySelector('.studio-story-logo img');
-      const company = story.querySelector('.studio-story-company');
-      const role = story.querySelector('.studio-story-role');
-      const body = story.querySelector('.studio-story-body');
-      let active = Math.max(0, buttons.findIndex(button => button.classList.contains('is-active')));
-      const isFrench = () => root.lang.toLowerCase().startsWith('fr');
-      const render = (next, focus) => {
-        active = (next + buttons.length) % buttons.length;
-        const button = buttons[active];
-        const id = button.dataset.studioExperience;
-        const fr = window.EDITORIAL_FR || {};
-        const copy = english[id] || {};
-        const meta = frenchMeta[id] || {};
-        buttons.forEach((item, index) => {
-          const selected = index === active;
-          item.classList.toggle('is-active', selected);
-          item.classList.toggle('is-left', !selected && index === (active + buttons.length - 1) % buttons.length);
-          item.classList.toggle('is-right', !selected && index === (active + 1) % buttons.length);
-          item.setAttribute('aria-selected', String(selected));
-          item.tabIndex = 0;
+      const assign = next => {
+        active = (next + cards.length) % cards.length;
+        cards.forEach((card, index) => {
+          const offset = (index - active + cards.length) % cards.length;
+          card.classList.toggle('is-active', offset === 0);
+          card.classList.toggle('is-right', offset === 1);
+          card.classList.toggle('is-left', offset === cards.length - 1);
+          const face = faces[index];
+          if (face) {
+            face.setAttribute('aria-expanded', String(offset === 0));
+            face.tabIndex = offset === 0 ? -1 : 0;
+          }
         });
-        const french = isFrench();
-        const roleText = french ? (fr[button.dataset.roleKey] || copy.role) : copy.role;
-        const bodyText = french ? (fr[button.dataset.bodyKey] || copy.body) : copy.body;
-        if (date) date.textContent = french ? meta.date : button.dataset.date;
-        if (location) location.textContent = french ? meta.location : button.dataset.location;
-        if (logo) {
-          logo.src = button.dataset.logo;
-          logo.alt = button.dataset.alt || `${button.dataset.company} logo`;
-        }
-        if (company) company.textContent = button.dataset.company;
-        if (role) role.textContent = roleText;
-        if (body) body.textContent = bodyText;
-        story.dataset.studioExperience = id;
-        if (focus) (getComputedStyle(button).display === 'none' ? story : button).focus();
       };
-      buttons.forEach((button, index) => {
-        button.addEventListener('click', () => render(index, true));
-        button.addEventListener('keydown', event => {
-          let next;
-          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = active + 1;
-          if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = active - 1;
-          if (event.key === 'Home') next = 0;
-          if (event.key === 'End') next = buttons.length - 1;
-          if (next === undefined) return;
+
+      const box = card => card.getBoundingClientRect();
+
+      const show = (next, focus) => {
+        if (next === active) return;
+        const animate = !reduceMotion.matches && typeof deck.animate === 'function';
+        const before = animate ? cards.map(box) : null;
+        const previous = active;
+        assign(next);
+        if (animate) {
+          cards.forEach((card, index) => {
+            const from = before[index];
+            const to = box(card);
+            const dx = from.left - to.left;
+            const dy = from.top - to.top;
+            const sx = to.width ? from.width / to.width : 1;
+            const sy = to.height ? from.height / to.height : 1;
+            if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < 0.01 && Math.abs(sy - 1) < 0.01) return;
+            card.classList.add('is-moving');
+            const move = card.animate(
+              [{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` }, { transform: 'none' }],
+              { duration: DURATION, easing: EASE }
+            );
+            move.finished.catch(() => {}).then(() => card.classList.remove('is-moving'));
+          });
+          /* The card is scaled while it travels, which would stretch its text.
+             Holding the detail back until the move is mostly done hides that,
+             and reads as the card opening once it has arrived. */
+          const detail = cards[active].querySelector('.studio-xp-detail');
+          if (detail) detail.animate([{ opacity: 0 }, { opacity: 0, offset: 0.3 }, { opacity: 1 }], { duration: DURATION, easing: 'ease-out' });
+          const leaving = cards[previous] && cards[previous].querySelector('.studio-xp-face');
+          if (leaving) leaving.animate([{ opacity: 0 }, { opacity: 0, offset: 0.35 }, { opacity: 1 }], { duration: DURATION, easing: 'ease-out' });
+        }
+        if (focus) {
+          const target = faces[previous];
+          if (target && getComputedStyle(target).display !== 'none') target.focus();
+          else cards[active].querySelector('.studio-xp-role')?.focus?.();
+        }
+      };
+
+      faces.forEach((face, index) => {
+        if (!face) return;
+        face.addEventListener('click', () => show(index, false));
+        face.addEventListener('keydown', event => {
+          const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+          if (step === undefined) return;
           event.preventDefault();
-          render(next, true);
+          const order = cards.map((_, i) => i).filter(i => i !== active);
+          const at = order.indexOf(index);
+          const target = order[(at + step + order.length) % order.length];
+          faces[target]?.focus();
         });
       });
-      story.addEventListener('keydown', event => {
-        const next = { ArrowRight: active + 1, ArrowDown: active + 1, ArrowLeft: active - 1, ArrowUp: active - 1, Home: 0, End: buttons.length - 1 }[event.key];
-        if (next === undefined) return;
-        event.preventDefault();
-        render(next, true);
-      });
-      render(active, false);
-      new MutationObserver(() => render(active, false)).observe(root, { attributeFilter: ['lang'] });
+
+      assign(active);
     }
 
     /* The hero is a dark navy band, so the sticky header has to sit on it as

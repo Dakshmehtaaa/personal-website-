@@ -36,6 +36,12 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "experience.title": "Le travail en pratique.",
   "experience.intro": "Quelques rôles où reporting, achats et opérations se rencontrent.",
   "experience.proofLabel": "Auparavant chez / formation",
+  "experience.dataiku.date": "2025 — Aujourd’hui",
+  "experience.dataiku.place": "Paris, France",
+  "experience.thales.date": "Mars — Août 2025",
+  "experience.thales.place": "Gémenos, France",
+  "experience.ceva.date": "Avr. — Oct. 2024",
+  "experience.ceva.place": "Marseille, France",
   "experience.dataiku.role": "Alternant Durabilité et Impact Social",
   "experience.dataiku.body": "Appui au reporting ESG, à l’engagement fournisseurs et au programme AI for Good.",
   "experience.thales.role": "Consultant RSE — stage",
@@ -65,21 +71,3 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "contact.linkedin": "Échangeons sur LinkedIn",
   "footer.note": "RSE · ESG · Gestion de projets durables"
 });
-
-window.STUDIO_HOME_COPY = {
-  experience: {
-    dataiku: {
-      role: "Sustainability & Social Impact Apprentice",
-      body: "Supporting ESG reporting, supplier engagement and AI for Good."
-    },
-    thales: {
-      role: "CSR Consultant Intern",
-      body: "Helping the Purchasing team organise and automate responsible procurement."
-    },
-    ceva: {
-      role: "CSR Customer Desk Intern",
-      body: "Contributing to CDP, EcoVadis and customer sustainability reporting."
-    }
-  }
-};
-
