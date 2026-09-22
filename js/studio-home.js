@@ -88,6 +88,38 @@
       new MutationObserver(() => render(active, false)).observe(root, { attributeFilter: ['lang'] });
     }
 
+    /* The hero is a dark navy band, so the sticky header has to sit on it as
+       glass rather than as a light slab. CSS does the rest off .studio-top-dark. */
+    const hero = document.querySelector('.studio-hero');
+    if (hero && 'IntersectionObserver' in window) {
+      const header = document.querySelector('.beta-header');
+      const headerHeight = () => Math.round(header ? header.getBoundingClientRect().height : 87);
+      let margin = headerHeight();
+      const watchHero = () => {
+        const observer = new IntersectionObserver(entries => {
+          root.classList.toggle('studio-top-dark', entries[entries.length - 1].isIntersecting);
+        }, { rootMargin: `-${margin}px 0px 0px 0px`, threshold: 0 });
+        observer.observe(hero);
+        return observer;
+      };
+      let heroObserver = watchHero();
+      /* rootMargin is fixed at construction, so the observer has to be rebuilt
+         when the header changes height - but only then, not on every resize
+         event, which would tear down and re-create it dozens of times a drag. */
+      let resizeTimer = null;
+      addEventListener('resize', () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          resizeTimer = null;
+          const next = headerHeight();
+          if (next === margin) return;
+          margin = next;
+          heroObserver.disconnect();
+          heroObserver = watchHero();
+        }, 200);
+      }, { passive: true });
+    }
+
     document.querySelectorAll('.studio-portrait-cutout[data-fallback-src]').forEach(image => {
       image.addEventListener('error', () => {
         if (image.dataset.fallbackApplied) return;

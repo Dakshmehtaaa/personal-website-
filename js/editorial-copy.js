@@ -1,6 +1,7 @@
 window.EDITORIAL_FR = {
   "nav.about": "À propos",
   "nav.projects": "Projets",
+  "nav.insights": "Blogs",
   "nav.companies": "Pour les entreprises",
   "hero.intro": "Je m’appelle Daksh. Je travaille sur la durabilité, le reporting et les achats responsables.",
   "hero.location": "Paris, France · Anglais / Français / Hindi",

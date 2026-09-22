@@ -19,7 +19,7 @@ window.TRANSLATIONS = {
         'nav.hobbies': 'Loisirs',
         'nav.businessCase': 'Les arguments business',
         'nav.resources': 'Ressources gratuites',
-        'nav.insights': 'Publications',
+        'nav.insights': 'Blogs',
         'nav.contact': 'Contact',
 
         'hero.eyebrow': 'Consultant RSE',

@@ -31,28 +31,28 @@ img, svg, iframe{
 /* ---------- Tokens ---------- */
 :root{
     /* brand */
-    --accent:#2b8c67;
-    --accent-strong:#1f6d50;
-    --accent-deep:#10231d;
+    --accent:#1d4e72;
+    --accent-strong:#153853;
+    --accent-deep:#0c1c2b;
     --gold:#b8905a;
 
     /* surfaces + text (light) */
-    --bg:#f7faf8;
+    --bg:#f6f9fc;
     --surface:#ffffff;
-    --surface-2:#f1f6f3;
+    --surface-2:#eef4f9;
     --surface-glass:rgba(255,255,255,.78);
-    --border:rgba(16,35,29,.12);
-    --border-strong:rgba(43,140,103,.28);
+    --border:rgba(12,28,43,.12);
+    --border-strong:rgba(29,78,114,.28);
 
-    --text:#10231d;
-    --text-soft:#41564c;
-    --text-muted:#6b7f75;
+    --text:#0c1c2b;
+    --text-soft:#3b5064;
+    --text-muted:#68798c;
 
-    --shadow-sm:0 4px 16px rgba(16,35,29,.06);
-    --shadow:0 16px 40px rgba(16,35,29,.09);
-    --shadow-lg:0 28px 70px rgba(16,35,29,.14);
+    --shadow-sm:0 4px 16px rgba(12,28,43,.06);
+    --shadow:0 16px 40px rgba(12,28,43,.09);
+    --shadow-lg:0 28px 70px rgba(12,28,43,.14);
 
-    --glow:rgba(43,140,103,.16);
+    --glow:rgba(29,78,114,.16);
 
     /* geometry */
     --r-sm:12px;
@@ -68,27 +68,27 @@ img, svg, iframe{
 }
 
 :root[data-theme="dark"]{
-    --accent:#4fc08d;
-    --accent-strong:#3fa877;
-    --accent-deep:#d7ede2;
+    --accent:#63a8dd;
+    --accent-strong:#4a90c9;
+    --accent-deep:#d8e7f4;
     --gold:#d9ab74;
 
-    --bg:#0c1512;
-    --surface:#12201b;
-    --surface-2:#182b24;
-    --surface-glass:rgba(18,32,27,.78);
-    --border:rgba(215,237,226,.12);
-    --border-strong:rgba(79,192,141,.32);
+    --bg:#0a1219;
+    --surface:#101e2a;
+    --surface-2:#14242f;
+    --surface-glass:rgba(16,30,42,.78);
+    --border:rgba(216,231,244,.12);
+    --border-strong:rgba(99,168,221,.32);
 
-    --text:#eaf4ee;
-    --text-soft:#b6cabf;
-    --text-muted:#8ba396;
+    --text:#e8f0f8;
+    --text-soft:#b2c4d6;
+    --text-muted:#8ba0b6;
 
     --shadow-sm:0 4px 16px rgba(0,0,0,.4);
     --shadow:0 16px 40px rgba(0,0,0,.45);
     --shadow-lg:0 28px 70px rgba(0,0,0,.55);
 
-    --glow:rgba(79,192,141,.16);
+    --glow:rgba(99,168,221,.16);
 
     color-scheme:dark;
 }
