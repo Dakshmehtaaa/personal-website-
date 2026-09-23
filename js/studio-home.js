@@ -124,6 +124,21 @@
       }, { passive: true });
     }
 
+    /* The bar is see-through only while the page sits at the very top. Once it
+       scrolls, the headline would slide up underneath the logo and nav, so the
+       bar takes its tint back straight away. */
+    let scrollQueued = false;
+    const markScrolled = () => {
+      scrollQueued = false;
+      root.classList.toggle('studio-scrolled', window.scrollY > 8);
+    };
+    addEventListener('scroll', () => {
+      if (scrollQueued) return;
+      scrollQueued = true;
+      requestAnimationFrame(markScrolled);
+    }, { passive: true });
+    markScrolled();
+
     document.querySelectorAll('.studio-portrait-cutout[data-fallback-src]').forEach(image => {
       image.addEventListener('error', () => {
         if (image.dataset.fallbackApplied) return;

@@ -310,3 +310,7 @@
 
 /* with the labels gone, the belt itself sits on the shared bottom line */
 .studio-pillar-copy>.studio-belt{margin-top:auto;padding-top:26px}
+
+/* ...and it returns as soon as the page moves: over the hero it is a deep navy
+   glass (never the grey it used to be, since the hero now sits behind it) */
+.studio-page.studio-top-dark.studio-scrolled .beta-header{background:#09182ae0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:#a8d2f51f}
