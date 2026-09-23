@@ -52,6 +52,8 @@ or serve the folder with any static file server.
   percentage `max-height` on the `img` resolves against an indefinite grid track, so square marks
   (GRI, ESRS) render at full width and get clipped. The plate's dimensions live in
   `--plate-w`/`--plate-h`/`--plate-p` and the image bounds are `calc()`d from them.
+- **Symbols iOS turns into emoji.** A bare `↗` or `✳` renders as a colour emoji tile on iPhone (blue arrow box, green asterisk). Always write `↗` followed by U+FE0E (text presentation) - every existing one already is - and draw decorative symbols as inline SVG instead of glyphs (`.studio-portrait-star`). Desktop Chrome hides this, so check any new symbol against the list of emoji-capable code points.
+- **Don't let a box get its height from `aspect-ratio` alone while it's stretched.** Safari lets `align-self:stretch` win over `aspect-ratio` on a grid item with no in-flow content and collapses it to its borders (the experience side cards showed up as two dots on an iPhone). Give such boxes an in-flow square spacer (`::before{padding-top:100%}`) or `align-self:start`.
 - **One content width.** Every full-width section (hero, about, timeline, portfolio, insights,
   resources, footer) uses `max-width:var(--maxw)` (1280px) so left/right edges line up all the
   way down the page. Don't give a section its own narrower cap to "fix" long paragraph lines —

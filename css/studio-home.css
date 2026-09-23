@@ -245,7 +245,7 @@
 @media (max-width:860px){
   .studio-hero-grid{grid-template-columns:1fr;gap:30px}.studio-hero-copy{max-width:52ch}.studio-portrait-scene{width:min(100%,520px);justify-self:center;order:-1}
   .studio-intro-grid,.studio-beyond-grid{grid-template-columns:1fr;gap:32px}.studio-pillars{grid-template-columns:1fr}.studio-pillar-art{aspect-ratio:1/1}
-  .studio-experience-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.studio-xp-card,.studio-xp-card.is-left,.studio-xp-card.is-right{grid-column:auto;grid-row:1;aspect-ratio:1;align-self:stretch}.studio-xp-card.is-active{grid-column:1/-1;grid-row:2;aspect-ratio:auto;margin-top:4px}.studio-xp-card.is-active>.studio-xp-face{display:none}.studio-xp-mark{height:48px}.studio-xp-card.is-active>.studio-xp-detail{min-height:0;grid-template-columns:118px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-xp-brand{height:64px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
+  .studio-experience-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.studio-xp-card,.studio-xp-card.is-left,.studio-xp-card.is-right{grid-column:auto;grid-row:1;aspect-ratio:1;align-self:start}.studio-xp-card.is-active{grid-column:1/-1;grid-row:2;aspect-ratio:auto;margin-top:4px}.studio-xp-card.is-active>.studio-xp-face{display:none}.studio-xp-mark{height:48px}.studio-xp-card.is-active>.studio-xp-detail{min-height:0;grid-template-columns:118px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-xp-brand{height:64px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
 }
 @media (max-width:680px){.studio-page.studio-top-dark #beta-nav-links{background:#09182af7;border-bottom-color:#a8d2f52e}}
 @media (max-width:620px){
@@ -393,3 +393,11 @@
   .studio-proof-dup{display:none}
   .studio-proof-logos{animation:none;flex-wrap:wrap;width:auto;justify-content:center;gap:20px 0}
 }
+
+/* Side cards hold nothing in flow (the face is absolutely positioned), so their
+   height came from aspect-ratio alone. Safari lets a stretched grid item ignore
+   aspect-ratio and collapsed them to their borders - two dots on an iPhone. A
+   square spacer gives them real height in every engine. */
+.studio-xp-card:not(.is-active)::before{content:"";display:block;padding-top:100%}
+/* the star is an SVG: the ✳ glyph turns into a green emoji tile on iOS */
+.studio-portrait-star svg{display:block;width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}

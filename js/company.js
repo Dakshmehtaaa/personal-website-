@@ -36,34 +36,22 @@
     /* resource filter (the loop link below uses it too) */
     var filter = document.querySelector('.sys-filter');
     var cards = [].slice.call(document.querySelectorAll('.sys-res'));
-    var count = document.querySelector('.sys-res-count');
-    var current = 'all';
     var applyFilter = function (stage) {
-      current = stage;
-      var shown = 0;
       cards.forEach(function (card) {
         var match = stage === 'all' || card.dataset.node === stage;
         card.classList.toggle('is-dimmed', !match);
         card.setAttribute('aria-hidden', String(!match));
-        if (match) shown++;
       });
       if (filter) {
         [].forEach.call(filter.querySelectorAll('button'), function (b) {
           b.setAttribute('aria-pressed', String(b.dataset.filter === stage));
         });
       }
-      if (count) {
-        var fr = document.documentElement.lang === 'fr' && count.dataset.templateFr;
-        count.textContent = (fr ? count.dataset.templateFr : count.dataset.template).replace('{n}', shown);
-      }
     };
     if (filter && cards.length) {
       filter.addEventListener('click', function (event) {
         var button = event.target.closest('button[data-filter]');
         if (button) applyFilter(button.dataset.filter);
-      });
-      document.querySelectorAll('[data-beta-lang]').forEach(function (b) {
-        b.addEventListener('click', function () { setTimeout(function () { applyFilter(current); }, 0); });
       });
       applyFilter('all');
     }

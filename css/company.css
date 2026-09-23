@@ -131,7 +131,9 @@ body.company-page{
 .sys-res.is-dimmed{opacity:.24;pointer-events:none}
 /* marks sit straight on the panel - no plate anywhere on this site */
 .sys-res-mark{display:grid;place-items:center;height:42px}
-.sys-res-mark img{max-width:100%;max-height:100%;object-fit:contain;filter:grayscale(1) opacity(.62);transition:filter .35s}
+/* px, not %: a percentage max-height resolves against the auto grid row, which is how
+   square marks (GRI, ESRS) grew past the card - see CLAUDE.md on logo plates */
+.sys-res-mark img{width:auto;height:auto;max-width:100%;max-height:42px;object-fit:contain;filter:grayscale(1) opacity(.62);transition:filter .35s}
 .sys-res:hover .sys-res-mark img{filter:none}
 :root[data-theme="dark"] .sys-res-mark img{filter:brightness(0) invert(1) opacity(.66)}
 :root[data-theme="dark"] .sys-res:hover .sys-res-mark img{filter:drop-shadow(0 0 4px #ffffffb8) drop-shadow(0 0 12px #ffffff5c)}
@@ -144,7 +146,6 @@ body.company-page{
 .sys-res p{margin-top:7px;font-size:.9rem;line-height:1.6;color:var(--muted)}
 .sys-res-arrow{font-size:1.2rem;color:var(--muted);transition:transform .25s,color .25s}
 .sys-res:hover .sys-res-arrow{transform:translate(3px,-3px);color:var(--sys-blue)}
-.sys-res-count{color:var(--muted);font-size:.8rem;margin-top:20px}
 
 /* ---- Contact: the page ends back on navy ---------------------------------- */
 .sys-contact{padding-block:96px 110px}
