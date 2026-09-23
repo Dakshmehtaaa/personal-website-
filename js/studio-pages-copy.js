@@ -18,7 +18,7 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   'company.contactBody': 'Si vous bloquez sur l’une de ces étapes, c’est en général là que je suis le plus utile.',
   'xv.title': 'Pourquoi maintenant.',
   'xv.titleEm': 'La version courte.',
-  'xv.posterKicker': 'Explication · avec le son',
+  'xv.posterKicker': 'Explication animée',
   'xv.posterTitle': 'Pourquoi le reporting durable <mark>n’attend plus</mark>',
   'xv.soundOn': 'Activer le son',
   'xv.transcript': 'Lire le script',

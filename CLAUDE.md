@@ -91,21 +91,7 @@ or serve the folder with any static file server.
   cards, the resource filter, the explainer) - change it in all four or none. Yellow (`--sys-signal`)
   is the one extra colour that page is allowed, and it only ever marks the active step or the primary
   action; don't spend it on decoration.
-- **The "Why now" explainer (`#why-now`) is generated from a script, not hand-timed.** The narration
-  (English and French) lives in `tools/build-explainer-audio.py`. Running
-  `python3 tools/build-explainer-audio.py` renders the voice-over with macOS `say`, writes
-  `assets/audio/explainer-{en,fr}.m4a` and `js/explainer-timing.js`, bumps that file's `?v=` in the
-  page, and **fails** if any `data-at`/`data-out` cue names a line that doesn't exist in its scene, or
-  any `data-sfx` names a sound missing from `js/explainer.js`. Cues are line ids plus offsets
-  (`data-at="v3c+1500"`), so rewording a line or changing a voice re-syncs the whole animation: never
-  hand-edit the timing file or turn cues into absolute milliseconds. The voices default to the best
-  ones installed here (Daniel / Thomas); `EN_VOICE="…(Premium)" FR_VOICE="…"` swaps in better ones.
-  Effects and the music bed are synthesised with Web Audio and fire from `data-sfx` on the same cue
-  elements. Captions and the transcript come from the script too, so narration copy is translated
-  there; only the on-canvas labels use `data-beta-i18n`.
-- **Testing the explainer's sound:** Playwright's bundled Chromium can't decode AAC (same as the
-  H.264 note below), so launch with `channel: 'chrome'`. The static server must answer HTTP Range
-  requests or every seek resets the audio to 0:00 (GitHub Pages does; a naive local server doesn't).
+- **The "Why now" explainer (`#why-now`) is generated from a script, not hand-timed.** Its words (English and French) live in `tools/build-explainer-timing.py`. There is **no voice-over** (a synthetic one was tried and dropped): the captions are the narration, always on, with `*starred*` words on a yellow highlight, and each line is timed from its reading length. Running `python3 tools/build-explainer-timing.py` writes `js/explainer-timing.js`, bumps its `?v=` in the page, and **fails** if any `data-at`/`data-out` cue names a line that doesn't exist in its scene, or any `data-sfx` names a sound missing from `js/explainer.js`. Cues are line ids plus offsets (`data-at="v3c+1500"`), so rewording a line re-times the whole animation: never hand-edit the timing file or turn cues into absolute milliseconds. Sound is effects plus a soft music bed synthesised with Web Audio, fired from `data-sfx` on the same cue elements; autoplay is always silent and a tap turns sound on.
 - **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
   `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
   with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post

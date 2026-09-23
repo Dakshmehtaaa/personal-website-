@@ -186,9 +186,14 @@
 .xv-player:not(.is-playing) .xv-stage *,.xv-player:not(.is-playing) .xv-bg::after{animation-play-state:paused}
 
 /* ---- captions, end-card buttons, sound prompt ---- */
-.xv-cap{position:absolute;left:7%;right:7%;bottom:calc(var(--u)*2.7);text-align:center;font-size:calc(var(--u)*2.1);font-weight:550;line-height:1.35;color:var(--xv-ink);text-wrap:balance;opacity:0;transform:translateY(6px);transition:opacity .2s ease,transform .25s ease;pointer-events:none}
+/* the captions are the narration now: always on, set like on-screen titles, with
+   the key words of each line on a yellow highlight */
+.xv-cap{position:absolute;left:6%;right:6%;bottom:calc(var(--u)*2.4);text-align:center;font-size:calc(var(--u)*2.45);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--xv-ink);text-wrap:balance;opacity:0;transform:translateY(8px);transition:opacity .25s ease,transform .3s ease;pointer-events:none}
 .xv-cap.is-on{opacity:1;transform:none}
-.xv-player:not(.is-cc) .xv-cap{opacity:0}
+.xv-cap.is-new{animation:xv-cap-in .35s ease}
+.xv-player .xv-stage .xv-cap{animation-play-state:running}
+@keyframes xv-cap-in{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
+.xv-cap mark{color:var(--xv-on-yellow);background:var(--xv-yellow);padding:0 .18em;border-radius:.2em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .xv-ctas{position:absolute;left:0;right:0;bottom:calc(var(--u)*-1);display:flex;flex-wrap:wrap;justify-content:center;gap:calc(var(--u)*1.4);opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .xv-ctas.on{opacity:1;transform:none}
 .xv-cta{display:inline-flex;align-items:center;gap:.8em;padding:.75em 1.35em;border-radius:999px;background:var(--xv-yellow);color:var(--xv-on-yellow);font-size:calc(var(--u)*1.8);font-weight:650;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
@@ -228,9 +233,8 @@
 .xv-player.is-playing .xv-play .xv-i-play,.xv-player.is-ended .xv-play .xv-i-play{display:none}
 .xv-player.is-playing .xv-play .xv-i-pause{display:block}
 .xv-player.is-ended .xv-play .xv-i-replay{display:block}
-.xv-sound[aria-pressed="true"],.xv-cc[aria-pressed="true"]{background:var(--xv-yellow);color:var(--xv-on-yellow)}
-.xv-sound[aria-pressed="true"]:hover,.xv-cc[aria-pressed="true"]:hover{background:var(--xv-yellow)}
-.xv-cc span{font-size:.7rem;font-weight:800;letter-spacing:.04em}
+.xv-sound[aria-pressed="true"]{background:var(--xv-yellow);color:var(--xv-on-yellow)}
+.xv-sound[aria-pressed="true"]:hover{background:var(--xv-yellow)}
 .xv-segs{flex:1;display:flex;gap:6px;margin-left:6px}
 .xv-controls .xv-seg-btn{position:relative;flex:var(--w,1);width:auto;height:24px;border-radius:0;padding:0;background:none}
 .xv-controls .xv-seg-btn:hover{background:none}
@@ -250,7 +254,7 @@
   .xv-stage{aspect-ratio:5/4;--u:min(1.5cqw,1.2cqh)}
   .xv-scene{inset:calc(var(--u)*6.4) calc(var(--u)*1) calc(var(--u)*13.6)}
   .xv-chapter{top:calc(var(--u)*-4.6)}
-  .xv-cap{font-size:max(12px,calc(var(--u)*2.2));bottom:calc(var(--u)*2.6);left:4%;right:4%}
+  .xv-cap{font-size:max(12.5px,calc(var(--u)*2.3));bottom:calc(var(--u)*2.6);left:4%;right:4%}
   /* the canvas renders at ~0.43x on a phone: lift the labels, drop the fine print */
   .xv-art .t-label{font-size:25px}
   .xv-art .t-chip{font-size:22px}
