@@ -171,13 +171,9 @@
    Dataiku, SAP, Figma and PowerPoint are near-black at full colour and would
    disappear into the dark theme without it. No plate, on purpose. */
 .studio-pillar:hover .studio-framework-mark img,.studio-pillar:focus-within .studio-framework-mark img{filter:none}
-/* Same halo, tuned for this row: belt marks are 20-34px, a third of the size of
-   the experience marks, and the 4px/12px pair reads as a soft band once marks
-   sit 22px apart - it stops looking like a halo and starts looking like the
-   plate we don't use. Three tight layers instead build a white rim that hugs
-   each glyph, which is what makes the black Dataiku and make wordmarks legible
-   on navy, and none of them spreads far enough to reach the next mark. */
-:root[data-theme="dark"] .studio-pillar:hover .studio-framework-mark img,:root[data-theme="dark"] .studio-pillar:focus-within .studio-framework-mark img{filter:drop-shadow(0 0 1px #ffffffe6) drop-shadow(0 0 2px #ffffffd1) drop-shadow(0 0 5px #ffffff8f)}
+/* Belt marks go straight to their real colours on hover in dark mode too -
+   no halo in this section, by request. */
+:root[data-theme="dark"] .studio-pillar:hover .studio-framework-mark img,:root[data-theme="dark"] .studio-pillar:focus-within .studio-framework-mark img{filter:none}
 /* Marks whose artwork IS its colour. The dark-theme silhouette treatment above
    works for line art and wordmarks, but it would render SAP as a plain white
    block and Python, Figma, PowerPoint and the GRI / ESRS / EU Taxonomy roundels
