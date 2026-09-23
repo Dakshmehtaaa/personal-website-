@@ -243,7 +243,7 @@
   .studio-experience-deck{grid-template-columns:minmax(0,168px) minmax(0,1fr) minmax(0,168px);gap:14px}.studio-xp-card.is-active>.studio-xp-detail{padding-inline:28px;column-gap:26px}
 }
 @media (max-width:860px){
-  .studio-hero-grid{grid-template-columns:1fr;gap:30px}.studio-hero-copy{max-width:52ch}.studio-portrait-scene{width:min(100%,520px);justify-self:center}
+  .studio-hero-grid{grid-template-columns:1fr;gap:30px}.studio-hero-copy{max-width:52ch}.studio-portrait-scene{width:min(100%,520px);justify-self:center;order:-1}
   .studio-intro-grid,.studio-beyond-grid{grid-template-columns:1fr;gap:32px}.studio-pillars{grid-template-columns:1fr}.studio-pillar-art{aspect-ratio:1/1}
   .studio-experience-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.studio-xp-card,.studio-xp-card.is-left,.studio-xp-card.is-right{grid-column:auto;grid-row:1;aspect-ratio:1;align-self:stretch}.studio-xp-card.is-active{grid-column:1/-1;grid-row:2;aspect-ratio:auto;margin-top:4px}.studio-xp-card.is-active>.studio-xp-face{display:none}.studio-xp-mark{height:48px}.studio-xp-card.is-active>.studio-xp-detail{min-height:0;grid-template-columns:118px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-xp-brand{height:64px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
 }
