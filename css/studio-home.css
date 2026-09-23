@@ -307,3 +307,6 @@
 /* INSEEC, KEDGE and JIMS are dark marks that sink into the navy at full colour,
    so in dark mode they stay white on hover and just brighten. */
 :root[data-theme="dark"] .studio-proof-item:hover img[src*="Inseec"],:root[data-theme="dark"] .studio-proof-item:hover img[src*="KBS"],:root[data-theme="dark"] .studio-proof-item:hover img[src*="JIMS"]{filter:brightness(0) invert(1)}
+
+/* with the labels gone, the belt itself sits on the shared bottom line */
+.studio-pillar-copy>.studio-belt{margin-top:auto;padding-top:26px}

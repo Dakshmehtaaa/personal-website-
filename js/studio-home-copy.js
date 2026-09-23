@@ -13,7 +13,7 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "hero.cv": "Télécharger le CV",
   "hero.contact": "Me contacter",
   "hero.location": "Paris, France · Anglais / Français / Hindi",
-  "hero.role": "RSE · ESG · Durabilité",
+  "hero.role": "Consultant RSE/ESG",
   "hero.footer": "Stratégie · reporting · mise en œuvre",
   "about.label": "Comment je travaille",
   "about.title": "Comment je",
