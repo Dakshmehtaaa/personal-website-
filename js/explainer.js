@@ -13,8 +13,9 @@
    so nothing plays backwards.
 
    The captions are the narration and are always on, with *starred* words
-   highlighted. Sound is effects plus a soft music bed, synthesised with Web
-   Audio and fired from the same cues as the visuals (data-sfx). Autoplay is
+   highlighted. Sound is short effects only (background music was tried and
+   dropped - it read as a drone), synthesised with Web Audio and fired from
+   the same cues as the visuals (data-sfx). Autoplay is
    always silent, because browsers only allow sound after a tap; the poster's
    play button, "Tap for sound" and the speaker button turn it on. Nothing
    autoplays under prefers-reduced-motion. */
@@ -31,7 +32,7 @@
   function lang() { return document.documentElement.lang === 'fr' ? 'fr' : 'en'; }
 
   /* ------------------------------------------------------------------ sound */
-  var AC = null, sfxBus = null, padBus = null, noise = null, pad = null;
+  var AC = null, sfxBus = null, noise = null;
 
   function audio() {
     if (AC) { if (AC.state === 'suspended') AC.resume(); return AC; }
@@ -43,8 +44,6 @@
     comp.threshold.value = -16; comp.ratio.value = 3; comp.attack.value = 0.004; comp.release.value = 0.2;
     comp.connect(AC.destination);
     sfxBus = AC.createGain(); sfxBus.gain.value = 0.55; sfxBus.connect(comp);
-    var soft = AC.createBiquadFilter(); soft.type = 'lowpass'; soft.frequency.value = 1300; soft.Q.value = 0.3;
-    padBus = AC.createGain(); padBus.gain.value = 0.0001; padBus.connect(soft); soft.connect(comp);
     noise = AC.createBuffer(1, AC.sampleRate, AC.sampleRate);
     var d = noise.getChannelData(0);
     for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
@@ -120,37 +119,6 @@
       var p = 1 - Math.pow(1 - i / n, 1 / 3);
       tone('sine', 2300 + i * 25, 0, t0 + p * duration / 1000, 0.025, 0.035);
     }
-  }
-
-  /* the bed: one soft chord per scene, crossfaded */
-  var CHORDS = [[50, 57, 61, 64, 66], [47, 54, 57, 61, 62], [43, 50, 54, 57, 59], [40, 52, 55, 59, 62], [45, 52, 57, 59, 64], [50, 57, 61, 64, 69]];
-
-  function chord(i) {
-    if (!AC) return;
-    var now = AC.currentTime, old = pad;
-    if (old) {
-      old.g.gain.cancelScheduledValues(now);
-      old.g.gain.setTargetAtTime(0.0001, now, 0.5);
-      setTimeout(function () { old.o.forEach(function (o) { try { o.stop(); } catch (e) {} }); }, 3000);
-    }
-    var g = AC.createGain();
-    g.gain.setValueAtTime(0.0001, now);
-    g.gain.setTargetAtTime(1, now, 0.9);
-    g.connect(padBus);
-    pad = { g: g, o: CHORDS[i % CHORDS.length].map(function (midi, k) {
-      var osc = AC.createOscillator(), v = AC.createGain();
-      osc.type = k ? 'triangle' : 'sine';
-      osc.frequency.value = 440 * Math.pow(2, (midi - 69) / 12);
-      osc.detune.value = k % 2 ? 6 : -6;
-      v.gain.value = k ? 0.2 : 0.45;
-      osc.connect(v); v.connect(g); osc.start(now);
-      return osc;
-    }) };
-  }
-
-  function bed(on) {
-    if (!AC) return;
-    padBus.gain.setTargetAtTime(on ? 0.045 : 0.0001, AC.currentTime, on ? 0.7 : 0.2);
   }
 
   /* ----------------------------------------------------------------- player */
@@ -276,7 +244,6 @@
           s.el.inert = i !== idx;
         });
         if (!snap && soundOn && frame && current !== -1) play('whoosh');
-        if (soundOn) chord(idx);
         current = idx;
       }
       if (changed || snap) scene.el.classList.add('xv-snap');
@@ -335,14 +302,12 @@
       last = 0;
       frame = requestAnimationFrame(tick);
       player.classList.add('is-playing');
-      bed(soundOn);
       labels();
     }
 
     function stop() {
       if (frame) { cancelAnimationFrame(frame); frame = null; }
       player.classList.remove('is-playing');
-      bed(false);
       labels();
     }
 
@@ -358,8 +323,7 @@
     function setSound(on) {
       soundOn = on;
       player.classList.toggle('is-sound', on);
-      if (on) { audio(); chord(current < 0 ? 0 : current); }
-      bed(on && !!frame);
+      if (on) audio();
       labels();
     }
 
