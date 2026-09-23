@@ -304,3 +304,6 @@
    tile of its own: a light rounded plate sized to the logo, not the column. It
    shares Back Market's dark-mode handling, so it is never inverted. */
 .studio-proof-item--plate img{width:auto;max-width:100%;height:48px;padding:10px 16px;background:#fff;border-radius:10px}
+/* INSEEC, KEDGE and JIMS are dark marks that sink into the navy at full colour,
+   so in dark mode they stay white on hover and just brighten. */
+:root[data-theme="dark"] .studio-proof-item:hover img[src*="Inseec"],:root[data-theme="dark"] .studio-proof-item:hover img[src*="KBS"],:root[data-theme="dark"] .studio-proof-item:hover img[src*="JIMS"]{filter:brightness(0) invert(1)}
