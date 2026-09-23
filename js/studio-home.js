@@ -124,6 +124,51 @@
       }, { passive: true });
     }
 
+    /* Phone carousel for the three pillar cards. On larger screens the track
+       does not scroll, so this is inert there. */
+    const pillarTrack = document.getElementById('studio-pillars');
+    const pillarNav = document.querySelector('.studio-pillars-nav');
+    if (pillarTrack && pillarNav) {
+      const pillarCards = [...pillarTrack.querySelectorAll('.studio-pillar')];
+      const counter = pillarNav.querySelector('.studio-pillars-count span');
+      const prevBtn = pillarNav.querySelector('[data-dir="-1"]');
+      const nextBtn = pillarNav.querySelector('[data-dir="1"]');
+      const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const origin = () => pillarCards[0].offsetLeft;
+      const currentCard = () => {
+        let best = 0; let distance = Infinity;
+        pillarCards.forEach((card, index) => {
+          const d = Math.abs(card.offsetLeft - origin() - pillarTrack.scrollLeft);
+          if (d < distance) { distance = d; best = index; }
+        });
+        return best;
+      };
+      const goTo = index => {
+        const target = pillarCards[Math.max(0, Math.min(pillarCards.length - 1, index))];
+        pillarTrack.scrollTo({ left: target.offsetLeft - origin(), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      };
+      let pillarQueued = false;
+      const syncPillars = () => {
+        pillarQueued = false;
+        const index = currentCard();
+        if (counter) counter.textContent = String(index + 1);
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === pillarCards.length - 1;
+        pillarCards.forEach((card, k) => card.classList.toggle('is-current', k === index));
+      };
+      pillarNav.addEventListener('click', event => {
+        const button = event.target.closest('[data-dir]');
+        if (button) goTo(currentCard() + Number(button.dataset.dir));
+      });
+      pillarTrack.addEventListener('scroll', () => {
+        if (pillarQueued) return;
+        pillarQueued = true;
+        requestAnimationFrame(syncPillars);
+      }, { passive: true });
+      addEventListener('resize', syncPillars, { passive: true });
+      syncPillars();
+    }
+
     /* The bar is see-through only while the page sits at the very top. Once it
        scrolls, the headline would slide up underneath the logo and nav, so the
        bar takes its tint back straight away. */
