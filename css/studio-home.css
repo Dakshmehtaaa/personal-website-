@@ -258,3 +258,23 @@
   .studio-belt-track{animation:none!important;transform:none!important}
   .studio-portrait-art{transform:none!important}.studio-portrait-star{animation:none!important}.studio-beyond-images figure{transition:none}.studio-xp-card,.studio-xp-face{transition:none!important}
 }
+
+/* Dark-ink marks (B Impact, SBTi, Dataiku, GHG Protocol) disappear into the navy
+   at full colour, and there is no halo in this section, so in dark mode they
+   stay white on hover - brightening to full opacity instead of changing colour. */
+:root[data-theme="dark"] .studio-pillar:hover .studio-framework-mark--mono img,:root[data-theme="dark"] .studio-pillar:focus-within .studio-framework-mark--mono img{filter:brightness(0) invert(1)}
+
+/* Sizing pass: the belt marks were reading small against the card (GHG Protocol
+   and SBTi text was illegible at 20-28px), so every tier steps up ~20% and the
+   belt gets more air between marks. The cards also become flex columns with the
+   label pushed to the bottom, so all three belts sit on one shared line even
+   when a title wraps to two lines. */
+.studio-belt{--belt-h:46px;--belt-gap:30px;margin-top:14px}
+.studio-framework-mark img{height:30px;max-width:150px}
+.studio-framework-mark--wide img{height:24px}
+.studio-framework-mark--mid img{height:34px}
+.studio-framework-mark--square img{height:40px}
+.studio-framework-mark--tall img{height:36px}
+.studio-pillar{display:flex;flex-direction:column}
+.studio-pillar-copy{flex:1;display:flex;flex-direction:column}
+.studio-pillar-copy>.studio-pillar-note{margin-top:auto;padding-top:24px}
