@@ -333,3 +333,19 @@
 .studio-xp-lead a>span{font-size:.85em;color:var(--muted);transition:transform .2s}
 .studio-xp-lead a:hover>span{transform:translate(2px,-2px)}
 @media (max-width:620px){.studio-xp-lead{margin-top:20px}}
+
+/* Caption globe: a wireframe sphere whose meridians turn. Each meridian is the
+   rim ellipse squashed with scaleX following a cosine - which is exactly what a
+   line of longitude looks like rotating about the vertical axis - and the three
+   are a third of a turn apart. non-scaling-stroke keeps the lines at an even
+   weight while they squash. */
+.studio-globe{flex:none;width:40px;height:40px;color:#9cc9ee;filter:drop-shadow(0 0 10px #9cc9ee40)}
+.studio-globe svg{display:block;width:100%;height:100%;overflow:visible}
+.studio-globe-rim,.studio-globe-lat,.studio-globe-mer{fill:none;stroke:currentColor;stroke-width:1.15;vector-effect:non-scaling-stroke}
+.studio-globe-lat{opacity:.5}
+.studio-globe-mer{transform-box:view-box;transform-origin:0 0;animation:studio-globe-turn 9s linear infinite}
+.studio-globe-mer:nth-of-type(2){animation-delay:-3s}
+.studio-globe-mer:nth-of-type(3){animation-delay:-6s}
+@keyframes studio-globe-turn{0%{transform:scaleX(1)}12.5%{transform:scaleX(.707)}25%{transform:scaleX(0)}37.5%{transform:scaleX(-.707)}50%{transform:scaleX(-1)}62.5%{transform:scaleX(-.707)}75%{transform:scaleX(0)}87.5%{transform:scaleX(.707)}100%{transform:scaleX(1)}}
+@media (max-width:620px){.studio-globe{width:34px;height:34px}}
+@media (prefers-reduced-motion:reduce){.studio-globe-mer{animation:none!important}.studio-globe-mer:nth-of-type(2){transform:scaleX(.5)}.studio-globe-mer:nth-of-type(3){transform:scaleX(-.5)}}
