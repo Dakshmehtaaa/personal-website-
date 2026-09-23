@@ -3,7 +3,7 @@
 .studio-page .beta-header{z-index:30;transition:background .35s,border-color .35s,color .35s}
 /* studio-home.js adds .studio-top-dark to <html> while the navy hero is in
    view, so the sticky bar sits on it as glass rather than as a cream slab. */
-.studio-page.studio-top-dark .beta-header{background:transparent;border-bottom-color:#a8d2f51f;color:#eef3fa}
+.studio-page.studio-top-dark .beta-header{background:transparent;border-bottom-color:transparent;color:#eef3fa}
 /* over the hero the bar is see-through, so the wave runs behind it; it only
    takes a tint while the pointer is on it */
 .studio-page.studio-top-dark .beta-header:hover,.studio-page.studio-top-dark .beta-header:focus-within{background:#09182a8c;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
