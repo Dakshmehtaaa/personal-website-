@@ -126,21 +126,23 @@ body.company-page{
 .sys-filter button:hover{color:var(--ink);border-color:var(--sys-blue)}
 .sys-filter button[aria-pressed="true"]{color:var(--sys-on-signal);border-color:var(--sys-signal);background:var(--sys-signal)}
 .sys-res-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.sys-res{display:grid;grid-template-columns:78px minmax(0,1fr) 20px;align-items:center;gap:22px;padding:22px 24px;color:inherit;transition:transform .3s,border-color .3s,opacity .35s,box-shadow .3s}
+.sys-res{display:grid;grid-template-columns:116px minmax(0,1fr) 20px;align-items:center;gap:22px;padding:22px 24px;color:inherit;transition:transform .3s,border-color .3s,opacity .35s,box-shadow .3s}
 .sys-res:hover{transform:translateY(-3px);border-color:var(--sys-blue);box-shadow:0 20px 40px -30px #0b254566}
 .sys-res.is-dimmed{opacity:.24;pointer-events:none}
-/* marks sit straight on the panel - no plate anywhere on this site */
-.sys-res-mark{display:grid;place-items:center;height:42px}
+/* marks sit straight on the panel - no plate anywhere on this site. Each img carries
+   its own --mw from its shape (set in the markup): a roundel gets 54px, a long
+   wordmark up to 112px, so they read at the same weight instead of the same height. */
+.sys-res-mark{display:grid;place-items:center;height:60px}
 /* px, not %: a percentage max-height resolves against the auto grid row, which is how
    square marks (GRI, ESRS) grew past the card - see CLAUDE.md on logo plates */
-.sys-res-mark img{width:auto;height:auto;max-width:100%;max-height:42px;object-fit:contain;filter:grayscale(1) opacity(.62);transition:filter .35s}
+.sys-res-mark img{width:var(--mw,80px);height:auto;max-width:100%;filter:grayscale(1) opacity(.78);transition:filter .3s,opacity .3s}
 .sys-res:hover .sys-res-mark img{filter:none}
-:root[data-theme="dark"] .sys-res-mark img{filter:brightness(0) invert(1) opacity(.66)}
-:root[data-theme="dark"] .sys-res:hover .sys-res-mark img{filter:drop-shadow(0 0 4px #ffffffb8) drop-shadow(0 0 12px #ffffff5c)}
-/* marks drawn on their own disc or panel would turn into a white blob when inverted */
-:root[data-theme="dark"] .sys-res-mark--solid img{filter:grayscale(1) opacity(.8)}
-:root[data-theme="dark"] .sys-res:hover .sys-res-mark--solid img{filter:none}
-.sys-res-mark abbr{font-size:1.05rem;font-weight:800;letter-spacing:.02em;color:var(--sys-blue);text-decoration:none}
+/* dark mode: plain white marks, brighter on hover - no glow, it blurred the small text */
+:root[data-theme="dark"] .sys-res-mark img{filter:brightness(0) invert(1) opacity(.84)}
+:root[data-theme="dark"] .sys-res:hover .sys-res-mark img{filter:brightness(0) invert(1)}
+/* marks drawn on their own disc or panel would turn into a white blob when inverted,
+   so they keep their colours - they carry their own contrast */
+:root[data-theme="dark"] .sys-res-mark--solid img,:root[data-theme="dark"] .sys-res:hover .sys-res-mark--solid img{filter:none}
 .sys-res h3{font-size:1.02rem;line-height:1.35}
 .sys-res-stage{display:inline-block;margin-left:10px;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--sys-blue) 12%,transparent);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sys-blue);vertical-align:2px}
 .sys-res p{margin-top:7px;font-size:.9rem;line-height:1.6;color:var(--muted)}
@@ -178,7 +180,10 @@ body.company-page{
   .sys-hero h1{font-size:clamp(38px,10.5vw,54px)}
   .sys-cta{width:100%;justify-content:space-between}
   .sys-case,.sys-resources{padding-block:70px}
-  .sys-res{grid-template-columns:54px minmax(0,1fr);gap:16px;padding:18px}
+  /* the mark gets its own row on a phone: a 54px column made wordmarks unreadable */
+  .sys-res{grid-template-columns:minmax(0,1fr);gap:12px;padding:20px}
+  .sys-res-mark{height:52px;place-items:center start}
+  .sys-res-mark img{width:calc(var(--mw,80px) * .9)}
   .sys-res-arrow{display:none}
   .sys-contact{padding-block:64px 80px}
   .sys-contact-card{padding:48px 22px 44px;border-radius:18px}
