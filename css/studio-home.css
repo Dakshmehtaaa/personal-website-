@@ -3,7 +3,10 @@
 .studio-page .beta-header{z-index:30;transition:background .35s,border-color .35s,color .35s}
 /* studio-home.js adds .studio-top-dark to <html> while the navy hero is in
    view, so the sticky bar sits on it as glass rather than as a cream slab. */
-.studio-page.studio-top-dark .beta-header{background:#09182ab8;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom-color:#a8d2f52e;color:#eef3fa}
+.studio-page.studio-top-dark .beta-header{background:transparent;border-bottom-color:#a8d2f51f;color:#eef3fa}
+/* over the hero the bar is see-through, so the wave runs behind it; it only
+   takes a tint while the pointer is on it */
+.studio-page.studio-top-dark .beta-header:hover,.studio-page.studio-top-dark .beta-header:focus-within{background:#09182a8c;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .studio-page.studio-top-dark .beta-header::after{background:#8fc5f2}
 .studio-page.studio-top-dark .beta-monogram>span{color:#8fc5f2}
 .studio-page.studio-top-dark .beta-language>span,.studio-page.studio-top-dark .beta-language button{color:#a9bed5}
@@ -278,3 +281,26 @@
 .studio-pillar{display:flex;flex-direction:column}
 .studio-pillar-copy{flex:1;display:flex;flex-direction:column}
 .studio-pillar-copy>.studio-pillar-note{margin-top:auto;padding-top:24px}
+
+/* Immersive top: the header used to sit ABOVE the hero, so its glass tint was
+   mixing with the light page behind it and read as a grey slab. The hero now
+   slides up underneath the sticky header (studio-home.js keeps
+   --studio-header-h in step with the real header height), so the shader runs
+   edge to edge from the very top of the window. */
+.studio-hero{margin-top:calc(-1 * var(--studio-header-h,87px));padding-top:var(--studio-header-h,87px)}
+.studio-hero-inner{padding-top:30px}
+/* experience meta: base p{max-width:64ch} was stopping the row mid-card, which
+   is why the location sat in the middle instead of at the right edge */
+.studio-xp-meta{max-width:none}
+.studio-xp-place{display:inline-flex;align-items:center;gap:6px;color:inherit;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.studio-xp-place:hover,.studio-xp-place:focus-visible{color:var(--ink);border-bottom-color:currentColor}
+.studio-xp-place>span:last-child{font-size:.85em;transition:transform .2s}
+.studio-xp-place:hover>span:last-child{transform:translate(2px,-2px)}
+/* Dataiku's wordmark is near-black: at full colour it disappears on the dark
+   cards, so in dark mode it stays white on hover as well. */
+:root[data-theme="dark"] .studio-xp-card[data-xp="dataiku"]:hover .studio-xp-mark img,:root[data-theme="dark"] .studio-xp-card[data-xp="dataiku"]:hover .studio-xp-brand img,:root[data-theme="dark"] .studio-xp-card[data-xp="dataiku"] .studio-xp-face:focus-visible .studio-xp-mark img{filter:brightness(0) invert(1)}
+
+/* Travel Triangle reads badly as a bare mark, so - like Back Market - it gets a
+   tile of its own: a light rounded plate sized to the logo, not the column. It
+   shares Back Market's dark-mode handling, so it is never inverted. */
+.studio-proof-item--plate img{width:auto;max-width:100%;height:48px;padding:10px 16px;background:#fff;border-radius:10px}

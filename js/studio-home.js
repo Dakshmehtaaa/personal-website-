@@ -97,6 +97,7 @@
       const header = document.querySelector('.beta-header');
       const headerHeight = () => Math.round(header ? header.getBoundingClientRect().height : 87);
       let margin = headerHeight();
+      root.style.setProperty('--studio-header-h', `${margin}px`);
       const watchHero = () => {
         const observer = new IntersectionObserver(entries => {
           root.classList.toggle('studio-top-dark', entries[entries.length - 1].isIntersecting);
@@ -116,6 +117,7 @@
           const next = headerHeight();
           if (next === margin) return;
           margin = next;
+          root.style.setProperty('--studio-header-h', `${margin}px`);
           heroObserver.disconnect();
           heroObserver = watchHero();
         }, 200);
