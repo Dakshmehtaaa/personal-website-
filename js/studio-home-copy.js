@@ -48,7 +48,7 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "experience.ceva.place": "Marseille, France",
   "experience.reportedTo": "Rattaché à",
   "experience.dataiku.role": "Alternant Durabilité et Impact Social",
-  "experience.dataiku.body": "Appui au reporting ESG, à l’engagement fournisseurs et au programme AI for Good.",
+  "experience.dataiku.body": "Appui au <a class=\"studio-xp-inline\" href=\"https://www.dataiku.com/company/dataiku-for-the-future/2026-impact-report\" target=\"_blank\" rel=\"noopener noreferrer\">reporting ESG</a> (rapport en anglais), aux initiatives sociales et aux partenariats comme <a class=\"studio-xp-inline\" href=\"https://blog.dataiku.com/embracing-equity-dataiku-women-in-data-science\" target=\"_blank\" rel=\"noopener noreferrer\">WiDS</a> et <a class=\"studio-xp-inline\" href=\"https://www.dataiku.com/company/dataiku-for-the-future/nonprofits\" target=\"_blank\" rel=\"noopener noreferrer\">AI for Good</a>.",
   "experience.thales.role": "Consultant RSE — stage",
   "experience.thales.body": "Appui aux Achats pour organiser et automatiser les achats responsables.",
   "experience.ceva.role": "Chargé de relation client RSE — stage",

@@ -349,3 +349,8 @@
 @keyframes studio-globe-turn{0%{transform:scaleX(1)}12.5%{transform:scaleX(.707)}25%{transform:scaleX(0)}37.5%{transform:scaleX(-.707)}50%{transform:scaleX(-1)}62.5%{transform:scaleX(-.707)}75%{transform:scaleX(0)}87.5%{transform:scaleX(.707)}100%{transform:scaleX(1)}}
 @media (max-width:620px){.studio-globe{width:34px;height:34px}}
 @media (prefers-reduced-motion:reduce){.studio-globe-mer{animation:none!important}.studio-globe-mer:nth-of-type(2){transform:scaleX(.5)}.studio-globe-mer:nth-of-type(3){transform:scaleX(-.5)}}
+
+/* links inside a role description: underlined so they read as links in running
+   text, brightening on hover */
+.studio-xp-inline{color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--green) 55%,transparent);text-underline-offset:3px;text-decoration-thickness:1px;transition:color .2s,text-decoration-color .2s}
+.studio-xp-inline:hover,.studio-xp-inline:focus-visible{color:var(--green);text-decoration-color:currentColor}
