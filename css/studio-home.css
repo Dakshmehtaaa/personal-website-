@@ -314,3 +314,11 @@
 /* ...and it returns as soon as the page moves: over the hero it is a deep navy
    glass (never the grey it used to be, since the hero now sits behind it) */
 .studio-page.studio-top-dark.studio-scrolled .beta-header{background:#09182ae0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:#a8d2f51f}
+/* Logo row: each mark is now only as wide as its own artwork and the row spreads
+   them with equal space between. With six equal grid cells, a narrow mark (JIMS)
+   floated in a wide cell while the Travel Triangle tile filled its cell edge to
+   edge, so the visible gaps either side of the tile were badly uneven. */
+.studio-proof-logos{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px 28px}
+.studio-proof-item{flex:none;min-height:66px}
+.studio-proof-item img{width:auto;max-width:190px}
+@media (max-width:860px){.studio-proof-logos{justify-content:center;gap:22px 34px}}
