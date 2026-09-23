@@ -322,3 +322,14 @@
 .studio-proof-item{flex:none;min-height:66px}
 .studio-proof-item img{width:auto;max-width:190px}
 @media (max-width:860px){.studio-proof-logos{justify-content:center;gap:22px 34px}}
+
+/* Manager credit: a quiet line along the bottom-left of the open card. It lives
+   inside the detail block, so it only shows for the card in the centre. */
+.studio-xp-lead{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:26px;font-size:.78rem;color:var(--muted)}
+.studio-xp-lead-label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+.studio-xp-lead ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 18px}
+.studio-xp-lead a{display:inline-flex;align-items:center;gap:5px;color:var(--ink);border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
+.studio-xp-lead a:hover,.studio-xp-lead a:focus-visible{color:var(--green);border-bottom-color:currentColor}
+.studio-xp-lead a>span{font-size:.85em;color:var(--muted);transition:transform .2s}
+.studio-xp-lead a:hover>span{transform:translate(2px,-2px)}
+@media (max-width:620px){.studio-xp-lead{margin-top:20px}}

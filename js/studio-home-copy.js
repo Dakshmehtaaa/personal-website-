@@ -46,6 +46,7 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "experience.thales.place": "Gémenos, France",
   "experience.ceva.date": "Avr. — Oct. 2024",
   "experience.ceva.place": "Marseille, France",
+  "experience.reportedTo": "Rattaché à",
   "experience.dataiku.role": "Alternant Durabilité et Impact Social",
   "experience.dataiku.body": "Appui au reporting ESG, à l’engagement fournisseurs et au programme AI for Good.",
   "experience.thales.role": "Consultant RSE — stage",
