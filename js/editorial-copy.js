@@ -1,5 +1,7 @@
 window.EDITORIAL_FR = {
   "nav.about": "À propos",
+  "nav.experience": "Expérience",
+  "nav.contact": "Contact",
   "nav.projects": "Projets",
   "nav.insights": "Blogs",
   "nav.companies": "Pour les entreprises",

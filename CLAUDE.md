@@ -82,15 +82,27 @@ or serve the folder with any static file server.
   font/platform — don't swap it back for a text glyph.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
-- **The sustainability hero's right-hand visual is a video** (`.sus-hero-visual` →
-  `.sus-video-card`) — it replaced a small animated SVG chart (the `.spark-*` classes; deleted,
-  don't resurrect them for a similar chart elsewhere without rebuilding from scratch). Autoplays
-  muted+looped; `muted` is what makes autoplay legal at all, and the file has **no audio track**,
-  so don't add an unmute control — it would be a button that does nothing. script.js pauses it
-  outright under `prefers-reduced-motion`, and otherwise pauses/resumes it via
-  `IntersectionObserver` so it's not decoding off-screen. `.sus-video`'s CSS background is a light
-  gradient rather than a flat fill — it's what shows before the first frame paints, and a flat box
-  reads as broken rather than loading.
+- **The for-companies hero visual is the interactive operating loop** (`.sys-loop`, driven by
+  `js/company.js`), not a video: the old hero video and the `.sus-video-card` markup are gone. The
+  loop order is **Measure → Decide → Disclose → Act** everywhere on that page (hero loop, the three
+  cards, the resource filter, the explainer) - change it in all four or none. Yellow (`--sys-signal`)
+  is the one extra colour that page is allowed, and it only ever marks the active step or the primary
+  action; don't spend it on decoration.
+- **The "Why now" explainer (`#why-now`) is generated from a script, not hand-timed.** The narration
+  (English and French) lives in `tools/build-explainer-audio.py`. Running
+  `python3 tools/build-explainer-audio.py` renders the voice-over with macOS `say`, writes
+  `assets/audio/explainer-{en,fr}.m4a` and `js/explainer-timing.js`, bumps that file's `?v=` in the
+  page, and **fails** if any `data-at`/`data-out` cue names a line that doesn't exist in its scene, or
+  any `data-sfx` names a sound missing from `js/explainer.js`. Cues are line ids plus offsets
+  (`data-at="v3c+1500"`), so rewording a line or changing a voice re-syncs the whole animation: never
+  hand-edit the timing file or turn cues into absolute milliseconds. The voices default to the best
+  ones installed here (Daniel / Thomas); `EN_VOICE="…(Premium)" FR_VOICE="…"` swaps in better ones.
+  Effects and the music bed are synthesised with Web Audio and fire from `data-sfx` on the same cue
+  elements. Captions and the transcript come from the script too, so narration copy is translated
+  there; only the on-canvas labels use `data-beta-i18n`.
+- **Testing the explainer's sound:** Playwright's bundled Chromium can't decode AAC (same as the
+  H.264 note below), so launch with `channel: 'chrome'`. The static server must answer HTTP Range
+  requests or every seek resets the audio to 0:00 (GitHub Pages does; a naive local server doesn't).
 - **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
   `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
   with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post
