@@ -20,6 +20,8 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "about.titleEm": "travaille.",
   "about.lede": "Je transforme les plans de durabilité en travail utile.",
   "about.body": "Cela signifie un reporting clair, des données utiles et des workflows qui tiennent dans la durée.",
+  "help.title": "Là où",
+  "help.titleEm": "j’interviens.",
   "pillars.label": "Mes domaines d’action",
   "pillars.intro": "Trois parts liées d’un travail RSE concret.",
   "pillar.ratings.title": "Notations et certifications RSE",
