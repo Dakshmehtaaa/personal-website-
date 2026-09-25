@@ -280,6 +280,11 @@ body::before {
   background: #0b2f248c;
 }
 
+.studio-page.studio-top-dark.studio-scrolled .beta-header {
+  background: #0b2f24e0;
+  border-bottom-color: #a8cdb31f;
+}
+
 .studio-page.studio-top-dark .beta-header::after {
   background: var(--cv-gold);
 }
@@ -304,6 +309,11 @@ body::before {
 
 .studio-page.studio-top-dark #beta-menu-toggle > span {
   background: var(--cv-tint);
+}
+
+/* CV-style sans titles give the ampersands in "Where I help" a plain shape. */
+.studio-page .studio-pillar h3 {
+  font-family: "Instrument Sans", "DM Sans", system-ui, -apple-system, sans-serif;
 }
 
 @media (max-width: 680px) {
