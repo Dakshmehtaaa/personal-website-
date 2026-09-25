@@ -114,6 +114,7 @@
         ['.beta-header .beta-brand', 'aria-label', 'Daksh Mehta — retour en haut'],
         ['#beta-nav-links', 'aria-label', 'Navigation principale'],
         ['.beta-language', 'aria-label', 'Langue'],
+        ['a[href^="assets/CV_Daksh_2026"]', 'href', 'assets/CV_Daksh_2026_FR.pdf?v=2609'],
         ['.beta-organisations', 'aria-label', 'Expérience professionnelle'],
         ['.beta-project-image-green', 'aria-label', 'Voir le pitch deck SustainSwap (PDF)'],
         ['.beta-project-image-sand', 'aria-label', 'Voir l’analyse de l’ETF vert (PDF)'],
