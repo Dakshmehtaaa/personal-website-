@@ -1,0 +1,603 @@
+/*
+   CV theme overlay
+   ----------------
+   This file is loaded last on the live site pages. It only changes palette,
+   type family, and existing colour-only treatments. Layout, copy, assets and
+   interaction styles stay in the page stylesheets that came before it.
+*/
+
+:root {
+  --cv-forest: #0F3B2D;
+  --cv-forest-hi: #17513C;
+  --cv-forest-deep: #0B2F24;
+  --cv-green: #2F7A57;
+  --cv-sage: #A8CDB3;
+  --cv-sage-soft: #E5EFE8;
+  --cv-tint: #F2F6F3;
+  --cv-ink: #1D2A24;
+  --cv-muted: #56665E;
+  --cv-hair: #CBD8D0;
+  --cv-rule: #B9CCC1;
+  --cv-gold: #E0BD68;
+  --cv-gold-ink: #86620F;
+  --cv-on-dark: #FFFFFF;
+  --cv-on-dark-2: #CFE3D6;
+
+  --accent: var(--cv-green);
+  --accent-strong: var(--cv-forest-hi);
+  --accent-deep: var(--cv-forest);
+  --gold: var(--cv-gold-ink);
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: var(--cv-tint);
+  --surface-glass: rgba(255, 255, 255, .84);
+  --border: rgba(15, 59, 45, .16);
+  --border-strong: rgba(47, 122, 87, .38);
+  --text: var(--cv-ink);
+  --text-soft: #3F5148;
+  --text-muted: var(--cv-muted);
+  --shadow-sm: 0 4px 16px rgba(15, 59, 45, .07);
+  --shadow: 0 16px 40px rgba(15, 59, 45, .11);
+  --shadow-lg: 0 28px 70px rgba(15, 59, 45, .16);
+  --glow: rgba(47, 122, 87, .15);
+
+  /* editorial/studio pages use this second token vocabulary */
+  --paper: #FFFFFF;
+  --ink: var(--cv-ink);
+  --muted: var(--cv-muted);
+  --green: var(--cv-forest-hi);
+  --line: var(--cv-hair);
+  --soft: var(--cv-tint);
+  --accent: var(--cv-green);
+  --portrait: var(--cv-sage-soft);
+}
+
+:root[data-theme="dark"] {
+  --accent: var(--cv-sage);
+  --accent-strong: var(--cv-green);
+  --accent-deep: var(--cv-sage-soft);
+  --gold: var(--cv-gold);
+  --bg: var(--cv-forest-deep);
+  --surface: var(--cv-forest);
+  --surface-2: var(--cv-forest-hi);
+  --surface-glass: rgba(11, 47, 36, .86);
+  --border: rgba(207, 227, 214, .18);
+  --border-strong: rgba(168, 205, 179, .44);
+  --text: var(--cv-tint);
+  --text-soft: var(--cv-on-dark-2);
+  --text-muted: var(--cv-sage);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, .34);
+  --shadow: 0 16px 40px rgba(0, 0, 0, .42);
+  --shadow-lg: 0 28px 70px rgba(0, 0, 0, .52);
+  --glow: rgba(168, 205, 179, .15);
+
+  --paper: var(--cv-forest-deep);
+  --ink: var(--cv-tint);
+  --muted: var(--cv-on-dark-2);
+  --green: var(--cv-sage);
+  --line: #2F654E;
+  --soft: var(--cv-forest);
+  --accent: var(--cv-sage);
+  --portrait: var(--cv-forest-hi);
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--paper, var(--bg));
+  color: var(--ink, var(--text));
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Instrument Sans", "DM Sans", system-ui, -apple-system, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.beta-monogram,
+.studio-footer-brand,
+.studio-more-line,
+.studio-portrait-caption strong,
+.studio-gallery-hero h1,
+.hobby-heading h1,
+.beta-hero h1,
+.sys-point-num {
+  font-family: "Fraunces", "Instrument Serif", Georgia, serif;
+}
+
+body::before {
+  background:
+    radial-gradient(ellipse 70% 45% at 15% 10%, var(--glow), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 85% 25%, rgba(224, 189, 104, .10), transparent 55%);
+}
+
+::selection {
+  background: var(--cv-sage-soft);
+  color: var(--cv-forest-deep);
+}
+
+:root[data-theme="dark"] ::selection {
+  background: var(--cv-green);
+  color: var(--cv-tint);
+}
+
+:focus-visible {
+  outline-color: var(--cv-gold-ink);
+}
+
+/* Shared beta shell */
+.beta-header {
+  background: var(--paper);
+  border-bottom-color: var(--line);
+  color: var(--ink);
+}
+
+.beta-header::after {
+  background: var(--cv-gold);
+}
+
+.beta-monogram > span,
+.beta-section-number,
+.beta-eyebrow,
+.beta-dot,
+.beta-section-label .beta-section-number {
+  color: var(--green);
+}
+
+.beta-dot {
+  background: var(--green);
+}
+
+.beta-button {
+  background: var(--green);
+  color: var(--paper);
+}
+
+.beta-button:hover {
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--green) 18%, transparent);
+}
+
+.beta-text-link:hover,
+.beta-job summary:hover .beta-job-title > strong {
+  color: var(--green);
+}
+
+.beta-now {
+  background: var(--cv-sage-soft);
+  color: var(--cv-forest-hi);
+}
+
+.beta-logo-plate,
+:root[data-theme="dark"] .beta-logo-plate {
+  background: var(--cv-tint);
+  border-color: var(--cv-hair);
+}
+
+.beta-project-image-green {
+  background: var(--cv-sage-soft);
+}
+
+.beta-project-image-sand {
+  background: var(--cv-tint);
+}
+
+.beta-project-open {
+  background: var(--cv-tint);
+  color: var(--cv-forest-hi);
+}
+
+.beta-portrait figcaption {
+  background: var(--cv-forest);
+  color: var(--cv-tint);
+}
+
+.beta-beyond {
+  background: var(--cv-forest);
+  color: var(--cv-tint);
+  --ink: var(--cv-tint);
+  --muted: var(--cv-on-dark-2);
+  --green: var(--cv-gold);
+  --line: #47765F;
+}
+
+.beta-photo-pair figure {
+  background: var(--cv-tint);
+  color: var(--cv-forest-hi);
+}
+
+/* Homepage: CV forest hero and sage/gold accents. */
+.studio-page .studio-hero {
+  --paper: var(--cv-forest-deep);
+  --ink: var(--cv-tint);
+  --muted: var(--cv-on-dark-2);
+  --green: var(--cv-gold);
+  --line: #47765F;
+  --soft: var(--cv-forest-hi);
+  --portrait: var(--cv-forest-hi);
+  --accent: var(--cv-sage);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.studio-page .studio-hero-stage {
+  background: var(--cv-forest-deep);
+}
+
+.studio-page .studio-hero-stage.is-fallback {
+  background: radial-gradient(118% 78% at 63% 54%, var(--cv-green) 0%, var(--cv-forest-hi) 36%, var(--cv-forest-deep) 74%);
+}
+
+.studio-page .studio-hero-veil {
+  background: linear-gradient(97deg, #08241bf5 0%, #08241be8 22%, #08241ba8 38%, #08241b3d 56%, #08241b00 78%, #08241b12 100%);
+}
+
+.studio-page .studio-hero-veil::after {
+  background: linear-gradient(180deg, #0b2f2499 0%, #0b2f241a 20%, #0b2f241a 72%, #0b2f24 100%);
+}
+
+.studio-page .studio-hero .beta-button {
+  box-shadow: 0 10px 28px #0000004d;
+}
+
+.studio-page .studio-portrait-arch {
+  border-color: #a8cdb33d;
+  background: linear-gradient(160deg, #ffffff1c, #ffffff0a 55%, #08241b26);
+  box-shadow: inset 0 0 0 14px #ffffff08, 12px 16px 0 #a8cdb512;
+}
+
+.studio-page .studio-portrait-orbit {
+  border-color: #a8cdb32e;
+}
+
+.studio-page .studio-portrait-caption {
+  background: var(--cv-forest-hi);
+  color: var(--cv-tint);
+  border-color: #ffffff1f;
+}
+
+.studio-page .studio-portrait-caption div span {
+  color: var(--cv-on-dark-2);
+}
+
+.studio-page .studio-globe {
+  color: var(--cv-sage);
+  filter: drop-shadow(0 0 10px #a8cdb340);
+}
+
+.studio-page.studio-top-dark .beta-header {
+  background: transparent;
+  border-bottom-color: transparent;
+  color: var(--cv-tint);
+}
+
+.studio-page.studio-top-dark .beta-header:hover,
+.studio-page.studio-top-dark .beta-header:focus-within {
+  background: #0b2f248c;
+}
+
+.studio-page.studio-top-dark .beta-header::after {
+  background: var(--cv-gold);
+}
+
+.studio-page.studio-top-dark .beta-monogram > span {
+  color: var(--cv-gold);
+}
+
+.studio-page.studio-top-dark .beta-language > span,
+.studio-page.studio-top-dark .beta-language button {
+  color: var(--cv-on-dark-2);
+}
+
+.studio-page.studio-top-dark .beta-language button[aria-pressed="true"] {
+  color: var(--cv-tint);
+}
+
+.studio-page.studio-top-dark #beta-theme-toggle {
+  border-color: #a8cdb347;
+  color: var(--cv-tint);
+}
+
+.studio-page.studio-top-dark #beta-menu-toggle > span {
+  background: var(--cv-tint);
+}
+
+@media (max-width: 680px) {
+  .studio-page.studio-top-dark #beta-nav-links {
+    background: #0b2f24f7;
+    border-bottom-color: #a8cdb32e;
+  }
+}
+
+/* Gallery and hobby pages keep their existing geometry and get CV surfaces. */
+.studio-gallery-main,
+.hobbies-page .hobby-spread {
+  background: var(--paper);
+}
+
+.studio-project-cover--image {
+  background: var(--cv-sage-soft);
+}
+
+.studio-project:nth-child(4n + 2) .studio-project-cover--image {
+  background: var(--cv-tint);
+}
+
+.studio-project-cover--type {
+  background: var(--cv-forest);
+  color: var(--cv-tint);
+}
+
+.studio-project-cover--type:nth-child(odd) {
+  background: var(--cv-forest-hi);
+}
+
+.studio-page .studio-beyond {
+  background: var(--cv-forest);
+  color: var(--cv-tint);
+  --line: #47765F;
+  --muted: var(--cv-on-dark-2);
+}
+
+.studio-page .studio-beyond .beta-section-label {
+  color: var(--cv-on-dark-2);
+}
+
+.studio-page .studio-beyond .beta-section-number,
+.studio-page .studio-beyond h2 em {
+  color: var(--cv-gold);
+}
+
+.studio-page .studio-beyond h2 {
+  color: var(--cv-tint);
+}
+
+.studio-page .studio-beyond-images figure {
+  background: var(--cv-tint);
+  color: var(--cv-forest-hi);
+  box-shadow: 0 18px 34px #08241b52;
+}
+
+.hobbies-page .spread-photo {
+  background: var(--soft);
+  border-color: var(--line);
+  box-shadow: 0 18px 40px rgba(15, 59, 45, .10);
+}
+
+/* For companies: the gold signal stays reserved for the active step/action. */
+body.company-page {
+  --paper: #FFFFFF;
+  --ink: var(--cv-ink);
+  --muted: var(--cv-muted);
+  --green: var(--cv-green);
+  --line: var(--cv-hair);
+  --soft: var(--cv-tint);
+  --accent: var(--cv-sage);
+  --sys-deep: var(--cv-forest);
+  --sys-deep-2: var(--cv-forest-hi);
+  --sys-signal: var(--cv-gold);
+  --sys-on-signal: var(--cv-forest-deep);
+  --sys-blue: var(--cv-green);
+  --sys-node: #6C8C7A;
+  --panel: #FFFFFF;
+  --panel-hi: var(--cv-sage-soft);
+}
+
+:root[data-theme="dark"] body.company-page {
+  --paper: var(--cv-forest-deep);
+  --ink: var(--cv-tint);
+  --muted: var(--cv-on-dark-2);
+  --green: var(--cv-sage);
+  --line: #2F654E;
+  --soft: var(--cv-forest);
+  --accent: var(--cv-sage);
+  --sys-deep: var(--cv-forest-deep);
+  --sys-deep-2: var(--cv-forest);
+  --sys-signal: var(--cv-gold);
+  --sys-on-signal: var(--cv-forest-deep);
+  --sys-blue: var(--cv-sage);
+  --sys-node: #8BB39B;
+  --panel: var(--cv-forest);
+  --panel-hi: var(--cv-forest-hi);
+}
+
+.company-page .beta-header {
+  background: var(--paper);
+  border-bottom-color: var(--line);
+  color: var(--ink);
+}
+
+/* The explainer has its own local tokens so its large illustrated panel follows
+   the page palette in both modes too. */
+.company-page .xv-player {
+  --xv-bg: var(--cv-tint);
+  --xv-grid: #D4E1D8;
+  --xv-ink: var(--cv-ink);
+  --xv-ink-2: var(--cv-forest-hi);
+  --xv-mute: var(--cv-muted);
+  --xv-card: #FFFFFF;
+  --xv-line: var(--cv-hair);
+  --xv-soft: var(--cv-sage-soft);
+  --xv-blue: var(--cv-green);
+  --xv-blue-2: #5A9474;
+  --xv-yellow: var(--cv-gold);
+  --xv-on-yellow: var(--cv-forest-deep);
+  --xv-dim: #98AA9F;
+  --xv-eu: var(--cv-green);
+  --xv-lift: #0F3B2D1f;
+}
+
+:root[data-theme="dark"] .company-page .xv-player {
+  --xv-bg: var(--cv-forest-deep);
+  --xv-grid: #1D4E3A;
+  --xv-ink: var(--cv-tint);
+  --xv-ink-2: var(--cv-on-dark-2);
+  --xv-mute: var(--cv-sage);
+  --xv-card: var(--cv-forest);
+  --xv-line: #2F654E;
+  --xv-soft: var(--cv-forest-hi);
+  --xv-blue: var(--cv-sage);
+  --xv-blue-2: #79B993;
+  --xv-yellow: var(--cv-gold);
+  --xv-on-yellow: var(--cv-forest-deep);
+  --xv-dim: #5A846B;
+  --xv-eu: var(--cv-sage);
+  --xv-lift: #00000059;
+}
+
+.company-page.sys-top-dark .beta-header {
+  background: transparent;
+  border-bottom-color: transparent;
+  color: var(--cv-tint);
+}
+
+.company-page.sys-top-dark .beta-header:hover,
+.company-page.sys-top-dark .beta-header:focus-within,
+.company-page.sys-top-dark.sys-scrolled .beta-header {
+  background: #0b2f24e6;
+}
+
+.company-page.sys-top-dark .beta-language > span,
+.company-page.sys-top-dark .beta-language button {
+  color: var(--cv-on-dark-2);
+}
+
+.company-page.sys-top-dark .beta-language button[aria-pressed="true"],
+.company-page.sys-top-dark #beta-theme-toggle {
+  color: var(--cv-tint);
+}
+
+.company-page.sys-top-dark #beta-theme-toggle {
+  border-color: #a8cdb347;
+}
+
+.company-page.sys-top-dark #beta-menu-toggle > span {
+  background: var(--cv-tint);
+}
+
+.sys-hero {
+  color: var(--cv-tint);
+}
+
+.sys-hero-bg::after {
+  background: radial-gradient(circle, #2f7a5733 0%, transparent 65%);
+}
+
+.sys-kicker,
+.sys-hero-lede,
+.sys-watch,
+.sys-loop-desc,
+.sys-node-label {
+  color: var(--cv-on-dark-2);
+}
+
+.sys-hero h1,
+.sys-loop-name,
+.sys-contact h2 {
+  color: var(--cv-tint);
+}
+
+.sys-loop-halo {
+  stroke: #ffffff12;
+}
+
+.sys-loop-track,
+.sys-contact-ring {
+  stroke: #47765f;
+}
+
+.sys-loop-flow,
+.sys-loop-chev {
+  stroke: var(--cv-sage);
+}
+
+.sys-loop-core {
+  fill: var(--cv-forest-deep);
+  stroke: var(--cv-forest-hi);
+}
+
+.sys-node {
+  color: var(--cv-tint);
+}
+
+.sys-node-icon {
+  background: var(--cv-forest-hi);
+  border-color: #6c9d80;
+  box-shadow: 0 0 0 1.4cqw #0b2f2499;
+}
+
+.sys-node-icon svg {
+  stroke: var(--cv-sage-soft);
+}
+
+.sys-node-label {
+  background: var(--cv-forest-deep);
+}
+
+.sys-node:hover .sys-node-icon {
+  border-color: var(--cv-sage);
+}
+
+.sys-node[aria-pressed="true"] .sys-node-icon {
+  background: var(--sys-signal);
+  border-color: var(--sys-signal);
+  box-shadow: 0 0 0 1.4cqw #e0bd6838, 0 0 34px #e0bd6866;
+}
+
+.sys-node[aria-pressed="true"] .sys-node-icon svg {
+  stroke: var(--sys-on-signal);
+}
+
+.sys-node[aria-pressed="true"] .sys-node-label {
+  color: var(--cv-tint);
+  background: var(--cv-forest-hi);
+}
+
+.sys-contact-card {
+  color: var(--cv-tint);
+}
+
+.sys-contact-dot {
+  fill: var(--cv-forest-hi);
+  stroke: var(--cv-sage);
+}
+
+.sys-contact p,
+.sys-contact-mail {
+  color: var(--cv-on-dark-2);
+}
+
+.sys-contact-mail:hover {
+  color: var(--cv-tint);
+}
+
+/* CO₂ scope colours remain distinct while using the CV family. */
+:root {
+  --co2-s1: var(--cv-gold-ink);
+  --co2-s2: var(--cv-green);
+  --co2-s3: #5A9474;
+}
+
+:root[data-theme="dark"] {
+  --co2-s1: var(--cv-gold);
+  --co2-s2: var(--cv-sage);
+  --co2-s3: #79B993;
+}
+
+/* Keep hard-coded light plates legible in the dark theme. */
+:root[data-theme="dark"] .insight-image,
+:root[data-theme="dark"] .contact-icon--linkedin img,
+:root[data-theme="dark"] .co2-basis > a:first-child {
+  background: var(--cv-tint);
+}
+
+@media (max-width: 680px) {
+  .company-page.sys-top-dark #beta-nav-links {
+    background: #0b2f24f7;
+    border-bottom-color: #a8cdb32e;
+  }
+}
