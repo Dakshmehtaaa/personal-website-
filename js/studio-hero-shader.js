@@ -5,8 +5,8 @@
    full-screen quad would cost more than the effect is worth. The maths is the
    original: three sine waves offset from each other by a radial distortion
    term, each divided into a thin glowing band. Only the palette changed — the
-   three waves are tinted inside one hue family taken from the CV (#09275D,
-   #153853, #D6E8FF) instead of being mapped straight onto R/G/B, so the split
+   three waves are tinted inside one hue family taken from the CV (deep forest,
+   green and sage) instead of being mapped straight onto R/G/B, so the split
    reads as depth rather than as a rainbow.
 
    Housekeeping, in the same spirit as the sustainability page's hero video:
@@ -59,20 +59,20 @@
     '  float b = 0.115 / abs(p.y + sin((bx + time) * xScale) * amp);',
     '  float c = 0.115 / abs(p.y + sin((cx + time) * xScale) * amp);',
     '',
-    '  vec3 glow = a * vec3(0.08, 0.27, 0.62)',
-    '            + b * vec3(0.21, 0.53, 0.86)',
-    '            + c * vec3(0.63, 0.83, 1.00);',
+    '  vec3 glow = a * vec3(0.10, 0.33, 0.22)',
+    '            + b * vec3(0.20, 0.55, 0.34)',
+    '            + c * vec3(0.65, 0.80, 0.70);',
     '',
     '  /* fade towards the top and bottom edges so the band dissolves into the',
     '     section instead of ending on a hard line */',
     '  float edge = smoothstep(0.0, 0.34, uv.y) * smoothstep(1.0, 0.70, uv.y);',
     '  glow *= mix(0.30, 1.0, edge);',
     '',
-    '  /* filmic rolloff: the hot core saturates to pale blue rather than',
+    '  /* filmic rolloff: the hot core saturates to pale sage rather than',
     '     clipping to white, which keeps the frame inside the palette */',
     '  glow = vec3(1.0) - exp(-glow * 2.35);',
     '',
-    '  vec3 base = mix(vec3(0.027, 0.070, 0.118), vec3(0.047, 0.110, 0.176), uv.y);',
+    '  vec3 base = mix(vec3(0.043, 0.184, 0.141), vec3(0.059, 0.231, 0.176), uv.y);',
     '',
     '  gl_FragColor = vec4(base + glow, 1.0);',
     '}'
