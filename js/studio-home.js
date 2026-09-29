@@ -88,6 +88,47 @@
       });
 
       assign(active);
+
+      /* ---- Autoplay ---------------------------------------------------------
+         The progress bar's own CSS animation is the timer: when it ends we
+         advance through the same show() path a click uses, and pausing the
+         animation freezes bar and timer together. Always moves the right-hand
+         card in (Dataiku -> Thales -> CEVA). */
+      const bars = cards.map(card => {
+        const bar = document.createElement('span');
+        bar.className = 'studio-xp-progress';
+        bar.setAttribute('aria-hidden', 'true');
+        card.appendChild(bar);
+        return bar;
+      });
+      const pause = { hover: false, focus: false, offscreen: false, hidden: document.hidden };
+      const sync = () => {
+        const auto = !reduceMotion.matches;
+        deck.classList.toggle('is-autoplay', auto);
+        deck.classList.toggle('is-paused', Object.values(pause).some(Boolean));
+      };
+      bars.forEach(bar => bar.addEventListener('animationend', () => {
+        if (deck.classList.contains('is-autoplay') && !deck.classList.contains('is-paused')) show(active + 1, false);
+      }));
+      deck.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') { pause.hover = true; sync(); } });
+      deck.addEventListener('pointerleave', () => { pause.hover = false; sync(); });
+      const focusState = () => {
+        const el = document.activeElement;
+        pause.focus = !!(el && deck.contains(el) && el.matches(':focus-visible'));
+        sync();
+      };
+      deck.addEventListener('focusin', focusState);
+      deck.addEventListener('focusout', () => setTimeout(focusState, 0));
+      document.addEventListener('visibilitychange', () => { pause.hidden = document.hidden; sync(); });
+      if ('IntersectionObserver' in window) {
+        pause.offscreen = true;
+        new IntersectionObserver(entries => {
+          pause.offscreen = !entries[entries.length - 1].isIntersecting;
+          sync();
+        }, { threshold: 0.35 }).observe(deck);
+      }
+      (reduceMotion.addEventListener ? reduceMotion.addEventListener.bind(reduceMotion, 'change') : reduceMotion.addListener.bind(reduceMotion))(sync);
+      sync();
     }
 
     /* The hero is a dark navy band, so the sticky header has to sit on it as

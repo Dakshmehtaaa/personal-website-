@@ -434,3 +434,13 @@
 .studio-xp-card:not(.is-active)::before{content:"";display:block;padding-top:100%}
 /* the star is an SVG: the ✳ glyph turns into a green emoji tile on iOS */
 .studio-portrait-star svg{display:block;width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+
+/* Experience autoplay progress: the bar's animation is the 5s timer (see studio-home.js). */
+.studio-xp-progress{display:none;position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:0 0 var(--studio-radius) var(--studio-radius);overflow:hidden;pointer-events:none;z-index:3}
+.studio-xp-progress::after{content:"";display:block;height:100%;background:var(--forest,#0F3B2D);transform:scaleX(0);transform-origin:left center}
+:root[data-theme="dark"] .studio-xp-progress::after{background:var(--gold,#E0BD68)}
+.studio-experience-deck.is-autoplay .studio-xp-card.is-active>.studio-xp-progress{display:block}
+.studio-experience-deck.is-autoplay .studio-xp-card.is-active>.studio-xp-progress::after{animation:xp-progress 5s linear forwards}
+.studio-experience-deck.is-paused .studio-xp-card.is-active>.studio-xp-progress::after{animation-play-state:paused}
+@keyframes xp-progress{to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.studio-xp-progress{display:none!important}}
