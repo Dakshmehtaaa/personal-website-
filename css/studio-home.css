@@ -73,9 +73,42 @@
 .studio-pillars-heading>p:last-child{color:var(--muted);font-size:.95rem}
 .studio-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:56px}
 .studio-pillar{min-width:0;border:1px solid var(--line);border-radius:var(--studio-radius);background:color-mix(in srgb,var(--soft) 54%,var(--paper));overflow:hidden}
-.studio-pillar-art{aspect-ratio:1/1;background-image:url("../assets/studio/pillars.png?v=2");background-size:300% 100%;background-repeat:no-repeat;background-position:0 0;border-bottom:1px solid var(--line)}
-.studio-pillar--automation .studio-pillar-art{background-position:50% 0}
-.studio-pillar--reporting .studio-pillar-art{background-position:100% 0}
+.studio-pillar-art{aspect-ratio:1/1;position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(160deg,var(--pa-bg1),var(--pa-bg2));
+  /* illustration palette: light */
+  --pa-bg1:#E5EFE8;--pa-bg2:#F2F6F3;--pa-paper1:#FFFFFF;--pa-paper2:#EEF4F0;--pa-paper3:#DCE8E0;--pa-curl1:#D5E4DA;--pa-curl2:#B9CFC0;
+  --pa-mid1:#B9D8C3;--pa-mid2:#8DB89C;--pa-deep1:#2F7A57;--pa-deep2:#0F3B2D;--pa-leaf1:#3F8A66;--pa-leaf2:#17513C;
+  --pa-gold1:#F0D797;--pa-gold2:#D2A73F;--pa-sph1:#7FB292;--pa-sph2:#2F7A57;--pa-node2a:#2F7A57;--pa-node2b:#0F3B2D;
+  --pa-ped1:#E3EBE5;--pa-ped2:#F6F9F7;--pa-ped3:#C7D8CD;--pa-shadow:rgba(15,59,45,.24);--pa-hilite:#FFFFFF}
+:root[data-theme="dark"] .studio-pillar-art{background:linear-gradient(160deg,var(--pa-bg1),var(--pa-bg2));
+  --pa-bg1:#17513C;--pa-bg2:#0F3B2D;--pa-paper1:#E7F1EA;--pa-paper2:#C9DDD0;--pa-paper3:#A9C6B4;--pa-curl1:#A9C6B4;--pa-curl2:#86AB96;
+  --pa-mid1:#93BDA2;--pa-mid2:#6FA184;--pa-deep1:#2F7A57;--pa-deep2:#0B2F24;--pa-leaf1:#6FB08A;--pa-leaf2:#2F7A57;
+  --pa-gold1:#F2DA9C;--pa-gold2:#D9AE45;--pa-sph1:#A8CDB3;--pa-sph2:#4E9370;--pa-node2a:#3C8862;--pa-node2b:#0B2F24;
+  --pa-ped1:#2C6A50;--pa-ped2:#3F8062;--pa-ped3:#1D5340;--pa-shadow:rgba(3,20,14,.5);--pa-hilite:#FFFFFF}
+.studio-pillar-svg{display:block;width:100%;height:100%}
+/* hover: barely-there motion (idle art is completely still) */
+.studio-pillar-svg :is(.pa-badge,.pa-leaf,.pa-node,.pa-dot,.pa-page,.pa-bar,.pa-path){transform-box:view-box;transition:transform .8s cubic-bezier(.33,.12,.24,1)}
+.studio-pillar-svg .pa-bar{transform-box:fill-box;transform-origin:50% 100%}
+.studio-pillar-svg .pa-leaf{transform-box:fill-box;transform-origin:50% 100%}
+.studio-pillar-svg .pa-badge{transform-origin:164px 254px}
+.studio-pillar-svg .pa-page{transform-origin:96px 312px}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+.studio-pillar:hover .pa-badge,.studio-pillar:focus-within .pa-badge{transform:rotate(3.5deg)}
+.studio-pillar:hover .pa-leaf,.studio-pillar:focus-within .pa-leaf{transform:rotate(2deg)}
+.studio-pillar:hover .pa-node-1,.studio-pillar:focus-within .pa-node-1{transform:translate(-2px,-3px)}
+.studio-pillar:hover .pa-node-2,.studio-pillar:focus-within .pa-node-2{transform:translate(0,-3px)}
+.studio-pillar:hover .pa-node-3,.studio-pillar:focus-within .pa-node-3{transform:translate(2px,-2px)}
+.studio-pillar:hover .pa-dot-1,.studio-pillar:focus-within .pa-dot-1{transform:translate(3px,2px)}
+.studio-pillar:hover .pa-dot-2,.studio-pillar:focus-within .pa-dot-2{transform:translate(-2px,-2px)}
+.studio-pillar:hover .pa-page-1,.studio-pillar:focus-within .pa-page-1{transform:rotate(1deg)}
+.studio-pillar:hover .pa-page-2,.studio-pillar:focus-within .pa-page-2{transform:rotate(1.6deg)}
+.studio-pillar:hover .pa-page-3,.studio-pillar:focus-within .pa-page-3{transform:rotate(2deg)}
+.studio-pillar:hover .pa-bar-1,.studio-pillar:focus-within .pa-bar-1{transform:scaleY(1.05)}
+.studio-pillar:hover .pa-bar-2,.studio-pillar:focus-within .pa-bar-2{transform:scaleY(1.07)}
+.studio-pillar:hover .pa-bar-3,.studio-pillar:focus-within .pa-bar-3{transform:scaleY(1.06)}
+.studio-pillar:hover .pa-bar-4,.studio-pillar:focus-within .pa-bar-4{transform:scaleY(1.05)}
+}
+/* never set transform:none here: it would override the SVG transform attributes that position the artwork */
+@media (prefers-reduced-motion:reduce){.studio-pillar-svg *{transition:none!important}}
 .studio-pillar-copy{padding:22px 22px 26px}
 .studio-pillar-index{font-size:.72rem;color:var(--green);letter-spacing:.12em}
 .studio-pillar h3{font-size:1.38rem;line-height:1.15;letter-spacing:-.025em;margin-top:18px}

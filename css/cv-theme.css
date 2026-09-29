@@ -611,3 +611,53 @@ body.company-page {
     border-bottom-color: #a8cdb32e;
   }
 }
+
+/* Large screens
+   -------------
+   Below 1600px nothing here applies, so 1440 and under look exactly as before.
+   --maxw is the single shared content width (every section reads it, none has
+   its own cap), the root font-size scales all rem-based type and spacing, and
+   --k is the same ratio for the px-capped display headings (their clamp() caps
+   are reached around 1500px, so without --k they would stop growing). */
+:root{--k:1}
+@media (min-width:1600px){
+  :root{--maxw:1440px;--k:1.0625}
+  html{font-size:17px}
+  body{font-size:1rem}
+  .sys-hero h1{font-size:calc(clamp(42px,5vw,72px)*var(--k))}
+  .sys-case-head h2{font-size:calc(clamp(40px,4.4vw,64px)*var(--k))}
+  .sys-res-head h2{font-size:calc(clamp(38px,4vw,58px)*var(--k))}
+  .sys-contact h2{font-size:calc(clamp(40px,4.6vw,64px)*var(--k))}
+  h2{font-size:calc(clamp(40px,4.2vw,62px)*var(--k))}
+  .beta-hero h1{font-size:calc(clamp(48px,5.6vw,82px)*var(--k))}
+  .section-head h2{font-size:calc(clamp(36px,4.2vw,60px)*var(--k))}
+  .company-hero h1{font-size:calc(clamp(48px,5.1vw,76px)*var(--k))}
+  .hobbies-hero h1{font-size:calc(clamp(40px,5vw,70px)*var(--k))}
+  .beta-hero h1.refined-headline{font-size:calc(clamp(40px,4.1vw,64px)*var(--k))}
+  .beta-contact h2{font-size:calc(clamp(48px,6vw,80px)*var(--k))}
+  .xv-title{font-size:calc(clamp(40px,4.4vw,64px)*var(--k))}
+  .journey-heading h2{font-size:calc(clamp(48px,5.5vw,76px)*var(--k))}
+  .work-heading h2,.social-heading h2,.company-contact-simple h2{font-size:calc(clamp(46px,5vw,68px)*var(--k))}
+  .project-type-cover{font-size:calc(clamp(30px,4vw,50px)*var(--k))}
+  .story-heading h2{font-size:calc(clamp(40px,4.1vw,59px)*var(--k))}
+  .hobby-heading h1{font-size:calc(clamp(45px,5.5vw,80px)*var(--k))}
+  .studio-gallery-hero h1{font-size:calc(clamp(58px,8vw,112px)*var(--k))}
+  .studio-project-cover--type>span:first-child{font-size:calc(clamp(34px,4.7vw,70px)*var(--k))}
+  .studio-hero h1{font-size:calc(clamp(48px,5.2vw,80px)*var(--k))}
+  .studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:calc(clamp(42px,4.8vw,70px)*var(--k))}
+  .intro-type{font-size:calc(clamp(30px,6vw,58px)*var(--k))}
+  .hero h1{font-size:calc(clamp(44px,7vw,76px)*var(--k))}
+  .hero h2{font-size:calc(clamp(19px,2.6vw,27px)*var(--k))}
+  .contact-card h2{font-size:calc(clamp(28px,4vw,40px)*var(--k))}
+  .sus-hero-content h1{font-size:calc(clamp(38px,5.2vw,64px)*var(--k))}
+  .co2-hero h1{font-size:calc(clamp(38px,5.4vw,66px)*var(--k))}
+  .co2-total-value{font-size:calc(clamp(38px,5vw,50px)*var(--k))}
+}
+@media (min-width:1920px){
+  :root{--maxw:1600px;--k:1.125}
+  html{font-size:18px}
+}
+@media (min-width:2400px){
+  :root{--maxw:1760px;--k:1.25}
+  html{font-size:20px}
+}

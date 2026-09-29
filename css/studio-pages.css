@@ -34,22 +34,6 @@
   width: 100%;
 }
 
-.company-page .scene-art {
-  grid-area: art;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  min-height: 240px;
-  border-radius: 3px;
-  background-color: var(--soft);
-  background-image: url("../assets/studio/pillars.png");
-  background-repeat: no-repeat;
-  background-size: 300% 100%;
-  box-shadow: 0 18px 40px rgba(38, 59, 50, .1);
-}
-
-.company-page .scene-art-0 { background-position: 0% 50%; }
-.company-page .scene-art-1 { background-position: 50% 50%; }
-.company-page .scene-art-2 { background-position: 100% 50%; }
 
 .company-page .story-scene h3 {
   grid-area: title;
