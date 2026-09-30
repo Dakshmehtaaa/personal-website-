@@ -86,7 +86,7 @@
     const meta = document.querySelector('meta[name="theme-color"]');
 
     const paintMeta = theme => {
-        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0B2F24' : '#FFFFFF');
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#460E18' : '#FFFFFF');
     };
 
     paintMeta(root.getAttribute('data-theme'));
