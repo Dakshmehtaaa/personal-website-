@@ -18,6 +18,22 @@
       const EASE = 'cubic-bezier(.22,1,.36,1)';
       const DURATION = 620;
       let active = Math.max(0, cards.findIndex(card => card.classList.contains('is-active')));
+      const playback = document.createElement('button');
+      playback.type = 'button';
+      playback.className = 'studio-xp-playback';
+      deck.before(playback);
+      const pause = { manual: false, hover: false, focus: false, offscreen: false, hidden: document.hidden };
+      const sync = () => {
+        deck.classList.toggle('is-autoplay', !reduceMotion.matches);
+        deck.classList.toggle('is-paused', Object.values(pause).some(Boolean));
+        playback.hidden = reduceMotion.matches;
+        const french = root.lang === 'fr';
+        playback.textContent = pause.manual
+          ? (french ? 'Reprendre le défilement' : 'Resume rotation')
+          : (french ? 'Mettre en pause' : 'Pause rotation');
+      };
+      playback.addEventListener('click', () => { pause.manual = !pause.manual; sync(); });
+      new MutationObserver(sync).observe(root, { attributeFilter: ['lang'] });
 
       const assign = next => {
         active = (next + cards.length) % cards.length;
@@ -30,6 +46,7 @@
           if (face) {
             face.setAttribute('aria-expanded', String(offset === 0));
             face.tabIndex = offset === 0 ? -1 : 0;
+            face.hidden = offset === 0;
           }
         });
       };
@@ -67,15 +84,21 @@
           if (leaving) leaving.animate([{ opacity: 0 }, { opacity: 0, offset: 0.35 }, { opacity: 1 }], { duration: DURATION, easing: 'ease-out' });
         }
         if (focus) {
-          const target = faces[previous];
-          if (target && getComputedStyle(target).display !== 'none') target.focus();
-          else cards[active].querySelector('.studio-xp-role')?.focus?.();
+          const target = cards[active].querySelector('.studio-xp-role');
+          if (target) {
+            target.tabIndex = -1;
+            target.focus({ preventScroll: true });
+          }
         }
       };
 
       faces.forEach((face, index) => {
         if (!face) return;
-        face.addEventListener('click', () => show(index, false));
+        face.addEventListener('click', event => {
+          pause.manual = true;
+          show(index, event.detail === 0);
+          sync();
+        });
         face.addEventListener('keydown', event => {
           const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
           if (step === undefined) return;
@@ -101,12 +124,6 @@
         card.appendChild(bar);
         return bar;
       });
-      const pause = { hover: false, focus: false, offscreen: false, hidden: document.hidden };
-      const sync = () => {
-        const auto = !reduceMotion.matches;
-        deck.classList.toggle('is-autoplay', auto);
-        deck.classList.toggle('is-paused', Object.values(pause).some(Boolean));
-      };
       bars.forEach(bar => bar.addEventListener('animationend', () => {
         if (deck.classList.contains('is-autoplay') && !deck.classList.contains('is-paused')) show(active + 1, false);
       }));

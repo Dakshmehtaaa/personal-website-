@@ -151,8 +151,12 @@
         language = next === 'fr' ? 'fr' : 'en';
         translatedElements.forEach(element => {
             const translation = french[element.dataset.betaI18n];
+            // Keep the existing hover surface and its state when a whole button
+            // is translated. Its listeners belong to the unchanged button.
+            const fill = element.querySelector(':scope > .of-fill');
             element.innerHTML = language === 'fr' && translation !== undefined
                 ? translation : english.get(element);
+            if (fill) element.prepend(fill);
         });
         translatedAttributes.forEach(item => {
             item.element.setAttribute(item.attribute, language === 'fr' ? item.frenchText : item.englishText);
@@ -168,11 +172,11 @@
 
     const applyTheme = next => {
         root.dataset.theme = next === 'dark' ? 'dark' : 'light';
-        const themeMeta = document.querySelector('meta[name="theme-color"]');
-        if (themeMeta) {
-            const color = window.getComputedStyle(root).getPropertyValue('--paper').trim();
+        const color = window.getComputedStyle(root).getPropertyValue('--paper').trim();
+        document.querySelectorAll('meta[name="theme-color"]').forEach(themeMeta => {
             if (color) themeMeta.setAttribute('content', color);
-        }
+            themeMeta.removeAttribute('media');
+        });
         updateControlLabels();
     };
 
@@ -204,7 +208,10 @@
 
             menuToggle.setAttribute('aria-controls', navigation.id);
             setMenuOpen(false);
-            menuToggle.addEventListener('click', () => setMenuOpen(!menuOpen));
+            menuToggle.addEventListener('click', event => {
+                setMenuOpen(!menuOpen);
+                if (menuOpen && event.detail === 0) navigation.querySelector('a')?.focus();
+            });
             navigation.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => setMenuOpen(false));
             });

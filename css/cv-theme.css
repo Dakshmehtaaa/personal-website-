@@ -19,7 +19,7 @@
   --cv-hair: #CBD8D0;
   --cv-rule: #B9CCC1;
   --cv-gold: #E0BD68;
-  --cv-gold-ink: #86620F;
+  --cv-gold-ink: #76510B;
   --cv-on-dark: #FFFFFF;
   --cv-on-dark-2: #CFE3D6;
 
@@ -661,3 +661,6 @@ body.company-page {
   :root{--maxw:1760px;--k:1.25}
   html{font-size:20px}
 }
+
+/* Small badges still need full text contrast in both themes. */
+:root[data-theme="dark"] .co2-disclaimer strong{color:#f0d797}
