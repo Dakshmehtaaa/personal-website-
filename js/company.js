@@ -41,6 +41,7 @@
         var match = stage === 'all' || card.dataset.node === stage;
         card.classList.toggle('is-dimmed', !match);
         card.setAttribute('aria-hidden', String(!match));
+        card.inert = !match;
       });
       if (filter) {
         [].forEach.call(filter.querySelectorAll('button'), function (b) {
@@ -63,8 +64,21 @@
       var panels = [].slice.call(loop.querySelectorAll('.sys-loop-panel'));
       var comet = loop.querySelector('.sys-loop-comet');
       var link = loop.querySelector('.sys-loop-link');
-      var step = 0, timer = null, held = false, visible = false, resumeAt = 0;
+      var step = 0, timer = null, held = false, focused = false, paused = false, visible = false;
       var INTERVAL = 3200;
+      var playback = document.createElement('button');
+      playback.type = 'button';
+      playback.className = 'sys-loop-playback';
+      loop.appendChild(playback);
+      var center = loop.querySelector('.sys-loop-center');
+      var syncPlayback = function () {
+        var french = document.documentElement.lang === 'fr';
+        playback.textContent = paused
+          ? (french ? 'Reprendre le défilement' : 'Resume rotation')
+          : (french ? 'Mettre en pause' : 'Pause rotation');
+        playback.hidden = reduce.matches;
+        if (center) center.setAttribute('aria-live', paused || reduce.matches ? 'polite' : 'off');
+      };
 
       var show = function (nextStep) {
         step = nextStep;
@@ -80,18 +94,23 @@
       };
       var schedule = function () {
         clearTimeout(timer);
-        if (reduce.matches || held || !visible || document.hidden) return;
-        var wait = Math.max(INTERVAL, resumeAt - Date.now());
-        timer = setTimeout(function () { show(step + 1); schedule(); }, wait);
+        if (reduce.matches || paused || held || focused || !visible || document.hidden) return;
+        timer = setTimeout(function () { show(step + 1); schedule(); }, INTERVAL);
       };
 
       nodes.forEach(function (node, i) {
-        node.addEventListener('click', function () { goTo(i); resumeAt = Date.now() + 9000; schedule(); });
-        node.addEventListener('mouseenter', function () { held = true; goTo(i); schedule(); });
-        node.addEventListener('mouseleave', function () { held = false; resumeAt = Date.now() + 2500; schedule(); });
-        node.addEventListener('focus', function () { held = true; goTo(i); schedule(); });
-        node.addEventListener('blur', function () { held = false; schedule(); });
+        node.addEventListener('click', function () { paused = true; syncPlayback(); goTo(i); schedule(); });
+        node.addEventListener('pointerenter', function (event) { if (event.pointerType !== 'touch') goTo(i); });
+        node.addEventListener('focus', function () { goTo(i); });
       });
+      loop.addEventListener('pointerenter', function (event) { if (event.pointerType !== 'touch') { held = true; schedule(); } });
+      loop.addEventListener('pointerleave', function () { held = false; schedule(); });
+      var hasContentFocus = function () { return loop.contains(document.activeElement) && document.activeElement !== playback; };
+      loop.addEventListener('focusin', function () { focused = hasContentFocus(); schedule(); });
+      loop.addEventListener('focusout', function () { setTimeout(function () { focused = hasContentFocus(); schedule(); }, 0); });
+      playback.addEventListener('click', function () { paused = !paused; syncPlayback(); schedule(); });
+      new MutationObserver(syncPlayback).observe(document.documentElement, { attributeFilter: ['lang'] });
+      reduce.addEventListener('change', function () { syncPlayback(); schedule(); });
       if (link) {
         link.addEventListener('click', function () { applyFilter(STAGES[((step % 4) + 4) % 4]); });
       }
@@ -102,6 +121,7 @@
         }, { threshold: 0.35 }).observe(loop);
       } else { visible = true; }
       document.addEventListener('visibilitychange', schedule);
+      syncPlayback();
       show(0);
       schedule();
     }

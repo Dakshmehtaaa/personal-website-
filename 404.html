@@ -19,7 +19,7 @@
     <link rel="apple-touch-icon" href="/personal-website-/apple-touch-icon.png?v=3">
     <link rel="stylesheet" href="/personal-website-/css/style.css?v=35">
 <link rel="stylesheet" href="/personal-website-/css/editorial-base.css?v=2">
-<link rel="stylesheet" href="/personal-website-/css/editorial.css?v=3">
+<link rel="stylesheet" href="/personal-website-/css/editorial.css?v=polish-20261001">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&amp;family=Fraunces:ital,opsz,wght,WONK@0,9..144,400..700,0..1;1,9..144,300..500,0..1&amp;display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/personal-website-/css/cv-theme.css?v=green-restored-20261001">
+    <link rel="stylesheet" href="/personal-website-/css/cv-theme.css?v=polish-20261001">
     <link rel="stylesheet" href="/personal-website-/css/origin-fill.css?v=green-restored-20261001">
 
     <script>
@@ -36,6 +36,7 @@
                 var t = localStorage.getItem('theme');
                 if (!t) t = 'light';
                 document.documentElement.setAttribute('data-theme', t);
+                if (localStorage.getItem('lang') === 'fr') document.documentElement.lang = 'fr';
             } catch (e) { /* storage blocked — fall back to defaults */ }
             document.documentElement.setAttribute('data-intro', 'skip');
         })();
@@ -79,17 +80,32 @@
 
     <p class="nf-code" aria-hidden="true">404</p>
 
-    <h1>This page doesn't exist.</h1>
+    <h1 data-nf-copy="title">This page doesn't exist.</h1>
 
-    <p>The link may be out of date, or the address slightly off. Everything is still one click away.</p>
+    <p data-nf-copy="body">The link may be out of date, or the address slightly off. Everything is still one click away.</p>
 
     <div class="nf-actions">
-        <a href="/personal-website-/" class="button">Back to the homepage</a>
-        <a href="/personal-website-/why-sustainability-matters.html" class="button button--ghost">For companies</a>
+        <a href="/personal-website-/" class="button" data-nf-copy="home">Back to the homepage</a>
+        <a href="/personal-website-/why-sustainability-matters.html" class="button button--ghost" data-nf-copy="companies">For companies</a>
     </div>
 
 </main>
 
+<script>
+    if (document.documentElement.lang === 'fr') {
+        const copy = {
+            title: 'Cette page n’existe pas.',
+            body: 'Le lien a peut-être changé, ou l’adresse contient une erreur. Retrouvez le site en un clic.',
+            home: 'Retour à l’accueil',
+            companies: 'Pour les entreprises'
+        };
+        document.querySelectorAll('[data-nf-copy]').forEach(element => {
+            element.textContent = copy[element.dataset.nfCopy];
+        });
+        document.title = 'Page introuvable | Daksh Mehta Studio';
+        document.querySelector('meta[name="description"]').content = copy.title;
+    }
+</script>
 <script src="/personal-website-/js/origin-fill.js?v=1" defer></script>
 </body>
 
