@@ -4,21 +4,21 @@
 .of-btn{
   position:relative;isolation:isolate;overflow:hidden;
   --of-x:50%;--of-y:50%;--of-size:0px;
-  --of-fill:#460E18;--of-fg:#FFFFFF;
+  --of-fill:#0B2F24;--of-fg:#FFFFFF;
 }
-:root[data-theme="dark"] .of-btn{--of-fill:#7A1D2B;--of-fg:#FCF5F6}
+:root[data-theme="dark"] .of-btn{--of-fill:#17513C;--of-fg:#F2F6F3}
 
 /* Outline / ghost family: fill with the accent, flip the text to sit on it. */
 .of-btn.studio-gallery-button,.of-btn.project-link:not(.project-link--primary),.of-btn.button--ghost,
-.of-btn.xv-cta--ghost,.sys-filter button.of-btn:not([aria-pressed="true"]){--of-fill:#7A1D2B;--of-fg:#FFFFFF}
+.of-btn.xv-cta--ghost,.sys-filter button.of-btn:not([aria-pressed="true"]){--of-fill:#17513C;--of-fg:#FFFFFF}
 :root[data-theme="dark"] .of-btn.studio-gallery-button,
 :root[data-theme="dark"] .of-btn.project-link:not(.project-link--primary),
 :root[data-theme="dark"] .of-btn.button--ghost,
 :root[data-theme="dark"] .of-btn.xv-cta--ghost,
-:root[data-theme="dark"] .sys-filter button.of-btn:not([aria-pressed="true"]){--of-fill:#E3ADB6;--of-fg:#460E18}
+:root[data-theme="dark"] .sys-filter button.of-btn:not([aria-pressed="true"]){--of-fill:#A8CDB3;--of-fg:#0B2F24}
 
 /* Gold hero/company buttons sit on dark bands in both themes. */
-.of-btn.sys-cta,.of-btn.xv-cta:not(.xv-cta--ghost),.of-btn.xv-poster-play,.sys-filter button.of-btn[aria-pressed="true"]{--of-fg:#FCF5F6}
+.of-btn.sys-cta,.of-btn.xv-cta:not(.xv-cta--ghost),.of-btn.xv-poster-play,.sys-filter button.of-btn[aria-pressed="true"]{--of-fg:#F2F6F3}
 
 /* about-me-beta uses its own blue palette. */
 .of-blue .of-btn{--of-fill:#0D1926;--of-fg:#F4F6FA}

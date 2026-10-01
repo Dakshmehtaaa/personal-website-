@@ -3,33 +3,33 @@
 .studio-page .beta-header{z-index:30;transition:background .35s,border-color .35s,color .35s}
 /* studio-home.js adds .studio-top-dark to <html> while the navy hero is in
    view, so the sticky bar sits on it as glass rather than as a cream slab. */
-.studio-page.studio-top-dark .beta-header{background:transparent;border-bottom-color:transparent;color:#EEF3FA}
+.studio-page.studio-top-dark .beta-header{background:transparent;border-bottom-color:transparent;color:#eef3fa}
 /* over the hero the bar is see-through, so the wave runs behind it; it only
    takes a tint while the pointer is on it */
-.studio-page.studio-top-dark .beta-header:hover,.studio-page.studio-top-dark .beta-header:focus-within{background:#09182A8c;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-.studio-page.studio-top-dark .beta-header::after{background:#8FC5F2}
-.studio-page.studio-top-dark .beta-monogram>span{color:#8FC5F2}
-.studio-page.studio-top-dark .beta-language>span,.studio-page.studio-top-dark .beta-language button{color:#A9BED5}
-.studio-page.studio-top-dark .beta-language button[aria-pressed="true"]{color:#EEF3FA}
-.studio-page.studio-top-dark #beta-theme-toggle{border-color:#A8D2F547}
-.studio-page.studio-top-dark #beta-menu-toggle>span{background:#EEF3FA}
+.studio-page.studio-top-dark .beta-header:hover,.studio-page.studio-top-dark .beta-header:focus-within{background:#09182a8c;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.studio-page.studio-top-dark .beta-header::after{background:#8fc5f2}
+.studio-page.studio-top-dark .beta-monogram>span{color:#8fc5f2}
+.studio-page.studio-top-dark .beta-language>span,.studio-page.studio-top-dark .beta-language button{color:#a9bed5}
+.studio-page.studio-top-dark .beta-language button[aria-pressed="true"]{color:#eef3fa}
+.studio-page.studio-top-dark #beta-theme-toggle{border-color:#a8d2f547}
+.studio-page.studio-top-dark #beta-menu-toggle>span{background:#eef3fa}
 .studio-brand{font-weight:600}
 /* The hero is a full-bleed navy band with the WebGL wave behind it
    (js/studio-hero-shader.js). Redefining the editorial tokens on the section
    re-skins every descendant in one place instead of overriding each rule:
    the buttons, eyebrow dot, orbits, arch and caption all read from them. */
-.studio-hero{position:relative;isolation:isolate;overflow:hidden;padding-top:0;--paper:#09182A;--ink:#EEF3FA;--muted:#A9BED5;--green:#8FC5F2;--line:#2B4763;--soft:#122A44;--portrait:#12283F;--accent:#A8D2F5;background:var(--paper);color:var(--ink)}
+.studio-hero{position:relative;isolation:isolate;overflow:hidden;padding-top:0;--paper:#09182a;--ink:#eef3fa;--muted:#a9bed5;--green:#8fc5f2;--line:#2b4763;--soft:#122a44;--portrait:#12283f;--accent:#a8d2f5;background:var(--paper);color:var(--ink)}
 .studio-hero-inner{position:relative;z-index:2;padding-top:34px}
-.studio-hero-stage{position:absolute;inset:0;z-index:0;pointer-events:none;background:#09182A}
+.studio-hero-stage{position:absolute;inset:0;z-index:0;pointer-events:none;background:#09182a}
 #studio-hero-canvas{display:block;width:100%;height:100%}
 /* Shown when WebGL is unavailable or the shader fails to compile. */
-.studio-hero-stage.is-fallback{background:radial-gradient(118% 78% at 63% 54%,#31719F 0%,#17395C 36%,#09182A 74%)}
+.studio-hero-stage.is-fallback{background:radial-gradient(118% 78% at 63% 54%,#31719f 0%,#17395c 36%,#09182a 74%)}
 .studio-hero-stage.is-fallback>#studio-hero-canvas{display:none}
 /* Keeps the headline readable: dark over the copy column, open over the
    portrait where the wave is meant to be seen, closing to solid at the join
    with the next (light) section. */
 .studio-hero-veil{position:absolute;inset:0;background:linear-gradient(97deg,#071322fa 0%,#071322f0 22%,#071322a8 38%,#0713223d 56%,#07132200 78%,#07132212 100%)}
-.studio-hero-veil::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#09182A99 0%,#09182A1a 20%,#09182A1a 72%,#09182A 100%)}
+.studio-hero-veil::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#09182a99 0%,#09182a1a 20%,#09182a1a 72%,#09182a 100%)}
 /* The legacy stylesheet still ships h1,h2,h3,h4{color:var(--text)}, which is a
    direct match and so beats the colour the hero section passes down by
    inheritance. Without this the headline renders in the light theme's ink on
@@ -38,7 +38,7 @@
 .studio-hero h1 em{color:var(--green)}
 .studio-hero .beta-button{box-shadow:0 10px 28px #0000004d}
 .studio-hero .beta-button:hover{box-shadow:0 14px 34px #00000059}
-.studio-hero .studio-portrait-caption{background:#10304D;box-shadow:0 18px 44px #00000059;border:1px solid #FFFFFF1f}
+.studio-hero .studio-portrait-caption{background:#10304d;box-shadow:0 18px 44px #00000059;border:1px solid #ffffff1f}
 .studio-hero-top,.studio-hero-foot{display:flex;align-items:center;justify-content:space-between;gap:24px}
 .studio-hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);align-items:center;gap:58px;padding-block:34px 26px}
 .studio-kicker{color:var(--green);font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;font-weight:650;margin-bottom:20px}
@@ -50,15 +50,15 @@
 .studio-hero-foot{border-top:1px solid var(--line);padding-block:20px;color:var(--muted);font-size:.78rem}
 .studio-portrait-scene{position:relative;min-height:520px;isolation:isolate;overflow:visible;padding:0 6px 22px}
 .studio-portrait-art{position:relative;min-height:490px;overflow:visible;transform:perspective(900px) rotateX(var(--studio-tilt-x,0deg)) rotateY(var(--studio-tilt-y,0deg));transition:transform .35s ease}
-.studio-portrait-arch{position:absolute;z-index:1;left:11%;right:11%;bottom:2%;height:76%;border:1px solid #A8D2F53d;border-bottom:0;border-radius:50% 50% 12px 12px;background:linear-gradient(160deg,#FFFFFF1c,#FFFFFF0a 55%,#07132226);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:inset 0 0 0 14px #FFFFFF08,12px 16px 0 #A8D2F512}
+.studio-portrait-arch{position:absolute;z-index:1;left:11%;right:11%;bottom:2%;height:76%;border:1px solid #a8d2f53d;border-bottom:0;border-radius:50% 50% 12px 12px;background:linear-gradient(160deg,#ffffff1c,#ffffff0a 55%,#07132226);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);box-shadow:inset 0 0 0 14px #ffffff08,12px 16px 0 #a8d2f512}
 .studio-portrait-cutout{position:absolute;z-index:2;left:50%;bottom:-4%;width:min(88%,438px);max-width:none;height:auto;transform:translateX(-50%);filter:drop-shadow(0 18px 20px color-mix(in srgb,var(--ink) 18%,transparent));object-fit:contain}
-.studio-portrait-orbit{position:absolute;z-index:0;border:1px solid #A8D2F52e;border-radius:50%;pointer-events:none}
+.studio-portrait-orbit{position:absolute;z-index:0;border:1px solid #a8d2f52e;border-radius:50%;pointer-events:none}
 .studio-portrait-orbit--one{inset:9% -4% 9%;transform:rotate(22deg)}
 .studio-portrait-orbit--two{inset:15% -11% 13%;transform:rotate(-31deg)}
 .studio-portrait-star{position:absolute;z-index:3;right:2%;top:6%;font-size:4.4rem;line-height:1;color:var(--green);animation:studio-spin 34s linear infinite}
-.studio-portrait-caption{position:relative;z-index:4;width:82%;margin:-42px auto 0;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;background:#1B3C58;color:#F4F6FA;border-radius:var(--studio-radius-sm);box-shadow:10px 12px 0 color-mix(in srgb,var(--green) 14%,transparent)}
+.studio-portrait-caption{position:relative;z-index:4;width:82%;margin:-42px auto 0;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;background:#1b3c58;color:#f4f6fa;border-radius:var(--studio-radius-sm);box-shadow:10px 12px 0 color-mix(in srgb,var(--green) 14%,transparent)}
 .studio-portrait-caption strong{display:block;font:400 1.9rem/1.05 "Instrument Serif",Georgia,serif}
-.studio-portrait-caption div span{display:block;margin-top:7px;color:#C3D3E4;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.studio-portrait-caption div span{display:block;margin-top:7px;color:#c3d3e4;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
 .studio-portrait-caption>span{font-size:1.7rem}
 .studio-section{padding-block:104px}
 .studio-about{padding-top:116px}
@@ -75,15 +75,15 @@
 .studio-pillar{min-width:0;border:1px solid var(--line);border-radius:var(--studio-radius);background:color-mix(in srgb,var(--soft) 54%,var(--paper));overflow:hidden}
 .studio-pillar-art{aspect-ratio:1/1;position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(160deg,var(--pa-bg1),var(--pa-bg2));
   /* illustration palette: light */
-  --pa-bg1:#F6E8EB;--pa-bg2:#FCF5F6;--pa-paper1:#FFFFFF;--pa-paper2:#F4EEEF;--pa-paper3:#E8DCDE;--pa-curl1:#E4D5D8;--pa-curl2:#CFB9BD;
-  --pa-mid1:#D8B9BE;--pa-mid2:#B88D94;--pa-deep1:#B12A40;--pa-deep2:#5F1420;--pa-leaf1:#8A3F4C;--pa-leaf2:#7A1D2B;
-  --pa-gold1:#F0D797;--pa-gold2:#D2A73F;--pa-sph1:#B27F88;--pa-sph2:#B12A40;--pa-node2a:#B12A40;--pa-node2b:#5F1420;
-  --pa-ped1:#EBE3E4;--pa-ped2:#F9F6F6;--pa-ped3:#D8C7CA;--pa-shadow:rgba(59, 15, 22,.24);--pa-hilite:#FFFFFF}
+  --pa-bg1:#E5EFE8;--pa-bg2:#F2F6F3;--pa-paper1:#FFFFFF;--pa-paper2:#EEF4F0;--pa-paper3:#DCE8E0;--pa-curl1:#D5E4DA;--pa-curl2:#B9CFC0;
+  --pa-mid1:#B9D8C3;--pa-mid2:#8DB89C;--pa-deep1:#2F7A57;--pa-deep2:#0F3B2D;--pa-leaf1:#3F8A66;--pa-leaf2:#17513C;
+  --pa-gold1:#F0D797;--pa-gold2:#D2A73F;--pa-sph1:#7FB292;--pa-sph2:#2F7A57;--pa-node2a:#2F7A57;--pa-node2b:#0F3B2D;
+  --pa-ped1:#E3EBE5;--pa-ped2:#F6F9F7;--pa-ped3:#C7D8CD;--pa-shadow:rgba(15,59,45,.24);--pa-hilite:#FFFFFF}
 :root[data-theme="dark"] .studio-pillar-art{background:linear-gradient(160deg,var(--pa-bg1),var(--pa-bg2));
-  --pa-bg1:#7A1D2B;--pa-bg2:#5F1420;--pa-paper1:#F1E7E9;--pa-paper2:#DDC9CC;--pa-paper3:#C6A9AE;--pa-curl1:#C6A9AE;--pa-curl2:#AB868C;
-  --pa-mid1:#BD939A;--pa-mid2:#A16F77;--pa-deep1:#B12A40;--pa-deep2:#460E18;--pa-leaf1:#B06F7A;--pa-leaf2:#B12A40;
-  --pa-gold1:#F2DA9C;--pa-gold2:#D9AE45;--pa-sph1:#E3ADB6;--pa-sph2:#934E5A;--pa-node2a:#883C49;--pa-node2b:#460E18;
-  --pa-ped1:#6A2C36;--pa-ped2:#803F4A;--pa-ped3:#531D26;--pa-shadow:rgba(20, 3, 6,.5);--pa-hilite:#FFFFFF}
+  --pa-bg1:#17513C;--pa-bg2:#0F3B2D;--pa-paper1:#E7F1EA;--pa-paper2:#C9DDD0;--pa-paper3:#A9C6B4;--pa-curl1:#A9C6B4;--pa-curl2:#86AB96;
+  --pa-mid1:#93BDA2;--pa-mid2:#6FA184;--pa-deep1:#2F7A57;--pa-deep2:#0B2F24;--pa-leaf1:#6FB08A;--pa-leaf2:#2F7A57;
+  --pa-gold1:#F2DA9C;--pa-gold2:#D9AE45;--pa-sph1:#A8CDB3;--pa-sph2:#4E9370;--pa-node2a:#3C8862;--pa-node2b:#0B2F24;
+  --pa-ped1:#2C6A50;--pa-ped2:#3F8062;--pa-ped3:#1D5340;--pa-shadow:rgba(3,20,14,.5);--pa-hilite:#FFFFFF}
 .studio-pillar-svg{display:block;width:100%;height:100%}
 /* hover: barely-there motion (idle art is completely still) */
 .studio-pillar-svg :is(.pa-badge,.pa-leaf,.pa-node,.pa-dot,.pa-page,.pa-bar,.pa-path){transform-box:view-box;transition:transform .8s cubic-bezier(.33,.12,.24,1)}
@@ -233,17 +233,17 @@
 .studio-portfolio .studio-section-heading>div>p{margin-top:15px;font-size:1rem}
 .studio-gallery-button{display:inline-flex;align-items:center;gap:28px;padding:16px 20px;border:1px solid var(--green);border-radius:999px;color:var(--green);font-size:.87rem;white-space:nowrap;transition:background .2s,color .2s,transform .2s}
 .studio-gallery-button:hover{background:var(--green);color:var(--paper);transform:translateY(-2px)}
-.studio-beyond{background:#1B3C58;color:#EEF3F9;--line:#3F5C78;--muted:#B6C7D9}
-.studio-beyond .beta-section-label{color:#B6C7D9}
-.studio-beyond .beta-section-number,.studio-beyond h2 em{color:#A8D2F5}
+.studio-beyond{background:#1b3c58;color:#eef3f9;--line:#3f5c78;--muted:#b6c7d9}
+.studio-beyond .beta-section-label{color:#b6c7d9}
+.studio-beyond .beta-section-number,.studio-beyond h2 em{color:#a8d2f5}
 .studio-beyond-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:76px}
-.studio-beyond h2{color:#EEF3F9}
+.studio-beyond h2{color:#eef3f9}
 .studio-beyond-grid>div>p{max-width:35ch;color:var(--muted);line-height:1.8;margin-top:22px}
 .studio-beyond .beta-text-link{margin-top:23px;border-color:var(--line)}
 /* Printed-photo look kept; the 3:4 crop is what made this section run so
    tall, so the plates are 4:5 and capped in width. */
 .studio-beyond-images{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;width:100%;max-width:540px;justify-self:end}
-.studio-beyond-images figure{position:relative;margin:0;background:#F6F8FC;padding:9px 9px 0;box-shadow:0 18px 34px #0B1E2F52;color:#1B3C58;transition:transform .35s}
+.studio-beyond-images figure{position:relative;margin:0;background:#f6f8fc;padding:9px 9px 0;box-shadow:0 18px 34px #0b1e2f52;color:#1b3c58;transition:transform .35s}
 .studio-beyond-images img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
 .studio-beyond-images figcaption{padding:10px 2px 12px;font-size:.7rem;display:flex;justify-content:space-between}
 .studio-beyond-images figure:first-child{transform:rotate(-4deg);margin-top:-16px}
@@ -280,7 +280,7 @@
   .studio-intro-grid,.studio-beyond-grid{grid-template-columns:1fr;gap:32px}.studio-pillars{grid-template-columns:1fr}.studio-pillar-art{aspect-ratio:1/1}
   .studio-experience-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.studio-xp-card,.studio-xp-card.is-left,.studio-xp-card.is-right{grid-column:auto;grid-row:1;aspect-ratio:1;align-self:start}.studio-xp-card.is-active{grid-column:1/-1;grid-row:2;aspect-ratio:auto;margin-top:4px}.studio-xp-card.is-active>.studio-xp-face{display:none}.studio-xp-mark{height:48px}.studio-xp-card.is-active>.studio-xp-detail{min-height:0;grid-template-columns:118px minmax(0,1fr);column-gap:24px;padding:26px 24px}.studio-xp-brand{height:64px}.studio-proof-logos{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}.studio-social-grid{gap:15px}
 }
-@media (max-width:680px){.studio-page.studio-top-dark #beta-nav-links{background:#09182Af7;border-bottom-color:#A8D2F52e}}
+@media (max-width:680px){.studio-page.studio-top-dark #beta-nav-links{background:#09182af7;border-bottom-color:#a8d2f52e}}
 @media (max-width:620px){
   .studio-hero-inner{padding-top:26px}.studio-more{margin-top:30px;padding-top:0}.studio-more-cta{width:100%;justify-content:space-between}.studio-beyond-images{max-width:none;justify-self:stretch}.studio-hero-top,.studio-hero-foot{align-items:flex-start;flex-direction:column;gap:9px}.studio-hero-grid{padding-block:32px 22px}.studio-hero h1{font-size:clamp(42px,11vw,60px);max-width:13ch}.studio-hero-intro{font-size:1rem}.studio-portrait-scene{min-height:400px;padding-inline:0}.studio-portrait-art{min-height:378px}.studio-portrait-arch{left:6%;right:6%;height:77%}.studio-portrait-cutout{width:80%}.studio-portrait-star{font-size:3.5rem;right:3%;top:3%}.studio-portrait-caption{width:90%;padding:15px 17px;margin-top:-36px}.studio-portrait-caption strong{font-size:1.65rem}.studio-section{padding-block:72px}.studio-about{padding-top:78px}.studio-intro-grid h2,.studio-section h2,.studio-contact h2{font-size:clamp(42px,12vw,59px)}.studio-about-copy .studio-lede{font-size:1.3rem}.studio-pillars-heading{align-items:start;flex-direction:column;gap:12px;margin-top:54px}.studio-pillar-copy{padding:19px 18px 23px}.studio-pillar h3{font-size:1.28rem}.studio-section-heading{align-items:start;flex-direction:column;gap:20px}.studio-experience-deck{gap:8px}.studio-xp-card{border-radius:12px}.studio-xp-face{gap:10px;padding:8px}.studio-xp-mark{height:38px}.studio-xp-name{font-size:.62rem;letter-spacing:.04em}.studio-xp-card.is-active>.studio-xp-detail{grid-template-columns:1fr;padding:22px 18px}.studio-xp-brand{grid-column:1;grid-row:auto;height:54px;justify-self:start;width:132px;margin-bottom:18px}.studio-xp-meta{margin-bottom:18px;font-size:.7rem}.studio-xp-company,.studio-xp-role,.studio-xp-body{grid-column:1;grid-row:auto}.studio-xp-role{font-size:1.65rem}.studio-proof-logos{gap:20px 22px}.studio-proof-item{min-height:40px}.studio-portfolio{padding-block:70px}.studio-gallery-button{width:100%;justify-content:space-between}.studio-beyond-images{gap:10px}.studio-social-grid{grid-template-columns:1fr;gap:30px}.studio-contact{padding-block:78px 88px}.studio-footer-main{grid-template-columns:1fr 1fr}.studio-footer-brand{grid-column:1/-1}.studio-footer-bottom{flex-direction:column;gap:8px}
 }
@@ -346,7 +346,7 @@
 
 /* ...and it returns as soon as the page moves: over the hero it is a deep navy
    glass (never the grey it used to be, since the hero now sits behind it) */
-.studio-page.studio-top-dark.studio-scrolled .beta-header{background:#09182Ae0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:#A8D2F51f}
+.studio-page.studio-top-dark.studio-scrolled .beta-header{background:#09182ae0;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:#a8d2f51f}
 /* Logo row: each mark is now only as wide as its own artwork and the row spreads
    them with equal space between. With six equal grid cells, a narrow mark (JIMS)
    floated in a wide cell while the Travel Triangle tile filled its cell edge to
@@ -372,7 +372,7 @@
    line of longitude looks like rotating about the vertical axis - and the three
    are a third of a turn apart. non-scaling-stroke keeps the lines at an even
    weight while they squash. */
-.studio-globe{flex:none;width:40px;height:40px;color:#9CC9EE;filter:drop-shadow(0 0 10px #9CC9EE40)}
+.studio-globe{flex:none;width:40px;height:40px;color:#9cc9ee;filter:drop-shadow(0 0 10px #9cc9ee40)}
 .studio-globe svg{display:block;width:100%;height:100%;overflow:visible}
 .studio-globe-rim,.studio-globe-lat,.studio-globe-mer{fill:none;stroke:currentColor;stroke-width:1.15;vector-effect:non-scaling-stroke}
 .studio-globe-lat{opacity:.5}
@@ -437,7 +437,7 @@
 
 /* Experience autoplay progress: the bar's animation is the 5s timer (see studio-home.js). */
 .studio-xp-progress{display:none;position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:0 0 var(--studio-radius) var(--studio-radius);overflow:hidden;pointer-events:none;z-index:3}
-.studio-xp-progress::after{content:"";display:block;height:100%;background:var(--forest,#5F1420);transform:scaleX(0);transform-origin:left center}
+.studio-xp-progress::after{content:"";display:block;height:100%;background:var(--forest,#0F3B2D);transform:scaleX(0);transform-origin:left center}
 :root[data-theme="dark"] .studio-xp-progress::after{background:var(--gold,#E0BD68)}
 .studio-experience-deck.is-autoplay .studio-xp-card.is-active>.studio-xp-progress{display:block}
 .studio-experience-deck.is-autoplay .studio-xp-card.is-active>.studio-xp-progress::after{animation:xp-progress 5s linear forwards}
