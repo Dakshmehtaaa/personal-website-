@@ -4,8 +4,10 @@
    is sharp at any size, follows the page's light/dark theme and weighs a few
    KB; the words are the captions, generated from one script
    (tools/build-explainer-timing.py). js/explainer.js is the clock: every
-   [data-at] gets .on once its cue passes, every [data-out] gets .gone, and
-   this file owns what those states look like.
+   [data-at] gets .on once its cue passes, every [data-out] gets .gone, every
+   [data-fx] gets .fx for a moment when playback crosses it live, and this
+   file owns what those states look like. The camera (data-cam keys) and the
+   chapter wipe are driven from the clock too, as inline transforms.
 
    The art is drawn on an 800x480 canvas (viewBox 0 36 800 480) in user units,
    so the SVG font sizes and offsets below are in canvas units, not screen
@@ -14,16 +16,31 @@
    scales as one picture.
 
    On a phone the canvas is cropped to x 60..740 so the art fills the screen
-   width: keep anything a phone should see inside that window (the fine print
-   that falls outside it, .t-src and .xv-wide-only, is hidden there anyway). */
+   width: keep anything a phone should see inside that window (x 80..720 once
+   the camera can push in to 1.05; the fine print that falls outside it, .t-src
+   and .xv-wide-only, is hidden there anyway). Text a phone must read is at
+   least 22 canvas units (about 12px on a 390px phone).
+
+   No CSS filter anywhere in here (drop-shadow, blur, grayscale): they are what
+   makes SVG motion stutter on an iPhone. Shadows are hard offset copies
+   (.s-shadow). Motion is transform and opacity only. */
 .xv-section{padding-block:96px 12px}
 .xv-title{font-size:clamp(40px,4.4vw,64px);line-height:1.05;letter-spacing:-.05em;margin-bottom:34px}
 .xv-title em{color:var(--green)}
 
+/* ==== tokens ==== */
 .xv-player{
   --xv-bg:#f7faff;--xv-grid:#e3ecf8;--xv-ink:#0b2545;--xv-ink-2:#1d3b63;--xv-mute:#5a6f89;
   --xv-card:#ffffff;--xv-line:#cddbee;--xv-soft:#e6effb;--xv-blue:#2563c9;--xv-blue-2:#94bdf0;
   --xv-yellow:#ffc72c;--xv-on-yellow:#0b2545;--xv-dim:#c3cfdf;--xv-eu:#1f4fb4;--xv-lift:#0b25451f;
+  /* motion: arrivals ease out, exits accelerate in, moves between rests ease both ways,
+     springs (overshoot) only on small things */
+  --e-out:cubic-bezier(.16,1,.3,1);
+  --e-in:cubic-bezier(.7,0,.84,0);
+  --e-io:cubic-bezier(.76,0,.24,1);
+  --e-spring:cubic-bezier(.34,1.56,.64,1);
+  --e-count:cubic-bezier(.33,1,.68,1); /* = the count-up curve 1-(1-p)^3, for bars that run with a number */
+  --d-in:420ms;--d-pop:360ms;--d-move:600ms;--d-draw:420ms;--d-out:240ms;--st:45ms;
   position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
   background:var(--xv-bg);color:var(--xv-ink);box-shadow:0 34px 70px -44px #0b254573
 }
@@ -33,73 +50,220 @@
   --xv-yellow:#ffcd3c;--xv-on-yellow:#0b2545;--xv-dim:#3b5579;--xv-eu:#2b5cc4;--xv-lift:#00000059
 }
 .xv-defs{position:absolute;width:0;height:0;overflow:hidden}
+
+/* ==== stage, backdrop, scenes, chapter label ==== */
 .xv-stage{position:relative;aspect-ratio:16/9;container-type:size;overflow:hidden;isolation:isolate;cursor:pointer;--u:min(1cqw,1.75cqh)}
 .xv-stage p{margin:0;max-width:none}
 
-/* backdrop: a faint blueprint grid and two slow glows */
-.xv-bg{position:absolute;inset:0;z-index:-1;background:var(--xv-bg)}
+/* backdrop: a faint blueprint grid and two slow glows; it takes the camera at 0.2x, so it bleeds */
+.xv-bg{position:absolute;inset:-40px;z-index:-1;background:var(--xv-bg);will-change:transform}
 .xv-bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--xv-grid) 1px,transparent 1px),linear-gradient(90deg,var(--xv-grid) 1px,transparent 1px);background-size:calc(var(--u)*4.4) calc(var(--u)*4.4);background-position:center;-webkit-mask-image:radial-gradient(70% 70% at 50% 46%,#000 30%,transparent 100%);mask-image:radial-gradient(70% 70% at 50% 46%,#000 30%,transparent 100%)}
-.xv-bg::after{content:"";position:absolute;inset:-25%;background:radial-gradient(30% 34% at 22% 26%,color-mix(in srgb,var(--xv-blue) 16%,transparent),transparent 70%),radial-gradient(26% 30% at 80% 78%,color-mix(in srgb,var(--xv-yellow) 18%,transparent),transparent 70%);animation:xv-drift 20s ease-in-out infinite alternate}
+.xv-bg::after{content:"";position:absolute;inset:-25%;background:radial-gradient(30% 34% at 22% 26%,color-mix(in srgb,var(--xv-blue) 16%,transparent),transparent 70%),radial-gradient(26% 30% at 80% 78%,color-mix(in srgb,var(--xv-yellow) 18%,transparent),transparent 70%);animation:xv-drift 14s ease-in-out infinite alternate}
 @keyframes xv-drift{to{transform:translate(5%,-4%) scale(1.06)}}
 
-/* scenes zoom through: the old one pushes past the camera, the new one arrives */
-.xv-scene{position:absolute;inset:calc(var(--u)*5.6) calc(var(--u)*3) calc(var(--u)*9);display:grid;place-items:center;opacity:0;visibility:hidden;transform:scale(.9);transition:opacity .45s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s .7s}
-.xv-scene.is-active{opacity:1;visibility:visible;transform:none;transition:opacity .5s ease .12s,transform .8s cubic-bezier(.2,.8,.2,1) .08s,visibility 0s}
-.xv-scene.is-past{transform:scale(1.14)}
+/* one scene is painted at a time: the swap is instant, hidden under the chapter wipe
+   (or a cut between two matching frames) */
+.xv-scene{position:absolute;inset:calc(var(--u)*5.6) calc(var(--u)*3) calc(var(--u)*9);visibility:hidden}
+.xv-scene.is-active{visibility:visible}
 .xv-snap *{transition:none!important;animation:none!important}
-.xv-art{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
-.xv-chapter{position:absolute;top:calc(var(--u)*-3.7);left:0;display:flex;gap:.9em;font-size:max(10px,calc(var(--u)*1.3));font-weight:650;letter-spacing:.18em;text-transform:uppercase;color:var(--xv-mute)}
-.xv-chapter span:first-child{color:var(--xv-ink);background:var(--xv-yellow);padding:0 .5em;border-radius:4px;color:var(--xv-on-yellow)}
+.xv-art{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;transform-origin:50% 50%}
+.xv-scene.is-active .xv-art{will-change:transform}
+.xv-art--back{pointer-events:none}
+.xv-chapter{position:absolute;z-index:1;top:calc(var(--u)*-3.7);left:0;display:flex;gap:.9em;font-size:max(10px,calc(var(--u)*1.3));font-weight:650;letter-spacing:.18em;text-transform:uppercase;color:var(--xv-mute)}
+.xv-chapter span:first-child{background:var(--xv-yellow);padding:0 .5em;border-radius:4px;color:var(--xv-on-yellow)}
+/* a soft spotlight disc behind each scene's subject, in the back layer (0.5x camera) */
+.xv-spot{fill:url(#xv-spot)}
+.xv-spot-a{stop-color:var(--xv-card);stop-opacity:.85}
+.xv-spot-b{stop-color:var(--xv-card);stop-opacity:.35}
+.xv-spot-c{stop-color:var(--xv-card);stop-opacity:0}
+.xv-spot-ring{fill:none;stroke:var(--xv-grid);stroke-width:2}
 
-/* ---- canvas type and fills (canvas units) ---- */
+/* chapter wipe: a slanted panel that sweeps across between scenes and names the next one
+   (positioned from js/explainer.js; the title drifts against the panel for parallax) */
+.xv-wipe{position:absolute;inset:0 -14%;z-index:2;background:var(--xv-ink-2);color:var(--xv-bg);clip-path:polygon(9% 0,100% 0,91% 100%,0 100%);will-change:transform;pointer-events:none}
+.xv-wipe-edge{position:absolute;top:0;bottom:0;right:0;width:13%;background:var(--xv-yellow);clip-path:polygon(80.8% 0,100% 0,30.8% 100%,11.5% 100%)}
+.xv-wipe-inner{position:absolute;left:14%;right:14%;top:50%;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*1.2);transform:translateY(-50%)}
+.xv-wipe-num{font-size:calc(var(--u)*1.5);font-weight:700;letter-spacing:.18em;padding:.2em .6em;border-radius:4px;background:var(--xv-yellow);color:var(--xv-on-yellow)}
+.xv-wipe-title{font-size:calc(var(--u)*5.2);font-weight:700;letter-spacing:-.04em;line-height:1;text-align:center;text-wrap:balance}
+
+/* ==== canvas type and fills (canvas units) ==== */
 .xv-art text{font-family:inherit;fill:var(--xv-ink)}
-.xv-art .t-num{font-size:88px;font-weight:700;letter-spacing:-3px}
-.xv-art .t-big{font-size:44px;font-weight:700;letter-spacing:-1.5px}
-.xv-art .t-label{font-size:22px;font-weight:550}
-.xv-art .t-chip{font-size:20px;font-weight:600}
-.xv-art .t-small{font-size:18px;font-weight:600}
+.xv-art .t-hero{font-size:116px;font-weight:700;letter-spacing:-4px;font-variant-numeric:tabular-nums}
+.xv-art .t-stamp{font-size:52px;font-weight:800;letter-spacing:4px;text-transform:uppercase}
+.xv-art .t-big{font-size:40px;font-weight:750;letter-spacing:-1px}
+.xv-art .t-head{font-size:32px;font-weight:750;letter-spacing:-.5px}
+.xv-art .t-label{font-size:26px;font-weight:650}
+.xv-art .t-chip{font-size:24px;font-weight:700}
+.xv-art .t-small{font-size:22px;font-weight:650}
+.xv-art .t-stage{font-size:24px;font-weight:750;letter-spacing:2px;text-transform:uppercase}
+.xv-art .t-letter{font-size:40px;font-weight:800}
 .xv-art .t-tiny{font-size:16px;font-weight:600}
 .xv-art .t-src{font-size:13px;font-weight:650;letter-spacing:1.6px;text-transform:uppercase;fill:var(--xv-mute)}
-.xv-art .t-stage{font-size:17px;font-weight:750;letter-spacing:2.4px;text-transform:uppercase}
-.xv-art .t-letter{font-size:38px;font-weight:800}
-.xv-art .t-csrd{font-size:62px;font-weight:800;letter-spacing:-1px;fill:#fff}
 .xv-art .t-bold{font-weight:750}
 .xv-art .t-mute{fill:var(--xv-mute)}
 .xv-art .t-dimtext{fill:var(--xv-dim)}
 .xv-art .t-blue{fill:var(--xv-blue)}
-.xv-art .t-onyellow,.xv-art .xv-toggle text.t-onyellow{fill:var(--xv-on-yellow)}
+.xv-art .t-onyellow{fill:var(--xv-on-yellow)}
+.xv-art .t-oncolor{fill:var(--xv-card)}
+.s-shadow{fill:var(--xv-lift)}
 .s-card{fill:var(--xv-card);stroke:var(--xv-line);stroke-width:2}
-.s-lift{filter:drop-shadow(0 10px 14px var(--xv-lift))}
 .s-soft{fill:var(--xv-soft)}
 .s-blue{fill:var(--xv-blue)}
 .s-blue2{fill:var(--xv-blue-2)}
 .s-yellow{fill:var(--xv-yellow)}
 .s-eu{fill:var(--xv-eu)}
-.s-plate{fill:#fff;stroke:var(--xv-line);stroke-width:2;filter:drop-shadow(0 10px 16px var(--xv-lift))}
+.s-plate{fill:#fff;stroke:var(--xv-line);stroke-width:2}
 .s-hole{fill:var(--xv-card)}
 .s-outline{stroke:var(--xv-ink-2);stroke-width:3;stroke-linejoin:round}
-.s-dimchip{fill:none;stroke:var(--xv-dim);stroke-width:2;stroke-dasharray:6 6}
-.s-link{fill:none;stroke:var(--xv-blue-2);stroke-width:2.5;stroke-linecap:round}
+.s-badge2{fill:var(--xv-card);stroke:var(--xv-blue-2);stroke-width:3}
+.s-avatar{fill:var(--xv-card);stroke:var(--xv-blue);stroke-width:3}
+.s-gold-ring{fill:none;stroke:var(--xv-yellow);stroke-width:5;stroke-linejoin:round}
+.s-dash{fill:none;stroke:var(--xv-ink-2);stroke-width:2;stroke-dasharray:6 6}
+.s-packet{fill:var(--xv-card);stroke:var(--xv-blue);stroke-width:1.5}
+.s-link{fill:none;stroke:var(--xv-blue-2);stroke-width:3;stroke-linecap:round}
 .s-arrow{fill:none;stroke:var(--xv-blue);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
-.s-axis{fill:none;stroke:var(--xv-ink-2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.s-wait{fill:none;stroke:var(--xv-dim);stroke-width:6;stroke-linecap:round}
-.s-now{fill:none;stroke:var(--xv-blue);stroke-width:8;stroke-linecap:round}
 .s-ground{fill:none;stroke:var(--xv-line);stroke-width:3;stroke-linecap:round}
 .s-globe{fill:var(--xv-soft);stroke:var(--xv-blue);stroke-width:3}
 .s-globe-line{fill:none;stroke:var(--xv-blue-2);stroke-width:2}
-.s-badge{fill:var(--xv-card);stroke:var(--xv-yellow);stroke-width:4;filter:drop-shadow(0 8px 14px var(--xv-lift))}
 .s-node{stroke:var(--xv-blue);stroke-width:3}
-.s-ring{fill:none;stroke:var(--xv-soft);stroke-width:12}
-.s-ring-lit{fill:none;stroke:var(--xv-yellow);stroke-width:12;stroke-linecap:round}
+.s-ring{fill:none;stroke:var(--xv-soft);stroke-width:14}
+.s-ring-lit{fill:none;stroke:var(--xv-yellow);stroke-width:14;stroke-linecap:round}
 .i-blue{color:var(--xv-blue)}
 .i-ink{color:var(--xv-ink)}
 .i-yellow{color:var(--xv-yellow)}
 .i-onyellow{color:var(--xv-on-yellow)}
+.i-oncolor{color:var(--xv-card)}
 .i-dim{color:var(--xv-dim)}
-.i-cursor{color:var(--xv-ink);filter:drop-shadow(0 4px 6px var(--xv-lift))}
 
-/* ---- motion: every animated group scales/rotates around its own centre ---- */
-.xv-art :where([data-at],[data-out],.xv-float,.xv-bounce,.xv-pulse,.xv-star,.xv-mer){transform-box:fill-box;transform-origin:50% 50%}
+/* ==== motion primitives ====
+   Put a class on a <g> with a data-at cue; per-element values go inline
+   (style="--dx:-90px;--i:2"). One behaviour per <g>: nest groups to combine
+   them (outermost = the latest state change, innermost = the entrance). An
+   element with a transform="" attribute never takes a motion class (the CSS
+   transform would replace it): put the class on a child group. */
+/* every animated thing turns and scales about its own box */
+.xv-art :where([data-at],[data-out],[data-fx],.a-turn,.a-pulse,.a-bob,.a-spin,.a-packet){transform-box:fill-box;transform-origin:50% 50%}
+.xv-art .pad{fill:none;stroke:none} /* invisible shape that fixes a group's box, i.e. its pivot */
+/* reset the motion variables on every motion element so a nested one never inherits its
+   parent's (the stagger --i/--st do inherit, on purpose); initial makes var() use its fallback */
+.xv-art :is(.m-rise,.m-in-l,.m-in-r,.m-drop,.m-pop,.m-zoom,.m-stamp,.m-fade,.m-move,.m-to,.m-grow-x,.m-grow-y,.m-draw,.m-dim,.m-flip-out,.m-flip-in,.m-close){
+  --from:none;--to:none;--dur:initial;--ease:initial;--fo:initial;
+  --dx:0px;--dy:0px;--rot:0deg;--s0:1;--tx:0px;--ty:0px;--ts:1;--g0:0;--g1:1;--o0:1;--o1:.3;--r:-4deg}
+
+/* one-way entrances: hidden until .on */
+.xv-art :is(.m-rise,.m-in-l,.m-in-r,.m-drop,.m-pop,.m-zoom,.m-stamp,.m-fade){opacity:0;transform:var(--from);
+  transition:opacity var(--fo,180ms) linear calc(var(--i,0)*var(--st)),transform var(--dur,var(--d-in)) var(--ease,var(--e-out)) calc(var(--i,0)*var(--st))}
+.xv-art :is(.m-rise,.m-in-l,.m-in-r,.m-drop,.m-pop,.m-zoom,.m-stamp,.m-fade).on{opacity:1;transform:var(--to)}
+.xv-art .m-rise{--from:translateY(28px)}
+.xv-art .m-in-l{--from:translateX(-90px)}
+.xv-art .m-in-r{--from:translateX(90px)}
+.xv-art .m-drop{--from:translateY(-90px);--ease:var(--e-in);--dur:300ms}
+.xv-art .m-pop{--from:scale(.4);--ease:var(--e-spring);--dur:var(--d-pop)}
+.xv-art .m-zoom{--from:scale(.3)} /* big shapes: no overshoot */
+.xv-art .m-stamp{--from:scale(1.9) rotate(-12deg);--to:rotate(var(--r));--ease:var(--e-spring);--dur:320ms;--fo:80ms}
+
+/* "arrive": rests at an offset, travels home on .on (add .m-fly to fade in as well) */
+.xv-art .m-move{transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(var(--s0));
+  transition:transform var(--dur,var(--d-move)) var(--ease,var(--e-io)) calc(var(--i,0)*var(--st)),opacity 180ms linear calc(var(--i,0)*var(--st))}
+.xv-art .m-move.on{transform:none}
+.xv-art .m-fly{opacity:0}
+.xv-art .m-fly.on{opacity:1}
+/* "depart": rests at home, travels to an offset on .on */
+.xv-art .m-to{transition:transform var(--dur,var(--d-move)) var(--ease,var(--e-io)) calc(var(--i,0)*var(--st))}
+.xv-art .m-to.on{transform:translate(var(--tx),var(--ty)) scale(var(--ts))}
+/* growth along an axis (bars, fills, underlines) */
+.xv-art :is(.m-grow-x,.m-grow-y){transition:transform var(--dur,var(--d-move)) var(--ease,var(--e-out)) calc(var(--i,0)*var(--st))}
+.xv-art .m-grow-x{transform:scaleX(var(--g0));transform-origin:0 50%}
+.xv-art .m-grow-y{transform:scaleY(var(--g0));transform-origin:50% 100%}
+.xv-art .m-grow-x.on{transform:scaleX(var(--g1))}
+.xv-art .m-grow-y.on{transform:scaleY(var(--g1))}
+/* line draw: needs pathLength="1"; solid strokes only (dashed lines use .m-fade) */
+.xv-art .m-draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset var(--dur,var(--d-draw)) var(--ease,var(--e-io)) calc(var(--i,0)*var(--st))}
+.xv-art .m-draw.on{stroke-dashoffset:0}
+/* dim / brighten */
+.xv-art .m-dim{opacity:var(--o0);transition:opacity 300ms linear calc(var(--i,0)*var(--st))}
+.xv-art .m-dim.on{opacity:var(--o1)}
+/* swap two faces in place (add .m-x for a horizontal flip) */
+.xv-art .m-flip-out{transition:transform 120ms var(--e-in) calc(var(--i,0)*var(--st)),opacity 0s calc(var(--i,0)*var(--st) + 120ms)}
+.xv-art .m-flip-out.on{transform:scaleY(0);opacity:0}
+.xv-art .m-flip-in{transform:scaleY(0);opacity:0;transition:transform 200ms var(--e-out) calc(var(--i,0)*var(--st) + 120ms),opacity 0s calc(var(--i,0)*var(--st) + 120ms)}
+.xv-art .m-flip-in.on{transform:none;opacity:1}
+.xv-art .m-flip-out.m-x.on,.xv-art .m-flip-in.m-x{transform:scaleX(0)}
+.xv-art .m-flip-in.m-x.on{transform:none}
+/* an envelope flap closing over a letter */
+.xv-art .m-close{opacity:0;transform:scaleY(-1);transform-origin:50% 0;transition:transform 300ms var(--e-io),opacity 80ms linear}
+.xv-art .m-close.on{opacity:1;transform:none}
+
+/* one-shot accents, fired by data-fx (live only; never carry a sound) */
+.xv-art .k-shake.fx{animation:k-shake 260ms linear both}
+@keyframes k-shake{20%{transform:translate(-6px,3px)}45%{transform:translate(5px,-3px)}70%{transform:translate(-3px,2px)}100%{transform:none}}
+.xv-art .k-squash{transform-origin:50% 100%}
+.xv-art .k-squash.fx{animation:k-squash 280ms var(--e-out) both}
+@keyframes k-squash{0%{transform:scale(1.14,.82)}55%{transform:scale(.96,1.05)}100%{transform:none}}
+.xv-art .k-bump.fx{animation:k-bump 260ms var(--e-out) both}
+@keyframes k-bump{45%{transform:scale(1.07)}100%{transform:none}}
+.xv-art .k-nope.fx{animation:k-nope 380ms linear both}
+@keyframes k-nope{20%{transform:translateX(-10px)}45%{transform:translateX(9px)}70%{transform:translateX(-6px)}85%{transform:translateX(3px)}100%{transform:none}}
+.xv-art .k-wave.fx{animation:k-wave 280ms var(--e-out) calc(var(--i,0)*70ms) both}
+@keyframes k-wave{40%{transform:scale(1.14)}100%{transform:none}}
+.xv-art .k-nudge.fx{animation:k-nudge 360ms var(--e-out) both}
+@keyframes k-nudge{40%{transform:translateY(10px)}100%{transform:none}}
+/* vanishing accents: invisible except while firing */
+.xv-art .k-ring{opacity:0}
+.xv-art .k-ring.fx{animation:k-ring 520ms var(--e-out) both}
+@keyframes k-ring{from{opacity:.9;transform:scale(.6)}to{opacity:0;transform:scale(1.7)}}
+.xv-art .k-burst{opacity:0}
+.xv-art .k-burst.fx{animation:k-burst 440ms var(--e-out) both}
+@keyframes k-burst{from{opacity:1;transform:scale(.6)}to{opacity:0;transform:scale(1.4)}}
+
+/* ambient loops: they only run inside an .on ancestor; at most one per scene (plus scene 6's end loops) */
+.xv-art .on .a-turn{animation:a-turn 8s linear infinite}
+@keyframes a-turn{0%{transform:scaleX(1);animation-timing-function:ease-in}25%{transform:scaleX(0);animation-timing-function:ease-out}50%{transform:scaleX(1);animation-timing-function:ease-in}75%{transform:scaleX(0);animation-timing-function:ease-out}100%{transform:scaleX(1)}}
+.xv-art .on .a-pulse{animation:a-pulse 2.2s ease-out infinite}
+@keyframes a-pulse{from{opacity:.9;transform:scale(.86)}to{opacity:0;transform:scale(1.4)}}
+.xv-art .on .a-bob{animation:a-bob 1.2s ease-in-out infinite}
+@keyframes a-bob{50%{transform:translateY(var(--bob,8px))}}
+.xv-art .on .a-spin{animation:a-spin var(--spin,2.8s) linear infinite}
+@keyframes a-spin{to{transform:rotate(360deg)}}
+.xv-art .a-packet{opacity:0}
+.xv-art .on .a-packet{animation:a-packet 1.6s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes a-packet{0%{transform:translate(0,0);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+
+/* ==== scene 1 ==== */
+
+/* ==== end scene 1 ==== */
+
+/* ==== scene 2 ==== */
+
+/* ==== end scene 2 ==== */
+
+/* ==== scene 3 ==== */
+
+/* ==== end scene 3 ==== */
+
+/* ==== scene 4 ==== */
+
+/* ==== end scene 4 ==== */
+
+/* ==== scene 5 ==== */
+
+/* ==== end scene 5 ==== */
+
+/* ==== scene 6 ==== */
+
+/* ==== end scene 6 ==== */
+
+/* ==== LEGACY - the old scenes' primitives; delete when every scene is rebuilt ==== */
+.xv-art :where(.xv-float,.xv-bounce,.xv-pulse,.xv-star,.xv-mer){transform-box:fill-box;transform-origin:50% 50%}
+.xv-art .t-num{font-size:88px;font-weight:700;letter-spacing:-3px}
+.xv-art .t-csrd{font-size:62px;font-weight:800;letter-spacing:-1px;fill:#fff}
+.xv-art .xv-toggle text.t-onyellow{fill:var(--xv-on-yellow)}
+.s-badge{fill:var(--xv-card);stroke:var(--xv-yellow);stroke-width:4}
+.s-dimchip{fill:none;stroke:var(--xv-dim);stroke-width:2;stroke-dasharray:6 6}
+.s-axis{fill:none;stroke:var(--xv-ink-2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.s-wait{fill:none;stroke:var(--xv-dim);stroke-width:6;stroke-linecap:round}
+.s-now{fill:none;stroke:var(--xv-blue);stroke-width:8;stroke-linecap:round}
+.i-cursor{color:var(--xv-ink)}
 .xv-pop{opacity:0;transform:translateY(16px) scale(.9);transition:opacity .3s ease,transform .55s cubic-bezier(.34,1.56,.64,1)}
 .xv-pop.on{opacity:1;transform:none}
 .xv-slide-l,.xv-slide-r{opacity:0;transition:opacity .35s ease,transform .65s cubic-bezier(.22,1,.36,1)}
@@ -139,8 +303,8 @@
 .xv-pill{transition:transform .5s cubic-bezier(.6,0,.2,1)}
 .xv-pill.on{transform:translateX(95px)}
 .xv-card-rect{transition:stroke .3s ease,stroke-width .3s ease}
-.xv-you,.xv-them{transition:opacity .45s ease,transform .5s cubic-bezier(.34,1.56,.64,1),filter .45s ease}
-.xv-you.on{opacity:.35;transform:scale(.95);filter:grayscale(1)}
+.xv-you,.xv-them{transition:opacity .45s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.xv-you.on{opacity:.35;transform:scale(.95)}
 .xv-them.on{transform:translateY(-10px)}
 .xv-them.on .xv-card-rect{stroke:var(--xv-yellow);stroke-width:5}
 .xv-check-badge{opacity:0;transform:scale(0);transition:opacity .2s ease .1s,transform .45s cubic-bezier(.34,1.56,.64,1) .1s}
@@ -175,8 +339,6 @@
 .xv-rider{fill:none;stroke:var(--xv-yellow);stroke-width:20;stroke-linecap:round;stroke-dasharray:.1 100;stroke-dashoffset:0;opacity:0;transition:stroke-dashoffset 1.9s cubic-bezier(.45,0,.25,1),opacity .2s ease}
 .xv-rider.on{opacity:1;stroke-dashoffset:-99.9}
 /* scene 6 */
-/* resource cards are dealt onto a 2x2 grid, each with a slight tilt: none
-   overlaps another, so every logo stays whole */
 .xv-art .xv-deal{opacity:0;transform:translateY(26px) scale(.9);transition:opacity .3s ease,transform .7s cubic-bezier(.34,1.4,.64,1)}
 .xv-art .xv-deal.on{opacity:1;transform:rotate(var(--r,0deg))}
 .xv-bounce{animation:xv-bounce 1.3s ease-in-out infinite}
@@ -186,28 +348,50 @@
 .xv-art .xv-flap{transform-origin:50% 0;transition:transform .45s ease}
 .xv-art .xv-flap.on{transform:scaleY(-1)}
 
-/* leaving: last in the file so it beats every .on above */
-.xv-scene .xv-art .gone{opacity:0;pointer-events:none;transition:opacity .35s ease,transform .45s ease}
 .xv-scene .xv-art .xv-layer.gone{transform:scale(1.05)}
 .xv-scene .xv-art .xv-layer--zoom.gone{transform:scale(.3) translateY(80px);transition:opacity .45s ease .15s,transform .6s cubic-bezier(.6,0,.2,1)}
+/* ==== end LEGACY ==== */
+
+/* ==== exits: last of the canvas rules, so they beat every .on above ==== */
+.xv-scene .xv-art .gone{opacity:0;pointer-events:none;transition:opacity 200ms linear,transform var(--d-out) var(--e-in)}
+.xv-scene .xv-art .gone.x-left{transform:translateX(-90px)}
+.xv-scene .xv-art .gone.x-right{transform:translateX(90px)}
+.xv-scene .xv-art .gone.x-up{transform:translateY(-28px)}
+.xv-scene .xv-art .gone.x-down{transform:translateY(40px)}
+.xv-scene .xv-art .gone.x-shrink{transform:scale(.5)}
+.xv-scene .xv-art .gone.x-fade{transition:opacity 150ms linear}
+.xv-scene .xv-art .gone.x-dive{transform:scale(4);transition:transform 600ms var(--e-in),opacity 260ms linear 340ms}
+.xv-scene .xv-art .gone :is(.a-turn,.a-pulse,.a-bob,.a-spin,.a-packet){animation-play-state:paused}
+
+/* loops and accents hold still while paused; the end card's loops keep going once it has ended */
 .xv-player:not(.is-playing) .xv-stage *,.xv-player:not(.is-playing) .xv-bg::after{animation-play-state:paused}
+.xv-player.is-ended .xv-stage .xv-endloop{animation-play-state:running}
 
 /* ---- captions, end-card buttons, sound prompt ---- */
-/* the captions are the narration now: always on, set like on-screen titles, with
-   the key words of each line on a yellow highlight */
-.xv-cap{position:absolute;left:6%;right:6%;bottom:calc(var(--u)*2.4);text-align:center;font-size:calc(var(--u)*2.45);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--xv-ink);text-wrap:balance;opacity:0;transform:translateY(8px);transition:opacity .25s ease,transform .3s ease;pointer-events:none}
-.xv-cap.is-on{opacity:1;transform:none}
-.xv-cap.is-new{animation:xv-cap-in .35s ease}
-.xv-player .xv-stage .xv-cap{animation-play-state:running}
-@keyframes xv-cap-in{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
-.xv-cap mark{color:var(--xv-on-yellow);background:var(--xv-yellow);padding:0 .18em;border-radius:.2em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.xv-ctas{position:absolute;left:0;right:0;bottom:calc(var(--u)*-1);display:flex;flex-wrap:wrap;justify-content:center;gap:calc(var(--u)*1.4);opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
-.xv-ctas.on{opacity:1;transform:none}
-.xv-cta{display:inline-flex;align-items:center;gap:.8em;padding:.75em 1.35em;border-radius:999px;background:var(--xv-yellow);color:var(--xv-on-yellow);font-size:calc(var(--u)*1.8);font-weight:650;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
-.xv-cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px -10px color-mix(in srgb,var(--xv-yellow) 80%,transparent)}
+/* the captions are the narration: always on, set like on-screen titles; live, the words rise
+   in one after another and the highlight sweeps on behind the key words */
+.xv-cap{position:absolute;left:6%;right:6%;bottom:calc(var(--u)*2.4);text-align:center;font-size:calc(var(--u)*2.45);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--xv-ink);text-wrap:balance;transition:opacity 120ms linear;pointer-events:none}
+.xv-cap.is-out{opacity:0}
+.xv-cap .w{display:inline-block;opacity:0;transform:translateY(.4em);transition:opacity 140ms linear calc(var(--i)*var(--st)),transform 320ms var(--e-out) calc(var(--i)*var(--st))}
+.xv-cap.is-in .w{opacity:1;transform:none}
+.xv-cap mark{color:inherit;background:linear-gradient(var(--xv-yellow),var(--xv-yellow)) 0 0/0% 100% no-repeat;padding:0 .18em;border-radius:.2em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size 420ms var(--e-io) 300ms,color 100ms linear 480ms}
+.xv-cap.is-in mark{background-size:100% 100%;color:var(--xv-on-yellow)}
+.xv-cap.is-still .w,.xv-cap.is-still mark{transition:none}
+.xv-glue{white-space:nowrap}
+/* each button has its own cue; hidden (and so not focusable) until it is .on */
+.xv-ctas{position:absolute;left:0;right:0;bottom:calc(var(--u)*-1);display:flex;flex-wrap:wrap;justify-content:center;gap:calc(var(--u)*1.4);pointer-events:none}
+.xv-cta{position:relative;overflow:hidden;pointer-events:auto;opacity:0;visibility:hidden;transform:translateY(14px);display:inline-flex;align-items:center;gap:.8em;padding:.75em 1.35em;border-radius:999px;background:var(--xv-yellow);color:var(--xv-on-yellow);font-size:calc(var(--u)*1.8);font-weight:650;text-decoration:none;transition:opacity .2s linear,transform .42s var(--e-out),box-shadow .2s ease,visibility 0s .42s}
+.xv-cta.on{opacity:1;visibility:visible;transform:none;transition:opacity .2s linear,transform .42s var(--e-spring),box-shadow .2s ease,visibility 0s}
+.xv-cta.on:hover{transform:translateY(-2px);box-shadow:0 10px 26px -10px color-mix(in srgb,var(--xv-yellow) 80%,transparent)}
 .xv-cta--ghost{background:var(--xv-card);color:var(--xv-ink);box-shadow:inset 0 0 0 1.5px var(--xv-line)}
-.xv-cta--ghost:hover{box-shadow:inset 0 0 0 1.5px var(--xv-blue)}
-.xv-unmute{position:absolute;top:calc(var(--u)*2.2);right:calc(var(--u)*2.4);z-index:2;display:none;align-items:center;gap:8px;padding:8px 14px 8px 10px;border:1px solid var(--xv-line);border-radius:999px;background:var(--xv-card);color:var(--xv-ink);font:600 .8rem/1 inherit;cursor:pointer;box-shadow:0 8px 20px -10px var(--xv-lift);animation:xv-nudge 2.6s ease-in-out infinite}
+.xv-cta--ghost.on:hover{box-shadow:inset 0 0 0 1.5px var(--xv-blue)}
+/* a light glint crosses the primary button every few seconds once it is up */
+.xv-cta:not(.xv-cta--ghost)::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(100deg,transparent 35%,color-mix(in srgb,#fff 45%,transparent) 50%,transparent 65%);transform:translateX(-120%)}
+.xv-cta.on:not(.xv-cta--ghost)::after{animation:xv-shine 2.8s var(--e-io) 1s infinite}
+@keyframes xv-shine{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.xv-player:not(.is-playing) .xv-cta::after{animation-play-state:paused}
+.xv-player.is-ended .xv-cta::after{animation-play-state:running}
+.xv-unmute{position:absolute;top:calc(var(--u)*2.2);right:calc(var(--u)*2.4);z-index:3;display:none;align-items:center;gap:8px;padding:8px 14px 8px 10px;border:1px solid var(--xv-line);border-radius:999px;background:var(--xv-card);color:var(--xv-ink);font:600 .8rem/1 inherit;cursor:pointer;box-shadow:0 8px 20px -10px var(--xv-lift);animation:xv-nudge 2.6s ease-in-out infinite}
 .xv-unmute svg{width:18px;height:18px}
 .xv-player.is-started:not(.is-sound) .xv-unmute{display:inline-flex}
 @keyframes xv-nudge{0%,80%,100%{transform:none}88%{transform:scale(1.06)}}
@@ -218,7 +402,7 @@
 .xv-unmute .xv-i-spk,.xv-sound .xv-i-spk{fill:currentColor}
 
 /* ---- poster ---- */
-.xv-poster{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*1.8);border:0;padding:calc(var(--u)*5);background:radial-gradient(60% 70% at 50% 44%,color-mix(in srgb,var(--xv-bg) 70%,transparent),var(--xv-bg) 78%);color:var(--xv-ink);font:inherit;text-align:center;cursor:pointer;transition:opacity .4s ease,visibility 0s .4s}
+.xv-poster{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*1.8);border:0;padding:calc(var(--u)*5);background:radial-gradient(60% 70% at 50% 44%,color-mix(in srgb,var(--xv-bg) 70%,transparent),var(--xv-bg) 78%);color:var(--xv-ink);font:inherit;text-align:center;cursor:pointer;transition:opacity .4s ease,visibility 0s .4s}
 .xv-player.is-started .xv-poster{opacity:0;visibility:hidden}
 .xv-poster-kicker{font-size:calc(var(--u)*1.35);font-weight:650;letter-spacing:.2em;text-transform:uppercase;color:var(--xv-mute)}
 .xv-poster-title{font-size:calc(var(--u)*6);font-weight:700;line-height:1.05;letter-spacing:-.05em;max-width:14em;text-wrap:balance}
@@ -277,11 +461,7 @@
   .xv-art{left:-8.824%;right:auto;width:117.647%;max-width:none}
   .xv-chapter{top:calc(var(--u)*-4.6);left:calc(var(--u)*1.8)}
   .xv-cap{font-size:max(14.5px,calc(var(--u)*2.3));bottom:calc(var(--u)*2.6);left:4%;right:4%}
-  /* the canvas renders at ~0.55x on a phone: lift the labels, drop the fine print */
-  .xv-art .t-label{font-size:25px}
-  .xv-art .t-chip{font-size:22px}
-  .xv-art .t-small{font-size:20px}
-  .xv-art .t-stage{font-size:19px}
+  /* the canvas renders at ~0.55x on a phone: the fine print goes (everything else is >= 22 units) */
   .xv-art .t-tiny,.xv-art .t-src,.xv-art .xv-wide-only{display:none}
   .xv-unmute{top:calc(var(--u)*1.4);right:calc(var(--u)*2.6);padding:5px 10px 5px 7px;gap:5px;font-size:.72rem}
   .xv-unmute svg{width:14px;height:14px}

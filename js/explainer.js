@@ -10,10 +10,21 @@
    Each frame works out the scene and the time inside it, then toggles .on on
    every [data-at] reached and .gone on every [data-out] passed; the CSS does
    the moving. Seeks and scene changes apply with transitions off (.xv-snap)
-   so nothing plays backwards.
+   so nothing plays backwards. Three more cue kinds:
+   - data-fx: a one-shot accent (shake, squash, ring burst). It gets .fx only
+     when playback crosses its cue live, never on a seek, while paused or
+     under reduced motion, and loses it a second later.
+   - data-cam="x y scale [ms] [lin]" on an empty <g data-at>: a camera key.
+     The camera is a pure function of the time (keys chain, each easing from
+     the pose the previous ones reached), applied as one transform on the
+     scene's <svg>; its back layer follows at 0.5x and the grid at 0.2x.
+   - data-enter on each scene: "wipe" (a chapter card sweeps across and the
+     scene swaps under it), "cut" (an instant cut; the two frames match) or
+     "open" (the first scene).
 
    The captions are the narration and are always on, with *starred* words
-   highlighted. Sound is short effects only (background music was tried and
+   highlighted. Live, the words rise in one by one and the highlight sweeps
+   on; after a seek, while paused or under reduced motion they just appear. Sound is short effects only (background music was tried and
    dropped - it read as a drone), synthesised with Web Audio and fired from
    the same cues as the visuals (data-sfx). Autoplay is
    always silent, because browsers only allow sound after a tap; the poster's
@@ -105,6 +116,11 @@
     swoosh: function (t) { tone('sine', 330, 900, t, 0.16, 0.08); hiss(t, 0.2, 0.05, 'highpass', 1800, 4600, 0.7, 0.5, -0.5); },
     rise: function (t) { tone('triangle', 220, 440, t, 0.5, 0.07); hiss(t, 0.5, 0.04, 'bandpass', 600, 3200, 1.2); },
     blips: function (t) { for (var i = 0; i < 3; i++) tone('sine', 1320 + i * 190, 0, t + i * 0.17, 0.06, 0.06, -0.5 + i * 0.5); },
+    wipe: function (t) { hiss(t, 0.42, 0.1, 'bandpass', 380, 3000, 0.9, -0.8, 0.8); tone('sine', 150, 90, t + 0.3, 0.22, 0.1); },
+    tick: function (t) { tone('sine', 2200, 1750, t, 0.035, 0.05, (Math.random() - 0.5) * 0.6); },
+    lock: function (t) { tone('triangle', 880, 0, t, 0.07, 0.06); tone('sine', 1318.5, 0, t + 0.045, 0.16, 0.06); },
+    thud: function (t) { tone('sine', 120, 42, t, 0.32, 0.45); hiss(t, 0.05, 0.16, 'lowpass', 1200, 300, 0.7); },
+    snap: function (t) { hiss(t, 0.025, 0.28, 'highpass', 4200, 2600, 1.2); tone('sine', 2400, 1600, t, 0.03, 0.05); },
     note1: note(523.25),
     note2: note(659.25),
     note3: note(783.99),
@@ -142,16 +158,20 @@
     var reduce = matchMedia('(prefers-reduced-motion: reduce)');
     var total = T.total;
 
-    var scenes = Array.prototype.map.call(stage.querySelectorAll('.xv-scene'), function (el, i) {
+    function map(nodes, fn) { return Array.prototype.map.call(nodes, fn); }
+    var scenes = map(stage.querySelectorAll('.xv-scene'), function (el, i) {
       var info = T.scenes[i] || { start: 0, dur: 1000 };
-      var scene = { el: el, start: info.start, dur: info.dur };
+      var scene = { el: el, start: info.start, dur: info.dur,
+                    enter: el.getAttribute('data-enter') || (i ? 'wipe' : 'open'), camKey: null };
+      scene.art = el.querySelector('.xv-art:not(.xv-art--back)');
+      scene.back = el.querySelector('.xv-art--back');
       function resolve(value) {
         if (/^-?\d+$/.test(value)) return Number(value);
         var m = CUE.exec(value);
         if (!m || !(m[1] in T.cues)) { if (window.console) console.warn('explainer: unknown cue ' + value); return 0; }
         return T.cues[m[1]] + Number(m[2] || 0) - scene.start;
       }
-      scene.items = Array.prototype.map.call(el.querySelectorAll('[data-at],[data-out]'), function (node) {
+      scene.items = map(el.querySelectorAll('[data-at]:not([data-cam]),[data-out]'), function (node) {
         return {
           el: node,
           at: node.hasAttribute('data-at') ? resolve(node.getAttribute('data-at')) : -1,
@@ -160,7 +180,15 @@
           on: null, gone: null
         };
       });
-      scene.counts = Array.prototype.map.call(el.querySelectorAll('[data-count]'), function (node) {
+      scene.fx = map(el.querySelectorAll('[data-fx]'), function (node) {
+        return { el: node, at: resolve(node.getAttribute('data-fx')), prev: false };
+      });
+      scene.cam = map(el.querySelectorAll('[data-cam]'), function (node) {
+        var raw = node.getAttribute('data-cam').trim(), v = raw.split(/\s+/);
+        return { at: resolve(node.getAttribute('data-at') || '0'), x: +v[0] || 0, y: +v[1] || 0, s: +v[2] || 1,
+                 dur: /^\d+$/.test(v[3] || '') ? +v[3] : 0, lin: /\blin$/.test(raw) };
+      }).sort(function (a, b) { return a.at - b.at; });
+      scene.counts = map(el.querySelectorAll('[data-count]'), function (node) {
         var host = node.closest('[data-at]');
         return { el: node, host: host, target: Number(node.getAttribute('data-count')),
                  at: host ? resolve(host.getAttribute('data-at')) : 0,
@@ -194,32 +222,60 @@
       if (fullBtn) fullBtn.setAttribute('aria-label', isFull() ? (fr ? 'Quitter le plein écran' : 'Exit full screen') : (fr ? 'Plein écran' : 'Full screen'));
     }
 
+    /* a caption is a row of word spans (each rises in after the one before),
+       with the *starred* words inside a <mark> whose highlight sweeps on; the
+       mark and the punctuation right after it are glued so "expected." never
+       breaks before its full stop, and French " ?" never starts a line */
     function paint(el, text) {
       el.textContent = '';
-      text.split('*').forEach(function (part, i) {
-        if (!part) return;
-        if (i % 2) { var m = document.createElement('mark'); m.textContent = part; el.appendChild(m); }
-        else el.appendChild(document.createTextNode(part));
+      var n = 0, host = el, glue = null;
+      function word(parent, w) {
+        var span = document.createElement('span');
+        span.className = 'w';
+        span.style.setProperty('--i', n++);
+        span.textContent = w;
+        parent.appendChild(span);
+      }
+      text.replace(/ ([?!:;»])/g, '\u00a0$1').split('*').forEach(function (part, i) {
+        if (i % 2) {
+          glue = document.createElement('span');
+          glue.className = 'xv-glue';
+          host = document.createElement('mark');
+          glue.appendChild(host);
+          el.appendChild(glue);
+        } else {
+          if (glue) {
+            var tail = /^[^ ]+/.exec(part);
+            if (tail) { word(glue, tail[0]); part = part.slice(tail[0].length); }
+          }
+          host = el;
+          glue = null;
+        }
+        part.split(/( +)/).forEach(function (bit) {
+          if (!bit) return;
+          if (bit.charAt(0) === ' ') host.appendChild(document.createTextNode(' '));
+          else word(host, bit);
+        });
       });
+      el.style.setProperty('--st', Math.min(22, 200 / Math.max(1, n - 1)).toFixed(1) + 'ms');
     }
 
-    function captions() {
-      var text = '', rows = T.captions[lang()];
+    function captions(snap) {
+      var row = null, rows = T.captions[lang()];
       if (started) {
         for (var i = 0; i < rows.length; i++) {
-          if (t >= rows[i].start && t < rows[i].end) { text = rows[i].text; break; }
+          if (t >= rows[i].start && t < rows[i].end) { row = rows[i]; break; }
         }
       }
-      if (text !== capShown) {
-        if (text) {
-          paint(capEl, text);
-          capEl.classList.remove('is-new');
-          void capEl.offsetWidth;
-          capEl.classList.add('is-new');
-        }
-        capEl.classList.toggle('is-on', !!text);
-        capShown = text;
-      }
+      var text = row ? row.text : '';
+      if (text === capShown) return;
+      capShown = text;
+      if (!text) { capEl.classList.add('is-out'); return; }
+      paint(capEl, text);
+      capEl.classList.remove('is-out', 'is-in');
+      capEl.classList.toggle('is-still', !!(snap || !frame || reduce.matches || t - row.start > 450));
+      void capEl.offsetWidth;
+      capEl.classList.add('is-in');
     }
 
     function transcript() {
@@ -234,6 +290,73 @@
       });
     }
 
+    /* ---- camera: keys chain, each easing from the pose the earlier ones reached ---- */
+    var K = 1, bg = stage.querySelector('.xv-bg');
+    function ease3(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+    function easeOut3(p) { return 1 - Math.pow(1 - p, 3); }
+    function pose(keys, local, step) { // step: reduced motion jumps to each key at its cue
+      var x = 0, y = 0, s = 1;
+      for (var i = 0; i < keys.length && keys[i].at <= local; i++) {
+        var k = keys[i], f = step || !k.dur ? 1 : Math.min(1, (local - k.at) / k.dur);
+        if (!k.lin) f = ease3(f);
+        x += (k.x - x) * f; y += (k.y - y) * f; s += (k.s - s) * f;
+      }
+      return [x, y, s];
+    }
+    function camera(scene, local) {
+      if (!scene.art) return;
+      var p = pose(scene.cam, local, reduce.matches);
+      var key = p.map(function (v) { return v.toFixed(3); }).join();
+      if (key === scene.camKey) return; // no style writes while the camera holds
+      scene.camKey = key;
+      function tf(f, scaled) {
+        return 'translate(' + (p[0] * K * f).toFixed(2) + 'px,' + (p[1] * K * f).toFixed(2) + 'px)' +
+               (scaled ? ' scale(' + (1 + (p[2] - 1) * f).toFixed(4) + ')' : '');
+      }
+      scene.art.style.transform = tf(1, true);
+      if (scene.back) scene.back.style.transform = tf(0.5, true);
+      if (bg) bg.style.transform = tf(0.2, false);
+    }
+    function measure() { // px per canvas unit, from the untransformed art box (the svg letterboxes 800x480)
+      var art = scenes[0] && scenes[0].art;
+      if (!art) return;
+      var keep = art.style.transform;
+      art.style.transform = 'none';
+      var r = art.getBoundingClientRect();
+      art.style.transform = keep;
+      if (r.width && r.height) K = Math.min(r.width / 800, r.height / 480);
+      scenes.forEach(function (s) { s.camKey = null; });
+    }
+
+    /* ---- chapter wipe: covers from B-320, holds the chapter card to B+140, reveals by B+520 ---- */
+    var wipe = stage.querySelector('.xv-wipe');
+    var wipeIn = wipe && wipe.querySelector('.xv-wipe-inner');
+    var wipeIdx = -1, wipeHeard = -1, W_IN = 320, W_HOLD = 140, W_OUT = 380;
+    function wipes(live) {
+      if (!wipe) return;
+      var idx = -1, x = 0;
+      for (var i = 1; i < scenes.length && !reduce.matches; i++) {
+        var d = t - scenes[i].start;
+        if (scenes[i].enter !== 'wipe' || d < -W_IN || d >= W_HOLD + W_OUT) continue;
+        idx = i;
+        x = d < 0 ? -100 * (1 - easeOut3((d + W_IN) / W_IN)) : d < W_HOLD ? 0 : 100 * ease3((d - W_HOLD) / W_OUT);
+        break;
+      }
+      if (idx !== wipeIdx) {
+        wipeIdx = idx;
+        wipe.hidden = idx < 0;
+        if (idx > -1) {
+          var c = scenes[idx].el.querySelectorAll('.xv-chapter span');
+          wipe.querySelector('.xv-wipe-num').textContent = c[0] ? c[0].textContent : '';
+          wipe.querySelector('.xv-wipe-title').textContent = c[1] ? c[1].textContent : '';
+        }
+      }
+      if (idx < 0) { wipeHeard = -1; return; }
+      wipe.style.transform = 'translate3d(' + x.toFixed(2) + '%,0,0)';
+      if (wipeIn) wipeIn.style.transform = 'translate3d(' + (-x * 0.3).toFixed(2) + '%,-50%,0)';
+      if (wipeHeard !== idx) { if (live) play('wipe'); wipeHeard = idx; }
+    }
+
     function apply(snap) {
       var idx = scenes.length - 1;
       for (var i = 0; i < scenes.length; i++) {
@@ -242,7 +365,8 @@
       var scene = scenes[idx];
       var local = Math.min(t - scene.start, scene.dur);
       var changed = idx !== current;
-      var live = !snap && !changed && soundOn && frame;
+      var moving = !snap && !changed && !!frame; // playing forward, no seek this frame
+      var live = moving && soundOn;
 
       if (changed) {
         scenes.forEach(function (s, i) {
@@ -250,7 +374,7 @@
           s.el.classList.toggle('is-past', i < idx);
           s.el.inert = i !== idx;
         });
-        if (!snap && soundOn && frame && current !== -1) play('whoosh');
+        scene.camKey = null;
         current = idx;
       }
       if (changed || snap) scene.el.classList.add('xv-snap');
@@ -265,8 +389,16 @@
         if (gone !== item.gone) { item.el.classList.toggle('gone', gone); item.gone = gone; }
       });
 
+      /* one-shot accents: only when playback crosses the cue, gone a second later */
+      scene.fx.forEach(function (f) {
+        var past = local >= f.at;
+        if (moving && past && !f.prev && local - f.at < 250 && !reduce.matches) f.el.classList.add('fx');
+        if (f.el.classList.contains('fx') && (snap || !past || local - f.at >= 1000)) f.el.classList.remove('fx');
+        f.prev = past;
+      });
+
       scene.counts.forEach(function (c) {
-        var p = Math.max(0, Math.min(1, (local - c.at) / c.dur));
+        var p = reduce.matches ? (local >= c.at ? 1 : 0) : Math.max(0, Math.min(1, (local - c.at) / c.dur));
         if (p > 0 && !c.ticked && live) { ticks(c.dur); c.ticked = true; }
         if (p === 0) c.ticked = false;
         var text = Math.round(c.target * (1 - Math.pow(1 - p, 3))).toLocaleString(lang() === 'fr' ? 'fr-FR' : 'en-GB');
@@ -278,11 +410,14 @@
         scene.el.classList.remove('xv-snap');
       }
 
+      camera(scene, local);
+      wipes(live);
+
       scenes.forEach(function (s, i) {
         s.fill.style.transform = 'scaleX(' + (i < idx ? 1 : i > idx ? 0 : local / s.dur) + ')';
       });
       timeEl.textContent = fmt(t) + ' / ' + fmt(total);
-      captions();
+      captions(snap);
     }
 
     function tick(now) {
@@ -401,6 +536,13 @@
       toggle();
     });
 
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(function () {
+        measure();
+        if (current > -1) camera(scenes[current], Math.min(t - scenes[current].start, scenes[current].dur));
+      }).observe(stage);
+    }
+
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         var entry = entries[entries.length - 1];
@@ -427,6 +569,7 @@
         setTimeout(function () {
           scenes.forEach(function (s) { s.counts.forEach(function (c) { c.shown = null; }); });
           capShown = null;
+          wipeIdx = -1;
           apply(false);
           transcript();
           labels();
@@ -435,7 +578,9 @@
     });
 
     player.xvSeek = seek; // lets a test jump to an exact frame
+    player.xvTime = function () { return t; };
     transcript();
+    measure();
     apply(true);
     labels();
   }
