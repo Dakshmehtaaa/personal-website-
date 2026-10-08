@@ -28,8 +28,10 @@ or serve the folder with any static file server.
 - `i18n.js` — French translations keyed by `data-i18n` attribute. English lives directly in the
   HTML markup and is captured at runtime as the fallback/source of truth.
 - `assets/` — logos, the CV PDF, hobby photos, notion project exports, the `og-cover.png` share
-  card, `videos/` (the sustainability page's hero video — see its own README for expected
-  filenames).
+  card, `videos/` (`for-companies.mp4`, the old for-companies hero video, now only used by the
+  `concepts/` pages). Videos the site links to are H.264/AAC `.mp4` with the `moov` atom first
+  (`-movflags +faststart`), never `.mov`: Chrome, Edge and Firefox don't support `video/quicktime` and
+  typically download it instead of playing it (`SustainSwap_demo` was converted for that reason).
 - `reference/21st-dev-effects/` — the original React sources for the two 21st.dev effects adapted
   here (spotlight card, coverflow carousel). Reference only; nothing imports them.
 
