@@ -92,6 +92,9 @@ or serve the folder with any static file server.
   is the one extra colour that page is allowed, and it only ever marks the active step or the primary
   action; don't spend it on decoration.
 - **The "Why now" explainer (`#why-now`) is generated from a script, not hand-timed.** Its words (English and French) live in `tools/build-explainer-timing.py`. There is **no voice-over** (a synthetic one was tried and dropped): the captions are the narration, always on, with `*starred*` words on a yellow highlight, and each line is timed from its reading length. Running `python3 tools/build-explainer-timing.py` writes `js/explainer-timing.js`, bumps its `?v=` in the page, and **fails** if any `data-at`/`data-out` cue names a line that doesn't exist in its scene, or any `data-sfx` names a sound missing from `js/explainer.js`. Cues are line ids plus offsets (`data-at="v3c+1500"`), so rewording a line re-times the whole animation: never hand-edit the timing file or turn cues into absolute milliseconds. Sound is short effects only, synthesised with Web Audio and fired from `data-sfx` on the same cue elements; background music was tried and dropped (it read as a drone). Autoplay is always silent and a tap turns sound on.
+  - **On a phone (≤640px) the player is edge to edge with a square stage, and the canvas is cropped to x 60..740** (`.xv-art` is widened in CSS rather than its `viewBox` changed), which is what makes the art ~45% bigger there than in the page column. So any art a phone should see must stay inside x 60..740 of the 800-wide canvas; only `.t-src`/`.t-tiny`/`.xv-wide-only` fine print (hidden on phones) may go outside it. Portrait tablets get a 3:2 stage.
+  - The last scene's resource logos sit on a 2x2 grid of cards that never overlap: an overlapping fan hid half of each logo. Keep logos whole if you change that scene.
+  - It handles like a video: a full-screen button (hidden where the Fullscreen API is missing, i.e. iPhone Safari), double-click on the picture, and space/k, ←/→ (chapters), m and f while focus is in the player.
 - **All `#insights` cards use `.insight-image`** — a fixed `aspect-ratio:16/10` box with a real
   `<img>`, `object-fit:contain`. There used to be a `.li-embed` variant (a raw LinkedIn `<iframe>`
   with a hardcoded `height` attribute baked into LinkedIn's own embed snippet) for whichever post
@@ -151,6 +154,9 @@ page look broken — both have bitten more than once:
   too late) — the reveal script has a reduced-motion path that reveals everything up front.
 - **Missing logos/images.** `loading="lazy"` images below the fold never load for a full-page
   capture. Flip them eager in an init script before asserting anything about them.
+
+- **The explainer player is full-bleed on phones**, wider than `#why-now`: an element screenshot of
+  the section crops it. Clip a page screenshot to the viewport width around `.xv-player` instead.
 
 - **The hero video will not play here.** Playwright ships the open-source Chromium build, which
   has no proprietary codecs: `canPlayType('video/mp4; codecs="avc1.42E01E"')` returns `''` and the

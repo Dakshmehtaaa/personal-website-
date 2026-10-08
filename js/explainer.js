@@ -18,7 +18,12 @@
    the same cues as the visuals (data-sfx). Autoplay is
    always silent, because browsers only allow sound after a tap; the poster's
    play button, "Tap for sound" and the speaker button turn it on. Nothing
-   autoplays under prefers-reduced-motion. */
+   autoplays under prefers-reduced-motion.
+
+   It handles like a video: a full-screen button (or a double-click on the
+   picture), and the usual keys while focus is in the player - space or k to
+   play/pause, left/right for the previous/next chapter, m for sound, f for
+   full screen. */
 (function () {
   'use strict';
 
@@ -128,6 +133,7 @@
     var poster = player.querySelector('.xv-poster');
     var playBtn = player.querySelector('.xv-play');
     var soundBtn = player.querySelector('.xv-sound');
+    var fullBtn = player.querySelector('.xv-full');
     var unmute = player.querySelector('.xv-unmute');
     var capEl = player.querySelector('.xv-cap');
     var segsBox = player.querySelector('.xv-segs');
@@ -185,6 +191,7 @@
       playBtn.setAttribute('aria-label', ended ? (fr ? 'Revoir' : 'Replay') : frame ? 'Pause' : (fr ? 'Lecture' : 'Play'));
       soundBtn.setAttribute('aria-label', fr ? 'Son' : 'Sound');
       soundBtn.setAttribute('aria-pressed', String(soundOn));
+      if (fullBtn) fullBtn.setAttribute('aria-label', isFull() ? (fr ? 'Quitter le plein écran' : 'Exit full screen') : (fr ? 'Plein écran' : 'Full screen'));
     }
 
     function paint(el, text) {
@@ -332,6 +339,32 @@
       else { userPaused = false; start(); }
     }
 
+    /* previous / next chapter; "previous" first rewinds the current one, like a
+       music player, unless it has only just started */
+    function jump(dir) {
+      var i = Math.max(current, 0);
+      if (dir < 0 && t - scenes[i].start > 1500) seek(scenes[i].start);
+      else seek(scenes[Math.max(0, Math.min(scenes.length - 1, i + dir))].start);
+    }
+
+    /* full screen: the standard API, or Safari's prefixed one; the button stays
+       hidden where neither exists (iPhone Safari only lets <video> go full screen) */
+    var canFull = !!(fullBtn && (player.requestFullscreen || player.webkitRequestFullscreen) &&
+                     (document.fullscreenEnabled || document.webkitFullscreenEnabled));
+    function isFull() { return (document.fullscreenElement || document.webkitFullscreenElement) === player; }
+    function toggleFull() {
+      if (!canFull) return;
+      if (isFull()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else {
+        var request = (player.requestFullscreen || player.webkitRequestFullscreen).call(player);
+        if (request && request.catch) request.catch(function () {});
+      }
+    }
+    function onFullChange() {
+      player.classList.toggle('is-full', isFull());
+      labels();
+    }
+
     poster.addEventListener('click', function (event) {
       event.stopPropagation();
       userPaused = false;
@@ -340,6 +373,28 @@
     });
     playBtn.addEventListener('click', toggle);
     soundBtn.addEventListener('click', function () { setSound(!soundOn); });
+    if (canFull) {
+      fullBtn.hidden = false;
+      fullBtn.addEventListener('click', toggleFull);
+      stage.addEventListener('dblclick', function (event) {
+        if (!event.target.closest('a,button')) toggleFull();
+      });
+      document.addEventListener('fullscreenchange', onFullChange);
+      document.addEventListener('webkitfullscreenchange', onFullChange);
+    }
+    player.addEventListener('keydown', function (event) {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      var key = event.key || '';
+      if (key.length === 1) key = key.toLowerCase();
+      var onControl = event.target.closest('a,button');
+      if (onControl && (key === ' ' || key === 'Enter')) return; // the control's own action
+      if (key === ' ' || key === 'k') toggle();
+      else if (key === 'ArrowLeft' || key === 'ArrowRight') jump(key === 'ArrowLeft' ? -1 : 1);
+      else if (key === 'm') setSound(!soundOn);
+      else if (key === 'f' && canFull) toggleFull();
+      else return;
+      event.preventDefault();
+    });
     unmute.addEventListener('click', function (event) { event.stopPropagation(); setSound(true); if (!frame) start(); });
     stage.addEventListener('click', function (event) {
       if (event.target.closest('a,button')) return;
