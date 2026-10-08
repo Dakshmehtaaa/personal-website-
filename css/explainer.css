@@ -2,15 +2,20 @@
 
    A scripted animation rather than a video file: the art is inline SVG, so it
    is sharp at any size, follows the page's light/dark theme and weighs a few
-   KB; the words live in the voice-over and the captions, both generated from
-   one script (tools/build-explainer-audio.py). js/explainer.js is the clock:
-   every [data-at] gets .on once its cue passes, every [data-out] gets .gone,
-   and this file owns what those states look like.
+   KB; the words are the captions, generated from one script
+   (tools/build-explainer-timing.py). js/explainer.js is the clock: every
+   [data-at] gets .on once its cue passes, every [data-out] gets .gone, and
+   this file owns what those states look like.
 
-   The art is drawn on an 800x560 canvas in user units, so the SVG font sizes
-   and offsets below are in canvas units, not screen pixels. Chrome around it
-   (captions, chapter label, buttons) is sized in --u, a unit derived from the
-   stage box with container query units, so the frame scales as one picture. */
+   The art is drawn on an 800x480 canvas (viewBox 0 36 800 480) in user units,
+   so the SVG font sizes and offsets below are in canvas units, not screen
+   pixels. Chrome around it (captions, chapter label, buttons) is sized in --u,
+   a unit derived from the stage box with container query units, so the frame
+   scales as one picture.
+
+   On a phone the canvas is cropped to x 60..740 so the art fills the screen
+   width: keep anything a phone should see inside that window (the fine print
+   that falls outside it, .t-src and .xv-wide-only, is hidden there anyway). */
 .xv-section{padding-block:96px 12px}
 .xv-title{font-size:clamp(40px,4.4vw,64px);line-height:1.05;letter-spacing:-.05em;margin-bottom:34px}
 .xv-title em{color:var(--green)}
@@ -43,7 +48,7 @@
 .xv-scene.is-past{transform:scale(1.14)}
 .xv-snap *{transition:none!important;animation:none!important}
 .xv-art{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
-.xv-chapter{position:absolute;top:calc(var(--u)*-3.7);left:0;display:flex;gap:.9em;font-size:calc(var(--u)*1.3);font-weight:650;letter-spacing:.18em;text-transform:uppercase;color:var(--xv-mute)}
+.xv-chapter{position:absolute;top:calc(var(--u)*-3.7);left:0;display:flex;gap:.9em;font-size:max(10px,calc(var(--u)*1.3));font-weight:650;letter-spacing:.18em;text-transform:uppercase;color:var(--xv-mute)}
 .xv-chapter span:first-child{color:var(--xv-ink);background:var(--xv-yellow);padding:0 .5em;border-radius:4px;color:var(--xv-on-yellow)}
 
 /* ---- canvas type and fills (canvas units) ---- */
@@ -170,8 +175,10 @@
 .xv-rider{fill:none;stroke:var(--xv-yellow);stroke-width:20;stroke-linecap:round;stroke-dasharray:.1 100;stroke-dashoffset:0;opacity:0;transition:stroke-dashoffset 1.9s cubic-bezier(.45,0,.25,1),opacity .2s ease}
 .xv-rider.on{opacity:1;stroke-dashoffset:-99.9}
 /* scene 6 */
-.xv-art .xv-fan{opacity:0;transform:translate(0,26px);transform-origin:50% 100%;transition:opacity .3s ease,transform .75s cubic-bezier(.34,1.3,.64,1)}
-.xv-art .xv-fan.on{opacity:1;transform:translateX(var(--x)) rotate(var(--r))}
+/* resource cards are dealt onto a 2x2 grid, each with a slight tilt: none
+   overlaps another, so every logo stays whole */
+.xv-art .xv-deal{opacity:0;transform:translateY(26px) scale(.9);transition:opacity .3s ease,transform .7s cubic-bezier(.34,1.4,.64,1)}
+.xv-art .xv-deal.on{opacity:1;transform:rotate(var(--r,0deg))}
 .xv-bounce{animation:xv-bounce 1.3s ease-in-out infinite}
 @keyframes xv-bounce{50%{transform:translateY(10px)}}
 .xv-letter{transform:translateY(26px);transition:transform .65s cubic-bezier(.34,1.4,.64,1)}
@@ -243,31 +250,48 @@
 .xv-seg-btn i{position:absolute;left:0;right:0;top:10px;height:4px;border-radius:4px;background:var(--xv-blue);transform:scaleX(0);transform-origin:left}
 .xv-time{flex:none;min-width:5.6em;text-align:right;font-size:.78rem;font-weight:550;color:var(--xv-mute);font-variant-numeric:tabular-nums}
 .xv-cta:focus-visible,.xv-controls button:focus-visible,.xv-poster:focus-visible,.xv-unmute:focus-visible{outline:2px solid var(--xv-blue);outline-offset:3px}
+.xv-full svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.xv-full .xv-i-exit,.xv-player.is-full .xv-full .xv-i-full{display:none}
+.xv-player.is-full .xv-full .xv-i-exit{display:block}
+
+/* ---- full screen: the stage takes the whole screen above the controls ---- */
+.xv-player.is-full{display:flex;flex-direction:column;justify-content:center;border:0;border-radius:0;box-shadow:none}
+.xv-player.is-full .xv-stage{flex:1 1 0;min-height:0;aspect-ratio:auto}
 
 .xv-transcript{margin-top:18px;color:var(--muted);font-size:.92rem;line-height:1.7}
 .xv-transcript summary{cursor:pointer;width:max-content;color:var(--ink);font-weight:550}
 .xv-transcript ol{margin:14px 0 0;padding-left:1.3em;max-width:70ch;display:grid;gap:8px}
 
+/* a portrait tablet has height to spare: a 3:2 stage lets the art grow by a third */
+@media (min-width:641px) and (max-width:1023px) and (orientation:portrait){
+  .xv-stage{aspect-ratio:3/2}
+}
 @media (max-width:640px){
   .xv-section{padding-block:64px 0}
-  .xv-player{border-radius:14px}
-  .xv-stage{aspect-ratio:5/4;--u:min(1.5cqw,1.2cqh)}
+  /* edge to edge, like any video on a phone: the page gutters would cost a
+     fifth of the width, and the square stage leaves room for two-line captions */
+  .xv-player{margin-inline:calc(50% - 50vw);border-radius:0;border-inline:0}
+  .xv-stage{aspect-ratio:1/1;--u:min(1.5cqw,1.5cqh)}
   .xv-scene{inset:calc(var(--u)*6.4) calc(var(--u)*1) calc(var(--u)*13.6)}
-  .xv-chapter{top:calc(var(--u)*-4.6)}
-  .xv-cap{font-size:max(12.5px,calc(var(--u)*2.3));bottom:calc(var(--u)*2.6);left:4%;right:4%}
-  /* the canvas renders at ~0.43x on a phone: lift the labels, drop the fine print */
+  /* crop the canvas to x 60..740 (see the note at the top) */
+  .xv-art{left:-8.824%;right:auto;width:117.647%;max-width:none}
+  .xv-chapter{top:calc(var(--u)*-4.6);left:calc(var(--u)*1.8)}
+  .xv-cap{font-size:max(14.5px,calc(var(--u)*2.3));bottom:calc(var(--u)*2.6);left:4%;right:4%}
+  /* the canvas renders at ~0.55x on a phone: lift the labels, drop the fine print */
   .xv-art .t-label{font-size:25px}
   .xv-art .t-chip{font-size:22px}
   .xv-art .t-small{font-size:20px}
   .xv-art .t-stage{font-size:19px}
   .xv-art .t-tiny,.xv-art .t-src,.xv-art .xv-wide-only{display:none}
-  .xv-unmute{top:calc(var(--u)*1.6);right:calc(var(--u)*1.6);padding:5px 10px 5px 7px;gap:5px;font-size:.68rem}
+  .xv-unmute{top:calc(var(--u)*1.4);right:calc(var(--u)*2.6);padding:5px 10px 5px 7px;gap:5px;font-size:.72rem}
   .xv-unmute svg{width:14px;height:14px}
-  .xv-chapter,.xv-poster-kicker,.xv-poster-time{font-size:max(9.5px,calc(var(--u)*1.3))}
-  .xv-cta{font-size:max(12px,calc(var(--u)*1.8))}
-  .xv-controls{gap:7px;padding:9px 10px 11px}
-  .xv-controls button{width:34px;height:34px}
+  .xv-chapter,.xv-poster-kicker,.xv-poster-time{font-size:max(10px,calc(var(--u)*1.3))}
+  .xv-ctas{bottom:calc(var(--u)*-2)}
+  .xv-cta{font-size:max(12px,calc(var(--u)*1.8));padding:.7em 1.1em;gap:.6em}
+  .xv-controls{gap:7px;padding:9px 14px 11px}
+  .xv-controls button{width:36px;height:36px}
   .xv-time{display:none}
+  .xv-player.is-full .xv-stage{flex:none;aspect-ratio:1/1}
 }
 @media (prefers-reduced-motion:reduce){
   .xv-stage *,.xv-stage *::before,.xv-stage *::after,.xv-scene,.xv-bg::after{transition:none!important;animation:none!important}

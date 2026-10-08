@@ -25,7 +25,7 @@ Downloaded from the public Notion portfolio page
 | File | Project |
 |---|---|
 | `SustainSwap.png` | SustainSwap poster / visual |
-| `SustainSwap_demo.mov` | SustainSwap demo video |
+| `SustainSwap_demo.mp4` | SustainSwap demo video (H.264/AAC MP4, re-encoded from the original .mov so every browser plays it) |
 
 ## hobbies/
 
