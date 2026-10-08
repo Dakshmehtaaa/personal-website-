@@ -174,7 +174,7 @@
       scene.items = map(el.querySelectorAll('[data-at]:not([data-cam]),[data-out]'), function (node) {
         return {
           el: node,
-          at: node.hasAttribute('data-at') ? resolve(node.getAttribute('data-at')) : -1,
+          at: node.hasAttribute('data-at') ? resolve(node.getAttribute('data-at')) : Infinity, // exit-only: never .on
           out: node.hasAttribute('data-out') ? resolve(node.getAttribute('data-out')) : Infinity,
           sfx: node.getAttribute('data-sfx'),
           on: null, gone: null
@@ -212,7 +212,8 @@
     var started = false, ended = false, userPaused = false, pausedByView = false;
     var soundOn = false, capShown = null;
 
-    poster.querySelector('.xv-poster-time').textContent = fmt(total);
+    var totalText = fmt(Math.round(total / 1000) * 1000); // 64.997 s reads 1:05, not 1:04
+    poster.querySelector('.xv-poster-time').textContent = totalText;
 
     function labels() {
       var fr = lang() === 'fr';
@@ -297,7 +298,9 @@
     function pose(keys, local, step) { // step: reduced motion jumps to each key at its cue
       var x = 0, y = 0, s = 1;
       for (var i = 0; i < keys.length && keys[i].at <= local; i++) {
-        var k = keys[i], f = step || !k.dur ? 1 : Math.min(1, (local - k.at) / k.dur);
+        var k = keys[i];
+        if (step && k.lin) continue; // a slow linear push is pure motion: reduced motion skips it
+        var f = step || !k.dur ? 1 : Math.min(1, (local - k.at) / k.dur);
         if (!k.lin) f = ease3(f);
         x += (k.x - x) * f; y += (k.y - y) * f; s += (k.s - s) * f;
       }
@@ -416,7 +419,7 @@
       scenes.forEach(function (s, i) {
         s.fill.style.transform = 'scaleX(' + (i < idx ? 1 : i > idx ? 0 : local / s.dur) + ')';
       });
-      timeEl.textContent = fmt(t) + ' / ' + fmt(total);
+      timeEl.textContent = fmt(t) + ' / ' + totalText;
       captions(snap);
     }
 

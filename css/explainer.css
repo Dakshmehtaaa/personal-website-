@@ -230,137 +230,77 @@
 @keyframes a-packet{0%{transform:translate(0,0);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
 
 /* ==== scene 1 ==== */
-
+/* the pale draft report and its "Optional" chip: dashed, unfilled-looking */
+.xv-art .s1-draft{fill:var(--xv-soft);stroke:var(--xv-dim);stroke-width:3;stroke-dasharray:8 8}
+.xv-art .s1-dashchip{fill:none;stroke:var(--xv-dim);stroke-width:2.5;stroke-dasharray:6 6}
+/* the stamp's spark burst */
+.xv-art .s1-spark{fill:none;stroke:var(--xv-yellow);stroke-width:5;stroke-linecap:round}
+/* the 50% midline and the ">50%" callout riding the fill */
+.xv-art .s1-mid{stroke-width:3}
+.xv-art .s1-callout{fill:var(--xv-ink-2)}
+.xv-art .s1-callout-t{fill:var(--xv-bg)}
 /* ==== end scene 1 ==== */
 
 /* ==== scene 2 ==== */
-
+/* the planet and its people -> a pin lands on the globe, the globe dives past it and your building grows under it */
+/* the turning meridians keep an even line as they turn edge-on (a scaleX squashes a plain stroke into
+   dots); a non-scaling stroke is in px, so it is sized from --u to match the 2-unit globe lines */
+.xv-art .s2-mer{fill:none;stroke:var(--xv-blue-2);stroke-width:calc(var(--u)*.185);vector-effect:non-scaling-stroke}
+.xv-art .s2-ripple{stroke-width:4}
+.xv-art .s2-link{fill:none;stroke:var(--xv-blue-2);stroke-width:2;stroke-dasharray:4 6;stroke-linecap:round}
+/* the dived globe and lifted badges rely on the shared exits' visibility:hidden: still painted, they
+   shifted the svg's anti-aliasing, and the last frame must match scene 3's first frame pixel for pixel */
 /* ==== end scene 2 ==== */
 
 /* ==== scene 3 ==== */
-
+/* your customers around your building -> two kinds of customer -> you vs a greener competitor -> the EcoVadis medal */
+.xv-art .s3-spoke{fill:none;stroke:var(--xv-blue-2);stroke-width:2;stroke-dasharray:4 6;stroke-linecap:round}
+.xv-art .s3-fill-you{fill:var(--xv-dim)}
+.xv-art .s3-pulse{fill:none;stroke:var(--xv-yellow);stroke-width:4}
+/* the "Greener" tag's leaf sits snug against its word: French "Plus durable" is 44 units longer */
+html[lang="fr"] .xv-art .s3-tagleaf{transform:translateX(-22px)}
 /* ==== end scene 3 ==== */
 
 /* ==== scene 4 ==== */
-
+/* the two headers of the supply-chain beat: quieter than ink, still a phone-readable 22 units */
+.xv-art .s4-head{fill:var(--xv-ink-2)}
+/* dark mode: --xv-eu is pale sage there, which leaves the gold stars at ~1:1 contrast; the disc
+   goes forest with a sage rim instead, so the stars (and the LAW/CSRD stamp) carry the colour */
+:root[data-theme="dark"] .xv-art .s4-eu{fill:var(--xv-card);stroke:var(--xv-eu);stroke-width:4}
 /* ==== end scene 4 ==== */
 
 /* ==== scene 5 ==== */
-
+/* waiting: the steps you are not taking (empty dashed slots), then the same work all at once at
+   the deadline: one tall crunch bar, its four steps stacked (seams) */
+.xv-art .s5-slot{fill:none;stroke:var(--xv-mute);stroke-width:2.5;stroke-dasharray:6 5}
+.xv-art .s5-crunch{fill:var(--xv-dim)}
+.xv-art .s5-seam{fill:none;stroke:var(--xv-bg);stroke-width:3}
+/* the 01 / 04 odometer in the middle of the loop */
+.xv-art .s5-num{font-size:60px;font-weight:750;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+/* the light that laps the closed (gold) loop: a white head with a fading tail */
+.xv-art .s5-comet{fill:#fff}
+.xv-art .s5-tail{fill:none;stroke:url(#s5-tail);stroke-width:8;stroke-linecap:round}
 /* ==== end scene 5 ==== */
 
 /* ==== scene 6 ==== */
-
+/* the gold bracket that names the four free tools, and the quiet frame it leaves behind
+   when the gold moves on to the "@" */
+.xv-art .s6-bracket{stroke-width:4}
+.xv-art .s6-frame{fill:none;stroke:var(--xv-dim);stroke-width:3}
+/* the down arrow to the button below: drawn, not the 1.8-stroke icon, so it holds up on a phone */
+.xv-art .s6-arrow{stroke-width:5}
 /* ==== end scene 6 ==== */
 
-/* ==== LEGACY - the old scenes' primitives; delete when every scene is rebuilt ==== */
-.xv-art :where(.xv-float,.xv-bounce,.xv-pulse,.xv-star,.xv-mer){transform-box:fill-box;transform-origin:50% 50%}
-.xv-art .t-num{font-size:88px;font-weight:700;letter-spacing:-3px}
-.xv-art .t-csrd{font-size:62px;font-weight:800;letter-spacing:-1px;fill:#fff}
-.xv-art .xv-toggle text.t-onyellow{fill:var(--xv-on-yellow)}
-.s-badge{fill:var(--xv-card);stroke:var(--xv-yellow);stroke-width:4}
-.s-dimchip{fill:none;stroke:var(--xv-dim);stroke-width:2;stroke-dasharray:6 6}
-.s-axis{fill:none;stroke:var(--xv-ink-2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.s-wait{fill:none;stroke:var(--xv-dim);stroke-width:6;stroke-linecap:round}
-.s-now{fill:none;stroke:var(--xv-blue);stroke-width:8;stroke-linecap:round}
-.i-cursor{color:var(--xv-ink)}
-.xv-pop{opacity:0;transform:translateY(16px) scale(.9);transition:opacity .3s ease,transform .55s cubic-bezier(.34,1.56,.64,1)}
-.xv-pop.on{opacity:1;transform:none}
-.xv-slide-l,.xv-slide-r{opacity:0;transition:opacity .35s ease,transform .65s cubic-bezier(.22,1,.36,1)}
-.xv-slide-l{transform:translateX(-60px)}
-.xv-slide-r{transform:translateX(60px)}
-.xv-slide-l.on,.xv-slide-r.on{opacity:1;transform:none}
-.xv-drop{opacity:0;transform:translateY(-90px);transition:opacity .2s ease,transform .65s cubic-bezier(.3,1.6,.5,1)}
-.xv-drop.on{opacity:1;transform:none}
-.xv-stamp{opacity:0;transform:scale(2.1) rotate(-10deg);transition:opacity .15s ease,transform .42s cubic-bezier(.3,1.5,.6,1)}
-.xv-stamp.on{opacity:1;transform:rotate(-4deg)}
-.xv-draw{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .75s cubic-bezier(.6,0,.2,1)}
-.xv-draw.on{stroke-dashoffset:0}
-.xv-art .xv-rise-up{opacity:0;transform:scaleY(.15);transform-origin:50% 100%;transition:opacity .25s ease,transform .8s cubic-bezier(.22,1,.36,1)}
-.xv-art .xv-rise-up.on{opacity:1;transform:none}
-.xv-lit{opacity:0;transform:scale(.55);transition:opacity .2s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
-.xv-lit.on{opacity:1;transform:none}
-
-/* scene 1 */
-.xv-donut-track{fill:none;stroke:var(--xv-soft);stroke-width:30}
-.xv-donut{fill:none;stroke:var(--xv-yellow);stroke-width:30;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1)}
-.xv-donut.on{stroke-dashoffset:48}
-/* scene 2 */
-.xv-mer{fill:none;stroke:var(--xv-blue-2);stroke-width:2;animation:xv-turn 8s linear infinite}
-.xv-mer:nth-of-type(2){animation-delay:-2.67s}
-.xv-mer:nth-of-type(3){animation-delay:-5.33s}
-@keyframes xv-turn{0%{transform:scaleX(1);animation-timing-function:ease-in}25%{transform:scaleX(0);animation-timing-function:ease-out}50%{transform:scaleX(1);animation-timing-function:ease-in}75%{transform:scaleX(0);animation-timing-function:ease-out}100%{transform:scaleX(1)}}
-.xv-float{animation:xv-float 3.4s ease-in-out infinite}
-.xv-float:where(:nth-child(1)){animation-delay:-1.2s}
-@keyframes xv-float{50%{transform:translateY(-10px)}}
-.xv-scene .xv-layer--zoom.gone{transform:scale(.3) translateY(80px)}
-/* scene 3 */
-.xv-toggle .xv-tog-a{fill:#fff}
-.xv-toggle .xv-tog-b{fill:var(--xv-mute)}
-.xv-toggle:has(.xv-pill.on) .xv-tog-a{fill:var(--xv-mute)}
-.xv-toggle:has(.xv-pill.on) .xv-tog-b{fill:#fff}
-.xv-toggle text{transition:fill .3s ease .1s}
-.xv-pill{transition:transform .5s cubic-bezier(.6,0,.2,1)}
-.xv-pill.on{transform:translateX(95px)}
-.xv-card-rect{transition:stroke .3s ease,stroke-width .3s ease}
-.xv-you,.xv-them{transition:opacity .45s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
-.xv-you.on{opacity:.35;transform:scale(.95)}
-.xv-them.on{transform:translateY(-10px)}
-.xv-them.on .xv-card-rect{stroke:var(--xv-yellow);stroke-width:5}
-.xv-check-badge{opacity:0;transform:scale(0);transition:opacity .2s ease .1s,transform .45s cubic-bezier(.34,1.56,.64,1) .1s}
-.xv-check-badge.on{opacity:1;transform:translateY(-10px)}
-.xv-scan{opacity:0}
-.xv-scan.on{animation:xv-scan 1.5s ease-in-out forwards}
-@keyframes xv-scan{0%{opacity:0;transform:translate(0,0)}12%{opacity:1;transform:translate(0,0)}32%{transform:translate(0,0)}68%{transform:translate(290px,0)}86%{opacity:1;transform:translate(290px,0)}100%{opacity:0;transform:translate(290px,0)}}
-.xv-cursor{opacity:0;transform:translate(150px,170px);transition:opacity .25s ease,transform .9s cubic-bezier(.45,0,.2,1)}
-.xv-cursor.on{opacity:1;transform:none}
-.xv-ripple{fill:none;stroke:var(--xv-yellow);stroke-width:4;opacity:0}
-.xv-ripple.on{animation:xv-ripple .6s ease-out forwards}
-@keyframes xv-ripple{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(1.8)}}
-.xv-pulse{fill:none;stroke:var(--xv-yellow);stroke-width:4;animation:xv-pulse 2.2s ease-out infinite}
-@keyframes xv-pulse{from{opacity:.9;transform:scale(.86)}to{opacity:0;transform:scale(1.4)}}
-/* scene 4 */
-.xv-star{opacity:0;transform:scale(0);transition:transform .4s cubic-bezier(.34,1.56,.64,1) calc(var(--i)*55ms + .15s),opacity .2s ease calc(var(--i)*55ms + .15s)}
-.on .xv-star{opacity:1;transform:none}
-.xv-flow{opacity:0;transition:opacity .4s ease}
-.xv-flow.on{opacity:1}
-.xv-packet{fill:var(--xv-yellow);stroke:var(--xv-ink-2);stroke-width:1.5;opacity:0}
-.xv-flow.on .xv-packet{animation:xv-packet 1.8s cubic-bezier(.45,0,.25,1) infinite}
-@keyframes xv-packet{0%{transform:translate(0,0);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
-.xv-you-ring{fill:none;stroke:var(--xv-yellow);stroke-width:5;opacity:0;transition:opacity .3s ease}
-.xv-you-ring.on{opacity:1}
-.xv-art .xv-bar{transform:scaleY(.22);transform-origin:50% 100%;transition:transform 1s cubic-bezier(.22,1,.36,1)}
-.xv-art .xv-bar.on{transform:scaleY(var(--v))}
-.xv-bcap{transform:translateY(187px);transition:transform 1s cubic-bezier(.22,1,.36,1)}
-.xv-bcap.on{transform:translateY(calc((1 - var(--v)) * 240px))}
-.xv-bcap use{opacity:0;transition:opacity .3s ease .5s}
-.xv-bcap.on use{opacity:1}
-/* scene 5 */
-.xv-rider{fill:none;stroke:var(--xv-yellow);stroke-width:20;stroke-linecap:round;stroke-dasharray:.1 100;stroke-dashoffset:0;opacity:0;transition:stroke-dashoffset 1.9s cubic-bezier(.45,0,.25,1),opacity .2s ease}
-.xv-rider.on{opacity:1;stroke-dashoffset:-99.9}
-/* scene 6 */
-.xv-art .xv-deal{opacity:0;transform:translateY(26px) scale(.9);transition:opacity .3s ease,transform .7s cubic-bezier(.34,1.4,.64,1)}
-.xv-art .xv-deal.on{opacity:1;transform:rotate(var(--r,0deg))}
-.xv-bounce{animation:xv-bounce 1.3s ease-in-out infinite}
-@keyframes xv-bounce{50%{transform:translateY(10px)}}
-.xv-letter{transform:translateY(26px);transition:transform .65s cubic-bezier(.34,1.4,.64,1)}
-.xv-letter.on{transform:translateY(-54px)}
-.xv-art .xv-flap{transform-origin:50% 0;transition:transform .45s ease}
-.xv-art .xv-flap.on{transform:scaleY(-1)}
-
-.xv-scene .xv-art .xv-layer.gone{transform:scale(1.05)}
-.xv-scene .xv-art .xv-layer--zoom.gone{transform:scale(.3) translateY(80px);transition:opacity .45s ease .15s,transform .6s cubic-bezier(.6,0,.2,1)}
-/* ==== end LEGACY ==== */
-
 /* ==== exits: last of the canvas rules, so they beat every .on above ==== */
-.xv-scene .xv-art .gone{opacity:0;pointer-events:none;transition:opacity 200ms linear,transform var(--d-out) var(--e-in)}
+/* visibility follows once the exit has played, so a gone layer stops painting (and its loops stop) */
+.xv-scene .xv-art .gone{opacity:0;visibility:hidden;pointer-events:none;transition:opacity 200ms linear,transform var(--d-out) var(--e-in),visibility 0s var(--d-out)}
 .xv-scene .xv-art .gone.x-left{transform:translateX(-90px)}
 .xv-scene .xv-art .gone.x-right{transform:translateX(90px)}
 .xv-scene .xv-art .gone.x-up{transform:translateY(-28px)}
 .xv-scene .xv-art .gone.x-down{transform:translateY(40px)}
 .xv-scene .xv-art .gone.x-shrink{transform:scale(.5)}
-.xv-scene .xv-art .gone.x-fade{transition:opacity 150ms linear}
-.xv-scene .xv-art .gone.x-dive{transform:scale(4);transition:transform 600ms var(--e-in),opacity 260ms linear 340ms}
+.xv-scene .xv-art .gone.x-fade{transition:opacity 150ms linear,visibility 0s 150ms}
+.xv-scene .xv-art .gone.x-dive{transform:scale(4);transition:transform 600ms var(--e-in),opacity 260ms linear 340ms,visibility 0s 600ms}
 .xv-scene .xv-art .gone :is(.a-turn,.a-pulse,.a-bob,.a-spin,.a-packet){animation-play-state:paused}
 
 /* loops and accents hold still while paused; the end card's loops keep going once it has ended */
@@ -466,12 +406,16 @@
   .xv-unmute{top:calc(var(--u)*1.4);right:calc(var(--u)*2.6);padding:5px 10px 5px 7px;gap:5px;font-size:.72rem}
   .xv-unmute svg{width:14px;height:14px}
   .xv-chapter,.xv-poster-kicker,.xv-poster-time{font-size:max(10px,calc(var(--u)*1.3))}
-  .xv-ctas{bottom:calc(var(--u)*-2)}
-  .xv-cta{font-size:max(12px,calc(var(--u)*1.8));padding:.7em 1.1em;gap:.6em}
+  /* French wraps the two CTAs onto two rows here: tight rows, set low, keep row 1 clear of scene 6's bobbing arrow */
+  .xv-ctas{bottom:calc(var(--u)*-2.4);row-gap:calc(var(--u)*.9)}
+  .xv-cta{font-size:max(12px,calc(var(--u)*1.8));padding:.6em 1.1em;gap:.6em}
   .xv-controls{gap:7px;padding:9px 14px 11px}
   .xv-controls button{width:36px;height:36px}
   .xv-time{display:none}
   .xv-player.is-full .xv-stage{flex:none;aspect-ratio:1/1}
+}
+@media (max-width:340px){
+  .xv-ctas{bottom:calc(var(--u)*-3.6)} /* the smallest phones: two CTA rows only clear the arrow set lower still */
 }
 @media (prefers-reduced-motion:reduce){
   .xv-stage *,.xv-stage *::before,.xv-stage *::after,.xv-scene,.xv-bg::after{transition:none!important;animation:none!important}
