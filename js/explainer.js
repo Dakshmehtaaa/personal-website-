@@ -309,7 +309,7 @@
     function camera(scene, local) {
       if (!scene.art) return;
       var p = pose(scene.cam, local, reduce.matches);
-      var key = p.map(function (v) { return v.toFixed(3); }).join();
+      var key = p[0].toFixed(3) + ',' + p[1].toFixed(3) + ',' + p[2].toFixed(4); // as written below, so slow drifts glide
       if (key === scene.camKey) return; // no style writes while the camera holds
       scene.camKey = key;
       function tf(f, scaled) {
@@ -331,18 +331,34 @@
       scenes.forEach(function (s) { s.camKey = null; });
     }
 
-    /* ---- chapter wipe: covers from B-320, holds the chapter card to B+140, reveals by B+520 ---- */
+    /* ---- chapter wipe: covers from B-320, holds the chapter card to B+140, reveals by B+520.
+       It runs as a Web Animation, i.e. on the compositor, so a busy main thread can't make the
+       panel stutter; the clock only lines it up on a seek, a pause or a drift ---- */
     var wipe = stage.querySelector('.xv-wipe');
     var wipeIn = wipe && wipe.querySelector('.xv-wipe-inner');
-    var wipeIdx = -1, wipeHeard = -1, W_IN = 320, W_HOLD = 140, W_OUT = 380;
+    var wipeIdx = -1, wipeHeard = -1, W_IN = 320, W_HOLD = 140, W_OUT = 380, W_ALL = W_IN + W_HOLD + W_OUT;
+    var wipeAnims = null;
+    if (wipe && wipe.animate) {
+      var track = function (el, pose) { // pose(x): the transform with the panel at x% (-100 left, 0 covering, 100 right)
+        var a = el.animate([
+          { offset: 0, transform: pose(-100), easing: 'cubic-bezier(.33,1,.68,1)' }, // easeOut3
+          { offset: W_IN / W_ALL, transform: pose(0), easing: 'linear' },
+          { offset: (W_IN + W_HOLD) / W_ALL, transform: pose(0), easing: 'cubic-bezier(.65,0,.35,1)' }, // ease3
+          { offset: 1, transform: pose(100) }
+        ], { duration: W_ALL, fill: 'both' });
+        a.pause();
+        return a;
+      };
+      wipeAnims = [track(wipe, function (x) { return 'translate3d(' + x + '%,0,0)'; })];
+      if (wipeIn) wipeAnims.push(track(wipeIn, function (x) { return 'translate3d(' + (-x * 0.3) + '%,-50%,0)'; }));
+    }
     function wipes(live) {
       if (!wipe) return;
-      var idx = -1, x = 0;
+      var idx = -1, d = 0;
       for (var i = 1; i < scenes.length && !reduce.matches; i++) {
-        var d = t - scenes[i].start;
+        d = t - scenes[i].start;
         if (scenes[i].enter !== 'wipe' || d < -W_IN || d >= W_HOLD + W_OUT) continue;
         idx = i;
-        x = d < 0 ? -100 * (1 - easeOut3((d + W_IN) / W_IN)) : d < W_HOLD ? 0 : 100 * ease3((d - W_HOLD) / W_OUT);
         break;
       }
       if (idx !== wipeIdx) {
@@ -354,9 +370,23 @@
           wipe.querySelector('.xv-wipe-title').textContent = c[1] ? c[1].textContent : '';
         }
       }
-      if (idx < 0) { wipeHeard = -1; return; }
-      wipe.style.transform = 'translate3d(' + x.toFixed(2) + '%,0,0)';
-      if (wipeIn) wipeIn.style.transform = 'translate3d(' + (-x * 0.3).toFixed(2) + '%,-50%,0)';
+      if (idx < 0) {
+        wipeHeard = -1;
+        if (wipeAnims) wipeAnims.forEach(function (a) { a.pause(); });
+        return;
+      }
+      var at = d + W_IN;
+      if (wipeAnims) {
+        wipeAnims.forEach(function (a) {
+          if (!frame) { a.pause(); a.currentTime = at; return; }
+          if (a.playState !== 'running' || Math.abs(a.currentTime - at) > 120) a.currentTime = at; // the clock caps a stalled frame at 100 ms, the animation doesn't: allow some slack
+          if (a.playState !== 'running') a.play();
+        });
+      } else {
+        var x = d < 0 ? -100 * (1 - easeOut3(at / W_IN)) : d < W_HOLD ? 0 : 100 * ease3((d - W_HOLD) / W_OUT);
+        wipe.style.transform = 'translate3d(' + x.toFixed(2) + '%,0,0)';
+        if (wipeIn) wipeIn.style.transform = 'translate3d(' + (-x * 0.3).toFixed(2) + '%,-50%,0)';
+      }
       if (wipeHeard !== idx) { if (live) play('wipe'); wipeHeard = idx; }
     }
 
@@ -419,7 +449,7 @@
       scenes.forEach(function (s, i) {
         s.fill.style.transform = 'scaleX(' + (i < idx ? 1 : i > idx ? 0 : local / s.dur) + ')';
       });
-      timeEl.textContent = fmt(t) + ' / ' + totalText;
+      timeEl.textContent = (t >= total ? totalText : fmt(t)) + ' / ' + totalText;
       captions(snap);
     }
 
@@ -452,6 +482,7 @@
 
     function stop() {
       if (frame) { cancelAnimationFrame(frame); frame = null; }
+      wipes(false); // the wipe animation holds where the clock stopped
       player.classList.remove('is-playing');
       labels();
     }
@@ -532,6 +563,10 @@
       else if (key === 'f' && canFull) toggleFull();
       else return;
       event.preventDefault();
+      // a seek or replay can hide the end-card button that had focus: keep the keys in the player
+      if (onControl && stage.contains(onControl) && (onControl.closest('[inert]') || getComputedStyle(onControl).visibility === 'hidden')) {
+        playBtn.focus({ preventScroll: true });
+      }
     });
     unmute.addEventListener('click', function (event) { event.stopPropagation(); setSound(true); if (!frame) start(); });
     stage.addEventListener('click', function (event) {
