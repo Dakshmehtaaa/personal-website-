@@ -2,3 +2,6 @@
 
 # Generated private-preview output
 dist/
+
+# Python bytecode (tools/build-explainer-timing.py)
+__pycache__/
