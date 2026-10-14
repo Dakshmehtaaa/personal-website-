@@ -1,10 +1,10 @@
-/* Pinned horizontal experience timeline (#timeline on about-me-beta.html).
+/* Pinned horizontal experience timeline (.beta-tl: #timeline on about-me-beta.html, #experience on index.html).
    Adapted from the 21st.dev / Hyperiux "timeline" React component to vanilla JS + GSAP ScrollTrigger:
    the section pins, the track slides sideways, the centre line grows, and each entry draws its
    stem and node and rises its text out of a mask as it reaches the reading position.
    Without GSAP, or with prefers-reduced-motion, the section stays a plain vertical list. */
 (function () {
-  const section = document.getElementById('timeline');
+  const section = document.querySelector('.beta-tl');
   if (!section) return;
   if (!window.gsap || !window.ScrollTrigger) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
