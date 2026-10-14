@@ -70,6 +70,7 @@
         'job4.tag1': 'Analyse de données',
         'job4.tag2': 'Opérations',
         'tl.title': 'Parcours professionnel',
+        'tl.now': 'Aujourd’hui',
         'tl.period': '2022 — 2026',
         'tl.bm.year': '2022',
         'tl.bm.role': 'Process Manager — Stage',

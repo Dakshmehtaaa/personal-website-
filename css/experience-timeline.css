@@ -1,7 +1,7 @@
 /* Pinned horizontal experience timeline - see js/experience-timeline.js.
    Default (no JS, no GSAP, reduced motion) is a plain vertical list with everything visible.
    `.tl-live` on the section switches on the pinned horizontal layout. */
-.beta-tl{--tl-line:var(--green);color:var(--ink);border-block:1px solid var(--line)}
+.beta-tl{padding:0;--tl-line:var(--green);color:var(--ink);border-block:1px solid var(--line)}
 .tl-stage{width:calc(100% - 48px);max-width:var(--maxw);margin:0 auto;padding:72px 0}
 .tl-track{display:flex;flex-direction:column;gap:36px}
 .tl-mask{display:block;overflow:hidden;padding-bottom:.08em}
@@ -16,22 +16,22 @@
 .tl-year{font-size:clamp(28px,4vw,40px);line-height:1;font-weight:500}
 .tl-logo{display:flex;align-items:center;justify-content:center;width:220px;height:84px;padding:10px 14px;background:#fff;border:1px solid var(--line);border-radius:10px}
 .tl-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.tl-label{font-size:14px;line-height:1.35;color:var(--muted);max-width:26ch}
+.tl-label{font-size:14px;line-height:1.35;color:color-mix(in srgb,var(--ink) 82%,transparent);max-width:26ch}
 .tl-sum{font-size:13px;line-height:1.4;color:var(--ink);max-width:34ch}
 .tl-card{outline-offset:6px}
 
 /* Pinned horizontal layout */
-.tl-live{height:260vh;position:relative}
-.tl-live .tl-stage{position:sticky;top:0;height:100vh;width:100%;max-width:none;margin:0;padding:0;overflow:hidden;display:flex;align-items:center}
-.tl-live .tl-track{--h:min(80vh,640px);position:relative;flex-direction:row;gap:0;height:var(--h);width:max-content;padding:0 6vw}
+.tl-live{height:320vh;position:relative}
+.tl-live .tl-stage{position:sticky;top:0;height:100vh;width:100%;max-width:none;margin:0;padding:0;overflow:hidden;display:flex;align-items:center;box-sizing:border-box;padding-top:clamp(84px,7.4vw,150px)}
+.tl-live .tl-track{--h:min(70vh,620px);position:relative;flex-direction:row;gap:0;height:var(--h);width:max-content;padding:0 6vw}
 .tl-live .tl-lead{flex:0 0 26vw;align-self:flex-start;padding-top:calc(var(--h) * .04)}
 .tl-live .tl-period{position:absolute;left:6vw;bottom:calc(var(--h) * .04);margin:0}
 .tl-live .tl-rail{display:flex;align-items:center;position:absolute;left:6vw;right:3vw;top:50%;height:10px;transform:translateY(-50%)}
 .tl-live .tl-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--tl-line)}
-.tl-live .tl-grow{flex:1;height:1px;background:var(--tl-line);transform-origin:left center;transform:scaleX(0)}
+.tl-live .tl-grow{flex:1;height:2px;background:var(--tl-line);transform-origin:left center;transform:scaleX(0)}
 .tl-live .tl-items{position:relative;flex-direction:row;gap:0;height:100%;border:0;padding:0}
 .tl-live .tl-item{flex:0 0 30vw;height:100%;padding-left:0}
-.tl-live .tl-stem{display:block;position:absolute;left:0;width:1px;background:var(--tl-line);height:calc(50% - 5px);transform:scaleY(0)}
+.tl-live .tl-stem{display:block;position:absolute;left:0;width:2px;background:var(--tl-line);height:calc(50% - 5px);transform:scaleY(0)}
 .tl-live .tl-node{display:block;position:absolute;left:-5px;width:10px;height:10px;border-radius:50%;background:var(--tl-line);transform:scale(0)}
 .tl-live .tl-top .tl-stem{top:0;bottom:auto;transform-origin:bottom}
 .tl-live .tl-top .tl-node{top:calc(50% - 5px)}
@@ -47,11 +47,16 @@
 /* One-line summary: reserved space, revealed on hover or keyboard/tap focus */
 .tl-live .tl-sum{font-size:clamp(12px,1.05vw,17px);opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;min-height:2.8em;max-width:42ch}
 .tl-live .tl-card:hover .tl-sum,.tl-live .tl-card:focus .tl-sum,.tl-live .tl-card:focus-within .tl-sum{opacity:1;transform:none}
+/* End of the line: a "Today" cap, shown as the move finishes */
+.tl-endcap{display:none}
+.tl-live .tl-endcap{display:flex;align-items:center;gap:.9vw;position:absolute;right:3vw;top:50%;transform:translateY(-50%);z-index:2;background:var(--paper,transparent);padding-left:1vw}
+.tl-live .tl-endcap-dot{width:1.1vw;height:1.1vw;min-width:12px;min-height:12px;border-radius:50%;background:var(--tl-line);transform:scale(0)}
+.tl-live .tl-endcap .tl-mask{padding-bottom:.25em;font-size:clamp(14px,1.4vw,22px);font-weight:600;letter-spacing:.02em;color:var(--ink)}
 /* .tl-rise starts below its mask: set by js/experience-timeline.js */
 .tl-live .tl-logo{opacity:0}
 
 @media(max-width:600px){
-  .tl-live{height:420vh}
+  .tl-live{height:480vh}
   .tl-live .tl-track{--h:min(78vh,620px);padding:0 7vw}
   .tl-live .tl-lead{flex-basis:64vw}
   .tl-live .tl-period{left:7vw}
