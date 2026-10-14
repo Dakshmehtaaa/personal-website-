@@ -1,7 +1,8 @@
 /* Pinned horizontal experience timeline - see js/experience-timeline.js.
    Default (no JS, no GSAP, reduced motion) is a plain vertical list with everything visible.
    `.tl-live` on the section switches on the pinned horizontal layout. */
-.beta-tl{--tl-line:var(--green);color:var(--ink);border-block:1px solid var(--line)}
+.beta-tl{--tl-line:var(--green);--tl-logo-plate:var(--paper);color:var(--ink);border-block:1px solid var(--line)}
+:root[data-theme="dark"] .beta-tl{--tl-logo-plate:var(--portrait)}
 .tl-stage{width:calc(100% - 48px);max-width:var(--maxw);margin:0 auto;padding:72px 0}
 .tl-track{display:flex;flex-direction:column;gap:36px}
 .tl-mask{display:block;overflow:hidden;padding-bottom:.08em}
@@ -14,7 +15,7 @@
 .tl-stem,.tl-node{display:none}
 .tl-card{display:flex;flex-direction:column;gap:12px}
 .tl-year{font-size:clamp(28px,4vw,40px);line-height:1;font-weight:500}
-.tl-logo{display:flex;align-items:center;justify-content:center;width:220px;height:84px;padding:10px 14px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.tl-logo{display:flex;align-items:center;justify-content:center;width:150px;height:56px;padding:10px 14px;background:var(--tl-logo-plate);border:1px solid var(--line);border-radius:10px}
 .tl-logo img{max-width:100%;max-height:100%;object-fit:contain}
 .tl-label{font-size:14px;line-height:1.35;color:var(--muted);max-width:26ch}
 .tl-sum{font-size:13px;line-height:1.4;color:var(--ink);max-width:34ch}
@@ -23,7 +24,7 @@
 /* Pinned horizontal layout */
 .tl-live{height:260vh;position:relative}
 .tl-live .tl-stage{position:sticky;top:0;height:100vh;width:100%;max-width:none;margin:0;padding:0;overflow:hidden;display:flex;align-items:center}
-.tl-live .tl-track{--h:min(80vh,640px);position:relative;flex-direction:row;gap:0;height:var(--h);width:max-content;padding:0 6vw}
+.tl-live .tl-track{--h:min(72vh,560px);position:relative;flex-direction:row;gap:0;height:var(--h);width:max-content;padding:0 6vw}
 .tl-live .tl-lead{flex:0 0 26vw;align-self:flex-start;padding-top:calc(var(--h) * .04)}
 .tl-live .tl-period{position:absolute;left:6vw;bottom:calc(var(--h) * .04);margin:0}
 .tl-live .tl-rail{display:flex;align-items:center;position:absolute;left:6vw;right:3vw;top:50%;height:10px;transform:translateY(-50%)}
@@ -38,11 +39,11 @@
 .tl-live .tl-top .tl-card{justify-content:flex-start;height:calc(50% - 20px);padding-top:0}
 .tl-live .tl-bottom .tl-stem{bottom:0;transform-origin:top}
 .tl-live .tl-bottom .tl-node{bottom:calc(50% - 5px)}
-.tl-live .tl-bottom .tl-card{position:absolute;bottom:0;left:0;justify-content:flex-end;height:calc(50% - 20px)}
-.tl-live .tl-card{padding-left:2.2vw;gap:.8vw}
+.tl-live .tl-bottom .tl-card{position:absolute;bottom:0;left:0;right:0;justify-content:flex-end;height:calc(50% - 20px)}
+.tl-live .tl-card{padding-left:2.2vw;gap:1.1vw;min-width:0}
 .tl-live .tl-top .tl-card{padding-top:0}
-.tl-live .tl-year{font-size:clamp(30px,3.2vw,52px)}
-.tl-live .tl-logo{width:clamp(190px,16vw,290px);height:clamp(72px,6vw,108px);padding:.9vw 1.3vw}
+.tl-live .tl-year{font-size:clamp(34px,4.2vw,68px)}
+.tl-live .tl-logo{width:clamp(130px,11vw,190px);height:clamp(48px,4vw,70px)}
 .tl-live .tl-label{font-size:clamp(13px,1.2vw,19px);max-width:22ch}
 /* One-line summary: reserved space, revealed on hover or keyboard/tap focus */
 .tl-live .tl-sum{font-size:clamp(12px,1.05vw,17px);opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;min-height:2.8em;max-width:42ch}
@@ -59,10 +60,10 @@
   .tl-live .tl-dot,.tl-live .tl-node{width:12px;height:12px}
   .tl-live .tl-node{left:-6px}
   .tl-live .tl-item{flex-basis:72vw}
-  .tl-live .tl-card{padding-left:6vw;gap:3vw}
+  .tl-live .tl-card{padding-left:4vw;gap:3vw}
   .tl-live .tl-year{font-size:11vw}
-  .tl-live .tl-logo{width:56vw;height:21vw}
-  .tl-live .tl-label{font-size:4.2vw}
+  .tl-live .tl-logo{width:32vw;height:12vw}
+  .tl-live .tl-label{font-size:4.2vw;max-width:34vw}
   .tl-live .tl-sum{font-size:3.8vw}
   .tl-live .tl-heading{font-size:10vw}
 }
