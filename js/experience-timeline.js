@@ -56,14 +56,22 @@
         .to(rises, { yPercent: 0, duration: 1, stagger: 0.04, ease: 'power2.out' }, 0.15)
         .to(logo, { opacity: 1, duration: 0.6 }, 0.3);
     });
-    const end = section.querySelector('.tl-endcap');
+    // The line stops at the last entry's node, and "Today" rises there as the move finishes.
+    const lastItem = items[items.length - 1];
+    const rail = section.querySelector('.tl-rail');
+    const fitRail = () => {
+      const itemsEl = lastItem.parentElement;
+      const nodeX = itemsEl.offsetLeft + lastItem.offsetLeft;
+      rail.style.right = Math.max(0, track.offsetWidth - nodeX - 5) + 'px';
+    };
+    fitRail();
+    ScrollTrigger.addEventListener('refreshInit', fitRail);
+    const end = lastItem.querySelector('.tl-endcap');
     if (end) {
-      const endRises = end.querySelectorAll('.tl-rise');
-      gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: section, start: () => 'top+=' + moveLen() * 0.82 + ' top', end: () => 'top+=' + moveLen() + ' top', scrub: true, invalidateOnRefresh: true }
-      }).to(end.querySelector('.tl-endcap-dot'), { scale: 1, duration: 0.4 })
-        .to(endRises, { yPercent: 0, duration: 0.6, ease: 'power2.out' }, 0.2);
+      gsap.to(end.querySelectorAll('.tl-rise'), {
+        yPercent: 0, duration: 1, ease: 'power2.out',
+        scrollTrigger: { trigger: lastItem, containerAnimation: slide, start: 'left 70%', end: 'left 55%', scrub: true }
+      });
     }
     return () => { section.classList.remove('tl-live'); };
   });
