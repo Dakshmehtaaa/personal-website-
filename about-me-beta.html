@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/about-me-beta.css?v=2">
   <link rel="stylesheet" href="css/origin-fill.css?v=2">
+  <link rel="stylesheet" href="css/experience-timeline.css?v=1">
   <script>
     try { if (localStorage.getItem('theme') === 'dark') document.documentElement.dataset.theme = 'dark'; } catch (e) {}
   </script>
@@ -85,6 +86,52 @@
       <div class="beta-education beta-reveal"><p class="beta-eyebrow" data-beta-i18n="education.label">Always learning</p><div><h3>INSEEC <span>Paris</span></h3><p data-beta-i18n="education.one">MSc International Business Management, Project Management</p><small data-beta-i18n="education.oneDate">2025 — Present</small></div><div><h3>KEDGE Business School <span>Bordeaux</span></h3><p data-beta-i18n="education.two">Master in Management · Sustainability</p><small>2021 — 2025</small><span class="beta-award" data-beta-i18n="education.award">1st place · Green start-up competition</span></div></div>
     </div></section>
 
+    <section id="timeline" class="beta-tl" aria-labelledby="tl-title">
+      <div class="tl-stage">
+        <div class="tl-track">
+          <div class="tl-lead">
+            <h2 id="tl-title" class="tl-heading"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.title">Experience timeline</span></span></h2>
+            <p class="tl-period"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.period">2022 — 2026</span></span></p>
+          </div>
+          <div class="tl-rail" aria-hidden="true"><span class="tl-dot"></span><span class="tl-grow"></span></div>
+          <ol class="tl-items">
+            <li class="tl-item tl-top">
+              <span class="tl-stem" aria-hidden="true"></span><span class="tl-node" aria-hidden="true"></span>
+              <div class="tl-card">
+                <p class="tl-year"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.bm.year">2022</span></span></p>
+                <span class="tl-logo"><img src="assets/logos/Back_market.svg" alt="Back Market" loading="lazy" decoding="async"></span>
+                <p class="tl-label"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.bm.role">Process manager intern</span></span></p>
+              </div>
+            </li>
+            <li class="tl-item tl-bottom">
+              <span class="tl-stem" aria-hidden="true"></span><span class="tl-node" aria-hidden="true"></span>
+              <div class="tl-card">
+                <p class="tl-year"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.ceva.year">2024</span></span></p>
+                <span class="tl-logo"><img src="assets/logos/CEVA.svg" alt="CEVA Logistics" loading="lazy" decoding="async"></span>
+                <p class="tl-label"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.ceva.role">CSR customer desk intern</span></span></p>
+              </div>
+            </li>
+            <li class="tl-item tl-top">
+              <span class="tl-stem" aria-hidden="true"></span><span class="tl-node" aria-hidden="true"></span>
+              <div class="tl-card">
+                <p class="tl-year"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.thales.year">2025</span></span></p>
+                <span class="tl-logo"><img src="assets/logos/Thales_Logo.svg.svg" alt="Thales" loading="lazy" decoding="async"></span>
+                <p class="tl-label"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.thales.role">CSR consultant intern</span></span></p>
+              </div>
+            </li>
+            <li class="tl-item tl-bottom">
+              <span class="tl-stem" aria-hidden="true"></span><span class="tl-node" aria-hidden="true"></span>
+              <div class="tl-card">
+                <p class="tl-year"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.dataiku.year">2025</span></span></p>
+                <span class="tl-logo"><img src="assets/logos/Dataiku.svg" alt="Dataiku" loading="lazy" decoding="async"></span>
+                <p class="tl-label"><span class="tl-mask"><span class="tl-rise " data-beta-i18n="tl.dataiku.role">Sustainability apprentice</span></span></p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
     <section id="projects" class="beta-section beta-wrap">
       <div class="beta-section-label"><span class="beta-section-number">03 /</span><span data-beta-i18n="projects.label">Selected work</span></div>
       <div class="beta-section-heading beta-reveal"><h2><span data-beta-i18n="projects.title1">Ideas, put</span><em data-beta-i18n="projects.title2">into practice.</em></h2><a class="beta-text-link" href="index.html#portfolio"><span data-beta-i18n="projects.all">Explore all 11 projects</span><span aria-hidden="true">↗︎</span></a></div>
@@ -104,6 +151,9 @@
     </section>
   </main>
   <footer class="beta-footer beta-wrap"><a class="beta-brand" href="#top"><span class="beta-monogram" aria-hidden="true">dm<span>·</span></span><span>Daksh Mehta <small>© 2026</small></span></a><p data-beta-i18n="footer.note">A practical mind. A sustainable future.</p><a class="beta-text-link" href="index.html"><span data-beta-i18n="footer.back">Back to the main website</span><span aria-hidden="true">↗︎</span></a></footer>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="js/experience-timeline.js?v=1" defer></script>
 <script src="js/origin-fill.js?v=1" defer></script>
 </body>
 </html>
