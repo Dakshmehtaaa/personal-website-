@@ -20,16 +20,18 @@
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 0px)', () => {
+    // The sideways move ends before the section unpins, so the finished timeline rests on screen for the last 40vh of scroll.
+    const moveLen = () => Math.max(1, section.offsetHeight - window.innerHeight - window.innerHeight * 0.4);
     const dist = () => Math.max(0, track.scrollWidth - window.innerWidth);
     const slide = gsap.to(track, {
       x: () => -dist(),
       ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top top', end: 'bottom bottom', scrub: true, invalidateOnRefresh: true }
+      scrollTrigger: { trigger: section, start: 'top top', end: () => '+=' + moveLen(), scrub: true, invalidateOnRefresh: true }
     });
 
     gsap.to(grow, {
       scaleX: 1, ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top 25%', end: 'bottom bottom', scrub: true }
+      scrollTrigger: { trigger: section, start: 'top top', end: () => '+=' + moveLen(), scrub: true, invalidateOnRefresh: true }
     });
 
     gsap.to(lead, {
@@ -54,6 +56,15 @@
         .to(rises, { yPercent: 0, duration: 1, stagger: 0.04, ease: 'power2.out' }, 0.15)
         .to(logo, { opacity: 1, duration: 0.6 }, 0.3);
     });
+    const end = section.querySelector('.tl-endcap');
+    if (end) {
+      const endRises = end.querySelectorAll('.tl-rise');
+      gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: section, start: () => 'top+=' + moveLen() * 0.82 + ' top', end: () => 'top+=' + moveLen() + ' top', scrub: true, invalidateOnRefresh: true }
+      }).to(end.querySelector('.tl-endcap-dot'), { scale: 1, duration: 0.4 })
+        .to(endRises, { yPercent: 0, duration: 0.6, ease: 'power2.out' }, 0.2);
+    }
     return () => { section.classList.remove('tl-live'); };
   });
 
