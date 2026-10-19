@@ -85,6 +85,10 @@ or serve the folder with any static file server.
   in its own box in most fonts and read as visibly off-center against the link text next to it,
   however the spacing was tuned. A `border` triangle centers on the line itself regardless of
   font/platform — don't swap it back for a text glyph.
+- **The Experience timeline (`.beta-tl`, `js/experience-timeline.js`) is only pinned and horizontal at 821px and wider.**
+  Below that (phones, portrait tablets) it stays the plain vertical list: the pinned track squeezed four jobs into a
+  390px screen, left blank frames between jobs and ended on an overview too small to read. The feature panels
+  (`.tl-feature`) have an opaque `var(--tl-bg)` background so the faded track never shows through them.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
 - **The for-companies hero visual is the interactive operating loop** (`.sys-loop`, driven by

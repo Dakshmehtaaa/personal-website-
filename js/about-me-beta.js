@@ -70,7 +70,7 @@
         'job4.tag1': 'Analyse de données',
         'job4.tag2': 'Opérations',
         'tl.title': 'Parcours professionnel',
-        'dk.kicker': 'Dataiku · 2026',
+        'dk.kicker': 'Dataiku · 2025',
         'dk.role': 'Alternant Durabilité et Impact Social',
         'dk.line': 'Appui au reporting ESG, aux initiatives sociales et à des partenariats comme WiDS et AI for Good.',
         'dk.cta': 'En savoir plus',
