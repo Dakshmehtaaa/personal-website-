@@ -3,7 +3,8 @@
    One scrubbed timeline drives the whole pinned section: for every job the track slides to it, its stem/node/text
    draw in, the line reaches it, then a feature panel (big logo left; role, one line and Learn more top right) comes
    up and goes away again. At the end the track settles into one overview with "Today" pulsing, and holds.
-   Without GSAP, or with prefers-reduced-motion, the section stays a plain vertical list. */
+   Without GSAP, with prefers-reduced-motion, or below 821px wide (phones, portrait tablets: the pinned track is too
+   narrow there to read), the section stays a plain vertical list. */
 (function () {
   const section = document.querySelector('.beta-tl');
   if (!section) return;
@@ -20,9 +21,11 @@
   const lead = gsap.utils.toArray('.tl-lead .tl-rise', section);
   const endcap = items[items.length - 1].querySelector('.tl-endcap');
   const UNIT = 0.34; // viewport heights of scrolling per timeline unit
+  const wide = window.matchMedia('(min-width: 821px)');
 
   let ctx = null;
   const build = () => {
+    if (!wide.matches) return;
     section.classList.add('tl-live');
     ctx = gsap.context(() => {
       gsap.set(section.querySelectorAll('.tl-rise, .tf-rise'), { yPercent: 105 });
@@ -38,7 +41,7 @@
       let at = 0, lastX = 0;
 
       items.forEach((item, i) => {
-        const focus = -Math.min(dist, Math.max(0, nodeX(item) - vw * 0.28));
+        const focus = -Math.min(dist, Math.max(0, nodeX(item) - vw * 0.4));
         if (Math.abs(focus - lastX) > 4) {
           master.to(track, { x: focus, duration: 0.8, ease: 'power1.inOut' }, at);
           at += 0.8;

@@ -38,7 +38,7 @@ window.EDITORIAL_FR = Object.assign({}, window.EDITORIAL_FR || {}, {
   "pillars.moreCta": "Dites-moi ce qu’il vous faut",
   "experience.label": "Expérience",
   "experience.title": "Le travail en pratique.",
-  "dk.kicker": "Dataiku · 2026",
+  "dk.kicker": "Dataiku · 2025",
   "dk.role": "Alternant Durabilité et Impact Social",
   "dk.line": "Appui au reporting ESG, aux initiatives sociales et à des partenariats comme WiDS et AI for Good.",
   "dk.cta": "En savoir plus",

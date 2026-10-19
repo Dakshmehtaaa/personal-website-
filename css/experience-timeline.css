@@ -78,7 +78,7 @@
    arrive top right, aligned with the top of the logo plate. Only exists in the live layout; the plain list already shows the same text. */
 .tl-features{display:none}
 .tl-live .tl-features{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
-.tl-feature{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;align-content:center;padding:clamp(84px,7.4vw,150px) 6vw 4vw;box-sizing:border-box;visibility:hidden}
+.tl-feature{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;align-content:center;padding:clamp(84px,7.4vw,150px) 6vw 4vw;box-sizing:border-box;background:var(--tl-bg);visibility:hidden}
 .tf-logo{display:flex;align-items:center;justify-content:center;aspect-ratio:3/2;max-height:62vh;width:100%;background:#fff;border:1px solid var(--line);border-radius:22px;padding:6%;box-sizing:border-box}
 .tf-logo img{width:100%;height:100%;object-fit:contain}
 .tf-copy{display:flex;flex-direction:column;gap:22px}
