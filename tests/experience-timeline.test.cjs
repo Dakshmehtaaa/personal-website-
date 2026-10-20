@@ -51,8 +51,8 @@ test('timeline images reference files that exist', () => {
   assert.deepEqual(missing, []);
 });
 
-test('timeline has four items with year, logo alt text, and label', () => {
-  assert.equal(timelineItems.length, 4);
+test('timeline has five items with year, logo alt text, and label', () => {
+  assert.equal(timelineItems.length, 5);
 
   timelineItems.forEach((item, index) => {
     assert.match(item, /class\s*=\s*(["'])[^"']*\btl-year\b[^"']*\1/i, `Timeline item ${index + 1} is missing .tl-year`);

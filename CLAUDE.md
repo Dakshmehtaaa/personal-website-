@@ -91,6 +91,12 @@ or serve the folder with any static file server.
   transitions and are never left half-drawn. Each job is a ScrollTrigger snap point, so a scroll that stops between jobs
   settles on one. Narrower (`.tl-flow`) it is a vertical list whose line fills with the scroll. Full-screen feature panels
   and a navy dark-mode band were tried and rejected by Daksh: dark mode is the site's forest green.
+- **Framework and tool names in body copy are links with a logo on hover** (`js/terms.js` + `css/terms.css`, loaded on every
+  page except 404). The script finds them at runtime in `main p, main li` (so they survive the EN/FR switch) and wraps them
+  in `a.term`; one shared fixed-position card shows the logo and follows the pointer. Add a new term to `TERMS` there, never
+  as markup. The homepage pillars list their frameworks/tools in the text this way (the old logo belts are gone, at Daksh's
+  request). Ported from the honeybees.consulting site (github.com/Dakshmehtaaa/honey-bee-consulting, `story.js`).
+- **The timeline's current job is Honeybees Consulting** (Daksh's own ESG/CSR consultancy, honeybees.consulting), marked Today.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
 - **The for-companies hero visual is the interactive operating loop** (`.sys-loop`, driven by
