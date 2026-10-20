@@ -85,10 +85,12 @@ or serve the folder with any static file server.
   in its own box in most fonts and read as visibly off-center against the link text next to it,
   however the spacing was tuned. A `border` triangle centers on the line itself regardless of
   font/platform — don't swap it back for a text glyph.
-- **The Experience timeline (`.beta-tl`, `js/experience-timeline.js`) is only pinned and horizontal at 821px and wider.**
-  Below that (phones, portrait tablets) it stays the plain vertical list: the pinned track squeezed four jobs into a
-  390px screen, left blank frames between jobs and ended on an overview too small to read. The feature panels
-  (`.tl-feature`) have an opaque `var(--tl-bg)` background so the faded track never shows through them.
+- **The Experience timeline (`.beta-tl`, `js/experience-timeline.js`) never takes over the screen.** At 821px and wider
+  (`.tl-live`) the section pins and every job stays a small card on the line; the scroll only scrubs the line's fill
+  (`scaleX` on `.tl-grow`), and reaching a node toggles `.is-on`/`.is-active` so the text, logo and stem arrive on CSS
+  transitions and are never left half-drawn. Each job is a ScrollTrigger snap point, so a scroll that stops between jobs
+  settles on one. Narrower (`.tl-flow`) it is a vertical list whose line fills with the scroll. Full-screen feature panels
+  and a navy dark-mode band were tried and rejected by Daksh: dark mode is the site's forest green.
 - Chips in the About section's Frameworks & Tools cloud are plain text, not `data-i18n` — they're
   acronyms/proper nouns and intentionally aren't translated.
 - **The for-companies hero visual is the interactive operating loop** (`.sys-loop`, driven by
