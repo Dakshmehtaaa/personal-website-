@@ -48,14 +48,14 @@
 /* ---- Pinned layout (821px and wider) ---- */
 .tl-live{position:relative}/* height is set by the script from the scroll timeline */
 .tl-live .tl-stage{position:sticky;top:0;height:100vh;height:100svh;padding:clamp(84px,7.4vw,140px) 0 clamp(24px,4vh,56px);box-sizing:border-box;display:flex;align-items:center}
-.tl-live .tl-track{--h:min(62vh,560px);flex-direction:row;gap:0;width:100%;height:var(--h)}
-.tl-live .tl-lead{flex:0 0 clamp(180px,20%,300px);align-self:flex-start}
+.tl-live .tl-track{--h:clamp(440px,calc(100svh - 200px),640px);flex-direction:row;gap:0;width:100%;height:var(--h)}
+.tl-live .tl-lead{flex:0 0 clamp(170px,18%,280px);align-self:flex-start}
 .tl-live .tl-period{position:absolute;left:0;bottom:0;margin:0}
 /* the line runs from the start dot under the heading to the last node; its fill is scaled by the scroll */
 .tl-live .tl-rail{display:block;position:absolute;left:0;top:50%;width:var(--rail,100%);height:2px;margin-top:-1px;background:var(--tl-track)}
 .tl-live .tl-grow{position:absolute;inset:0;background:var(--tl-line);transform-origin:left;transform:scaleX(0);will-change:transform}
 .tl-live .tl-dot{position:absolute;left:0;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--tl-line)}
-.tl-live .tl-items{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) clamp(190px,24%,300px);gap:0;height:100%;padding:0}
+.tl-live .tl-items{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) clamp(180px,22%,290px);gap:0;height:100%;padding:0}
 .tl-live .tl-items::before,.tl-live .tl-items::after{display:none}
 .tl-live .tl-item{height:100%}
 .tl-live .tl-stem{display:block;position:absolute;left:0;width:2px;height:calc(50% - 6px);background:var(--tl-line);transform:scaleY(0);transition:transform .35s var(--tl-ease)}
@@ -63,13 +63,13 @@
 .tl-live .tl-top .tl-stem{top:0;transform-origin:bottom}
 .tl-live .tl-bottom .tl-stem{bottom:0;transform-origin:top}
 .tl-live .tl-node{left:-6px;top:calc(50% - 6px)}
-.tl-live .tl-card{position:absolute;left:0;width:min(300px,125%);max-width:clamp(190px,24vw,300px);height:calc(50% - 22px);box-sizing:border-box;padding-left:clamp(14px,1.6vw,26px);gap:clamp(8px,.8vw,12px)}
+.tl-live .tl-card{position:absolute;left:0;width:min(290px,190%);height:calc(50% - 22px);box-sizing:border-box;padding-left:clamp(14px,1.6vw,26px);gap:clamp(6px,min(.8vw,1.3vh),12px)}
 .tl-live .tl-top .tl-card{top:0;justify-content:flex-start}
 .tl-live .tl-bottom .tl-card{bottom:0;justify-content:flex-end}
-.tl-live .tl-year{font-size:clamp(28px,2.9vw,46px)}
-.tl-live .tl-logo{width:100%;max-width:230px;height:clamp(64px,5.6vw,92px)}
+.tl-live .tl-year{font-size:clamp(24px,min(2.9vw,5vh),46px)}
+.tl-live .tl-logo{width:100%;max-width:220px;height:clamp(48px,min(5.6vw,9vh),88px)}
 .tl-live .tl-label{font-size:clamp(13px,1.1vw,17px)}
-.tl-live .tl-sum{font-size:clamp(12px,.98vw,15px);min-height:3em}
+.tl-live .tl-sum{font-size:clamp(12px,.98vw,15px);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
 /* the job the line has reached is the one in focus; jobs already passed step back */
 .tl-live .tl-item:last-child .tl-card{width:100%}
 .tl-live .tl-year,.tl-live .tl-label{transition:opacity .5s var(--tl-ease)}
