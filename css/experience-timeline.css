@@ -69,14 +69,13 @@
 .tl-live .tl-year{font-size:clamp(24px,min(2.9vw,5vh),46px)}
 .tl-live .tl-logo{width:100%;max-width:220px;height:clamp(48px,min(5.6vw,9vh),88px)}
 .tl-live .tl-label{font-size:clamp(13px,1.1vw,17px)}
-.tl-live .tl-sum{font-size:clamp(12px,.98vw,15px);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+.tl-live .tl-sum{font-size:clamp(12px,.98vw,15px);line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;opacity:0;transform:translateY(-8px);clip-path:inset(0 0 100% 0);transition:opacity .3s var(--tl-ease),transform .3s var(--tl-ease),clip-path .3s var(--tl-ease)}
 /* the job the line has reached is the one in focus; jobs already passed step back */
 .tl-live .tl-item:last-child .tl-card{width:100%}
 .tl-live .tl-year,.tl-live .tl-label{transition:opacity .5s var(--tl-ease)}
 .tl-live .is-on:not(.is-active) :is(.tl-year,.tl-label){opacity:.5}
-.tl-live .is-on:not(.is-active) .tl-logo{opacity:.85}
-.tl-live .is-on .tl-card:is(:hover,:focus-within) :is(.tl-year,.tl-label,.tl-logo){opacity:1}
-.tl-live .is-active .tl-sum,.tl-live .is-on .tl-card:hover .tl-sum,.tl-live .is-on .tl-card:focus-within .tl-sum{opacity:1;transform:none;transition:opacity .5s .2s,transform .7s .2s var(--tl-ease)}
+.tl-live .is-on .tl-card:is(:hover,:focus-within) :is(.tl-year,.tl-label){opacity:1}
+.tl-live .is-on .tl-card:hover .tl-sum,.tl-live .is-on .tl-card:focus-within .tl-sum{opacity:1;transform:none;clip-path:inset(0);transition:opacity .3s var(--tl-ease),transform .5s var(--tl-ease),clip-path .5s var(--tl-ease)}
 .tl-live .tl-node::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--tl-line);opacity:0;transform:scale(.5);transition:opacity .3s,transform .5s var(--tl-ease)}
 .tl-live .is-active .tl-node::after{opacity:1;transform:none}
 .tl-live .tl-endcap,.tl-flow .tl-endcap{opacity:0;transition:opacity .3s}
