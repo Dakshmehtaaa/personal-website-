@@ -32,7 +32,7 @@
   const BLOCKS = 'main p, main li';
   const SKIP = 'a, button, label, select, option, table, form, svg, script, h1, h2, h3, [aria-hidden="true"], .term';
   const alt = Object.keys(TERMS).sort((a, b) => b.length - a.length)
-    .map((t) => (t === 'Make' ? '(?<=,\\s)Make' : t.replace(/ /g, '\\s')));
+    .map((t) => (t === 'Make' ? '(?<=,\\s)Make(?=,|\\sand\\b|\\.)' : t.replace(/ /g, '\\s')));
   const pattern = new RegExp('\\b(' + alt.join('|') + ')\\b(?![\\w-])', 'g');
 
   function mark(block) {
@@ -95,6 +95,8 @@
     const r = current.getBoundingClientRect();
     const min = r.left + 8, max = r.right - 8;
     tx = Math.min(max, Math.max(min, tx));
+    const edge = 87; // half the card plus a 12px gutter: keep it on screen near the window edges
+    tx = Math.min(window.innerWidth - edge, Math.max(edge, tx));
     x = reduce.matches ? tx : x + (tx - x) * 0.35; // a light spring towards the pointer
     const below = r.top < 120; // no room above: show it under the word
     tip.classList.toggle('is-below', below);
@@ -129,4 +131,5 @@
   document.addEventListener('focusin', (e) => { if (e.target.classList && e.target.classList.contains('term')) show(e.target); });
   document.addEventListener('focusout', (e) => { if (e.target.classList && e.target.classList.contains('term')) hide(e.target); });
   window.addEventListener('scroll', () => hide(), { passive: true });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
 })();

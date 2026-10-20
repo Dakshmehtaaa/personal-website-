@@ -48,7 +48,7 @@
 /* ---- Pinned layout (821px and wider) ---- */
 .tl-live{position:relative}/* height is set by the script from the scroll timeline */
 .tl-live .tl-stage{position:sticky;top:0;height:100vh;height:100svh;padding:clamp(84px,7.4vw,140px) 0 clamp(24px,4vh,56px);box-sizing:border-box;display:flex;align-items:center}
-.tl-live .tl-track{--h:min(calc(100svh - 200px),640px);flex-direction:row;gap:0;width:100%;height:var(--h)}
+.tl-live .tl-track{--h:clamp(440px,calc(100svh - 200px),640px);flex-direction:row;gap:0;width:100%;height:var(--h)}
 .tl-live .tl-lead{flex:0 0 clamp(170px,18%,280px);align-self:flex-start}
 .tl-live .tl-period{position:absolute;left:0;bottom:0;margin:0}
 /* the line runs from the start dot under the heading to the last node; its fill is scaled by the scroll */

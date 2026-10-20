@@ -61,8 +61,8 @@
     section.style.height = Math.round(window.innerHeight * (1 + total * UNIT)) + 'px';
     ScrollTrigger.create({
       animation: master, trigger: section, start: 'top top', end: 'bottom bottom', scrub: true,
-      // one unhurried glide to the nearest job once the scroll has come to rest; the line follows the page 1:1 so the two never fight
-      snap: { snapTo: snaps, duration: { min: 0.45, max: 0.9 }, delay: 0.15, ease: 'sine.inOut', inertia: false, directional: false },
+      // one unhurried glide to the next job in the direction of travel once the scroll has come to rest; the line follows the page 1:1 so the two never fight
+      snap: { snapTo: snaps, duration: { min: 0.45, max: 0.9 }, delay: 0.15, ease: 'sine.inOut', inertia: false },
       onUpdate: update, onRefresh: update
     });
     ScrollTrigger.create({
